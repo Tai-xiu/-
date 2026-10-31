@@ -37,7 +37,7 @@ public class HotbarController : MonoBehaviour
     private RectTransform _root;
     private readonly Image[] _slotBgs = new Image[SlotCount];   // 槽位底（暗色+描边）
     private readonly GameObject[] _icons = new GameObject[SlotCount];   // 占位图标组（刷新重建）
-    private readonly Text[] _countTexts = new Text[SlotCount];  // ×N数量角标（可滚动）
+    private readonly TMPro.TextMeshProUGUI[] _countTexts = new TMPro.TextMeshProUGUI[SlotCount];  // ×N数量角标（可滚动）
     private Image _ring;                                        // 食用进度圈（单通道，吃时挂到对应槽）
     private Coroutine _bounceRoutine;
 
@@ -274,54 +274,40 @@ public class HotbarController : MonoBehaviour
 
     // ===== UI构建 =====
 
-    /// <summary>构建4格栏：槽底（暗色+2px描边）+独立×N角标+进度圈（懒加载）</summary>
+    /// <summary>构建4格栏（PixelKit）：槽位 sprite + 像素字体数量角标</summary>
     private void BuildBar(Transform canvasRoot)
     {
+        const float s = UIKit.LegacyScale;
+        canvasRoot = UIKit.PixelCanvas().transform;
+
         _root = new GameObject("HotbarBar_Spec", typeof(RectTransform)).GetComponent<RectTransform>();
         _root.SetParent(canvasRoot, false);
         _root.anchorMin = new Vector2(0f, 0f);
         _root.anchorMax = new Vector2(0f, 0f);
         _root.pivot = new Vector2(0f, 0f);
-        _root.anchoredPosition = barMarginConst; // 堆叠底边（血条/体力条在其上方）
-        _root.sizeDelta = BarSize;
+        _root.anchoredPosition = barMarginConst * s;
+        _root.sizeDelta = BarSize * s;
 
-        const float f = 2f; // 风格规范：HUD控件2px像素描边
+        float slotPx = SlotSize * s;
         for (int i = 0; i < SlotCount; i++)
         {
-            var slot = new GameObject("Slot_" + (i + 1), typeof(RectTransform), typeof(Image));
-            slot.transform.SetParent(_root, false);
-            var img = slot.GetComponent<Image>();
-            img.color = new Color32(0x2A, 0x2A, 0x35, 0xFF); // 暗色槽位（与卡槽底同族）
-            img.raycastTarget = false;
-            var rt = (RectTransform)slot.transform;
+            var slot = UIKit.Img(_root, "Slot_" + (i + 1), UIKit.Slot,
+                new Vector2(slotPx, slotPx), new Vector2(i * (SlotSize + SlotGap) * s, 0f));
+            var rt = slot.rectTransform;
             rt.anchorMin = new Vector2(0f, 0f);
             rt.anchorMax = new Vector2(0f, 0f);
             rt.pivot = new Vector2(0f, 0f);
-            rt.anchoredPosition = new Vector2(i * (SlotSize + SlotGap), 0f);
-            rt.sizeDelta = new Vector2(SlotSize, SlotSize);
-            _slotBgs[i] = img;
+            _slotBgs[i] = slot;
 
-            var ol = slot.AddComponent<Outline>();
-            ol.effectColor = new Color32(0x1A, 0x1A, 0x22, 0xFF);
-            ol.effectDistance = new Vector2(f, f);
-
-            // ×N数量角标（右下角；RefreshSlots填充，完成食用时滚动过渡）
-            var count = new GameObject("Count", typeof(Text));
-            count.transform.SetParent(slot.transform, false);
-            var ct = count.GetComponent<Text>();
-            ct.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            ct.fontSize = 13;
-            ct.fontStyle = FontStyle.Bold;
-            ct.alignment = TextAnchor.LowerRight;
-            ct.color = Color.white;
-            ct.text = "";
-            ct.raycastTarget = false;
-            var crt = ct.rectTransform;
-            crt.anchorMin = crt.anchorMax = new Vector2(1f, 0f);
+            // ×N 数量角标（右下）
+            var count = UIKit.Txt(slot.transform, "Count", "", 14, Color.white, TextAnchor.LowerRight);
+            var crt = count.rectTransform;
+            crt.anchorMin = new Vector2(1f, 0f);
+            crt.anchorMax = new Vector2(1f, 0f);
             crt.pivot = new Vector2(1f, 0f);
-            crt.sizeDelta = new Vector2(34f, 16f);
-            crt.anchoredPosition = new Vector2(-3f, 2f);
-            _countTexts[i] = ct;
+            crt.sizeDelta = new Vector2(44f, 18f);
+            crt.anchoredPosition = new Vector2(-3f, 3f);
+            _countTexts[i] = count;
         }
     }
 

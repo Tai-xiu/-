@@ -42,7 +42,7 @@ PlayerSettings:
     height: 1
   m_SplashScreenLogos: []
   m_VirtualRealitySplashScreen: {fileID: 0}
-  expectedBundleIdentifier: 
+  expectedBundleIdentifier: com.DefaultCompany.Dome9.30
   integrityHash: 
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1920
@@ -195,7 +195,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Standalone: com.DefaultCompany.Dome9.30
   buildNumber:
     Standalone: 0
     VisionOS: 0

@@ -59,7 +59,7 @@ public class HUDController : MonoBehaviour
     private RectTransform _fillRect;
     private RectTransform _ghostRect;
     private Image _fillImg;
-    private Text _valueText;
+    private TMPro.TextMeshProUGUI _valueText;
 
     private float _innerWidth;        // 去除外框后的填充区宽度
     private float _displayHp;         // 前景显示血量（掉血瞬切，回血平滑）
@@ -133,117 +133,65 @@ public class HUDController : MonoBehaviour
         if (_health != null) _health.onDamaged.RemoveListener(OnDamaged);
     }
 
-    /// <summary>构建血条层级：根(定位)→卡槽底/残影/前景/刻度/外框/数值</summary>
+    /// <summary>构建血条层级（PixelKit 版）：底槽 + 残影 + 前景 + 刻度 + 像素数值</summary>
     private void BuildBar(Transform canvasRoot)
     {
-        _root = new GameObject("HPBar_Spec", typeof(RectTransform)).GetComponent<RectTransform>();
-        _root.SetParent(canvasRoot, false);
-        _root.anchorMin = new Vector2(0f, 0f);
-        _root.anchorMax = new Vector2(0f, 0f);
-        _root.pivot = new Vector2(0f, 0f);
-        // 堆叠布局（规格示意图自上而下：血条/体力条/快捷栏，底边统一barMargin）：
-        // 血条y = 32 + 快捷栏48 + gap12 + 体力条10 + gap8 = 110
-        _root.anchoredPosition = new Vector2(barMargin.x,
-            barMargin.y + _hotbar.BarSize.y + hotbarGap + staminaBarSize.y + staminaGap);
-        _root.sizeDelta = barSize;
+        const float s = UIKit.LegacyScale;
+        canvasRoot = UIKit.PixelCanvas().transform;
+        Vector2 size = barSize * s;
 
-        float f = frameThickness;
-        var inner = new GameObject("FillArea", typeof(RectTransform)).GetComponent<RectTransform>();
-        inner.SetParent(_root, false);
-        inner.anchorMin = Vector2.zero;
-        inner.anchorMax = Vector2.one;
-        inner.offsetMin = new Vector2(f, f);
-        inner.offsetMax = new Vector2(-f, -f);
-        _innerWidth = barSize.x - f * 2f;
+        var bar = UIKit.BuildBar(canvasRoot, "HPBar_Spec", size, UIKit.BarWhite, 4f, true);
+        _root = bar.root;
+        _root.anchoredPosition = new Vector2(barMargin.x * s,
+            (barMargin.y + _hotbar.BarSize.y + hotbarGap + staminaBarSize.y + staminaGap) * s);
 
-        MakeImage(inner, "Track", trackColor, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-        _ghostRect = MakeImage(inner, "GhostFill", ghostColor,
-            new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(0f, 0f), new Vector2(0f, 0f)).rectTransform;
-        // 动态宽度条必须左缘pivot：默认(0.5,0.5)会让sizeDelta以锚线为中心对称生长，一半伸到条外
-        _ghostRect.pivot = new Vector2(0f, 0.5f);
-        _ghostRect.sizeDelta = new Vector2(_innerWidth, 0f);
-        _fillImg = MakeImage(inner, "Fill", fillColor,
-            new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(0f, 0f), new Vector2(0f, 0f));
-        _fillRect = _fillImg.rectTransform;
-        _fillRect.pivot = new Vector2(0f, 0.5f);
-        _fillRect.sizeDelta = new Vector2(_innerWidth, 0f);
+        _fillRect = bar.fill;
+        _fillImg = bar.fillImg;
+        _fillImg.color = fillColor;
+        _ghostRect = bar.ghost;
+        if (_ghostRect != null) _ghostRect.GetComponent<Image>().color = ghostColor;
+        _innerWidth = bar.innerWidth;
 
-        // 分段刻度线（每tickStepHP一格，2px深色，盖在填充上保证可读）
+        // 分段刻度（每 tickStepHP 一格，盖在填充之上）
         int ticks = Mathf.Max(0, Mathf.RoundToInt(_health.Max / tickStepHP) - 1);
         for (int i = 1; i <= ticks; i++)
         {
             float ratio = i * tickStepHP / _health.Max;
-            var tick = MakeImage(inner, "Tick_" + i, tickColor,
-                new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(0f, 0f), new Vector2(0f, 0f)).rectTransform;
+            var tick = MakeImage(bar.inner, "Tick_" + i, tickColor,
+                new Vector2(ratio, 0f), new Vector2(ratio, 1f), Vector2.zero, Vector2.zero).rectTransform;
             tick.anchorMin = new Vector2(ratio, 0f);
             tick.anchorMax = new Vector2(ratio, 1f);
             tick.pivot = Vector2.zero;
-            tick.sizeDelta = new Vector2(2f, 0f);
+            tick.sizeDelta = new Vector2(2f * s, 0f);
         }
 
-        // 4px金属卡槽外框（4条边）+ 内缘1px金属亮线（上边）
-        MakeStrip(_root, "Frame_Top", frameColor, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(0f, 1f), new Vector2(0f, -f), 0f, f);
-        MakeStrip(_root, "Frame_Bottom", frameColor, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(0f, 0f), new Vector2(0f, f), 0f, f);
-        MakeStrip(_root, "Frame_Left", frameColor, new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(0f, 0f), new Vector2(f, 0f), f, 0f);
-        MakeStrip(_root, "Frame_Right", frameColor, new Vector2(1f, 0f), new Vector2(1f, 1f), new Vector2(1f, 0f), new Vector2(-f, 0f), f, 0f);
-        var metalTop = MakeStrip(_root, "Metal_Top", frameMetal, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(0f, 1f), new Vector2(0f, -(f + 1f)), 0f, 1f);
-        metalTop.offsetMin = new Vector2(f, -(f + 1f));
-        metalTop.offsetMax = new Vector2(-f, -f);
-
-        // 数值：条外左上方（贴条顶、与条左缘对齐），富文本双色——实时值白（LowHP黄），上限值灰弱化
-        var textGo = new GameObject("Value", typeof(Text));
-        textGo.transform.SetParent(_root, false);
-        _valueText = textGo.GetComponent<Text>();
-        _valueText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        _valueText.fontSize = 14;
-        _valueText.alignment = TextAnchor.MiddleLeft;
-        _valueText.color = textColor;
-        _valueText.raycastTarget = false;
-        _maxHpHex = ColorUtility.ToHtmlStringRGB(textMaxColor);
+        // 数值：条外左上方，富文本双色（实时值 / 上限）
+        _valueText = UIKit.Txt(_root, "Value", "", 20, textColor, TextAnchor.LowerLeft);
         var trt = _valueText.rectTransform;
         trt.anchorMin = new Vector2(0f, 1f);
         trt.anchorMax = new Vector2(0f, 1f);
         trt.pivot = new Vector2(0f, 0f);
-        trt.sizeDelta = new Vector2(110f, 16f);
-        trt.anchoredPosition = new Vector2(0f, 2f);
-        var ol = textGo.AddComponent<Outline>();
-        ol.effectColor = OutlineColor;
-        ol.effectDistance = new Vector2(1.5f, -1.5f);
+        trt.sizeDelta = new Vector2(240f * s, 24f * s);
+        trt.anchoredPosition = new Vector2(0f, 2f * s);
+        _maxHpHex = ColorUtility.ToHtmlStringRGB(textMaxColor);
+        bar.text = _valueText;
     }
 
-    /// <summary>构建体力条层级（血条正下方8px）：根→卡槽底/前景/2px描边外框；无残影无刻度无数字</summary>
+    /// <summary>构建体力条（PixelKit 版）：血条正下方，无数字无残影</summary>
     private void BuildStaminaBar(Transform canvasRoot)
     {
-        float f = staminaFrameThickness;
-        var root = new GameObject("StaminaBar_Spec", typeof(RectTransform)).GetComponent<RectTransform>();
-        root.SetParent(canvasRoot, false);
-        root.anchorMin = new Vector2(0f, 0f);
-        root.anchorMax = new Vector2(0f, 0f);
-        root.pivot = new Vector2(0f, 0f);
-        root.anchoredPosition = new Vector2(barMargin.x, barMargin.y + _hotbar.BarSize.y + hotbarGap); // 血条下方：快捷栏48+gap12=92
-        root.sizeDelta = staminaBarSize;
+        const float s = UIKit.LegacyScale;
+        canvasRoot = UIKit.PixelCanvas().transform;
+        Vector2 size = staminaBarSize * s;
 
-        var inner = new GameObject("FillArea", typeof(RectTransform)).GetComponent<RectTransform>();
-        inner.SetParent(root, false);
-        inner.anchorMin = Vector2.zero;
-        inner.anchorMax = Vector2.one;
-        inner.offsetMin = new Vector2(f, f);
-        inner.offsetMax = new Vector2(-f, -f);
-        _staminaInnerW = staminaBarSize.x - f * 2f;
+        var bar = UIKit.BuildBar(canvasRoot, "StaminaBar_Spec", size, UIKit.BarWhite, 4f, false);
+        bar.root.anchoredPosition = new Vector2(barMargin.x * s,
+            (barMargin.y + _hotbar.BarSize.y + hotbarGap) * s);
 
-        MakeImage(inner, "Track", trackColor, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-        _staminaFillImg = MakeImage(inner, "StaminaFill", staminaFillColor,
-            new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(0f, 0f), new Vector2(0f, 0f));
-        _staminaFillRect = _staminaFillImg.rectTransform;
-        // 同血条教训：动态宽度必须左缘pivot，默认(0.5,0.5)会对称生长一半外溢
-        _staminaFillRect.pivot = new Vector2(0f, 0.5f);
-        _staminaFillRect.sizeDelta = new Vector2(_staminaInnerW, 0f);
-
-        // 2px像素描边外框（风格规范：所有HUD控件2px深色描边）
-        MakeStrip(root, "Frame_Top", frameColor, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(0f, 1f), new Vector2(0f, -f), 0f, f);
-        MakeStrip(root, "Frame_Bottom", frameColor, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(0f, 0f), new Vector2(0f, f), 0f, f);
-        MakeStrip(root, "Frame_Left", frameColor, new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(0f, 0f), new Vector2(f, 0f), f, 0f);
-        MakeStrip(root, "Frame_Right", frameColor, new Vector2(1f, 0f), new Vector2(1f, 1f), new Vector2(1f, 0f), new Vector2(-f, 0f), f, 0f);
+        _staminaFillRect = bar.fill;
+        _staminaFillImg = bar.fillImg;
+        _staminaFillImg.color = staminaFillColor;
+        _staminaInnerW = bar.innerWidth;
     }
 
     /// <summary>在parent下创建拉伸/锚点Image（快捷工具）</summary>

@@ -10,8 +10,8 @@ using UnityEditor.SceneManagement;
 
 public static class MainMenuUIBuilder
 {
-    const string KIT = "Assets/UI/PixelKit/";
-    const string TXT = "Assets/UI/PixelKit/Menu/";
+    const string KIT = "Assets/Resources/UI/PixelKit/";
+    const string TXT = "Assets/Resources/UI/PixelKit/Menu/";
     const string SCRIM = "Assets/UI/MainMenuScene/Textures/menu_scrim_left";
     const string CANVAS_NAME = "MainMenuUI";
 
