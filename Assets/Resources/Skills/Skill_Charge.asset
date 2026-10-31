@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f5b8d87858acd4aa37027698a6aa2e, type: 3}
+  m_Name: Skill_Charge
+  m_EditorClassIdentifier: 
+  skillId: warrior_charge
+  displayName: "\u51B2\u950B"
+  description: "\u5411\u524D\u7A81\u8FDB4\u7C73\uFF0C\u8DEF\u5F84\u547D\u4E2D\u654C\u4EBA\u9020\u6210\u4F24\u5BB3\u4E0E\u786C\u76F4\u51FB\u9000"
+  skillType: 1
+  range: 2
+  dashDistance: 4
+  dashHitRadius: 1.2
+  staminaCost: 20
+  cooldown: 10
+  windup: 0.1
+  activate: 0.3
+  recovery: 0.2
+  damageMultiplier: 1
+  passiveHealOnKill: 0
+  canMoveDuringWindup: 0
+  vfxResourceName: 
+  icon: {fileID: 21300000, guid: 69f3578fa10bd544484a6b64eb568546, type: 3}

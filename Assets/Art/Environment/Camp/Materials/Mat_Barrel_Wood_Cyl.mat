@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mat_Barrel_Wood_Cyl
+  m_Shader: {fileID: 4800000, guid: 8dfb81da3f663ca45a9d8e4020c15d6f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: ecf72eb9abaddf14c925bef862627aee, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Band1: 0.24
+    - _Band2: 0.76
+    - _BandWidth: 0.035
+    - _CircRepeat: 2
+    - _HeightRepeat: 2
+    - _RimRadius: 0.33
+    - _RimWidth: 0.045
+    - _TopScale: 2
+    m_Colors:
+    - _BandColor: {r: 0.16, g: 0.14, b: 0.13, a: 1}
+    - _BoundsMin: {r: -0.008138045, g: -0.0080821775, b: -0.009527931, a: 0}
+    - _BoundsSize: {r: 0.016225895, g: 0.01620154, b: 0.01899999, a: 0}
+    - _RimColor: {r: 0.18, g: 0.15, b: 0.13, a: 1}
+    - _TopTint: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

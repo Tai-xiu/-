@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f5b8d87858acd4aa37027698a6aa2e, type: 3}
+  m_Name: Skill_Whirlwind
+  m_EditorClassIdentifier: 
+  skillId: warrior_whirlwind
+  displayName: "\u65CB\u98CE\u65A9"
+  description: "360\xB0\u5168\u8303\u56F4\u65A9\u51FB\uFF0C\u4F24\u5BB3=\u6B66\u5668\u4F24\u5BB3\xD71.0"
+  skillType: 0
+  range: 2
+  dashDistance: 4
+  dashHitRadius: 1.2
+  staminaCost: 30
+  cooldown: 6
+  windup: 0.2
+  activate: 0.3
+  recovery: 0
+  damageMultiplier: 1
+  passiveHealOnKill: 0
+  canMoveDuringWindup: 0
+  vfxResourceName: SwordWhirlwindWhite
+  icon: {fileID: 21300000, guid: 360a631d472017945a8c76150e2d59e5, type: 3}

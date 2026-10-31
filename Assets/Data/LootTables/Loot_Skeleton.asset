@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca467da33466ef44cb7e3869eebe5345, type: 3}
+  m_Name: Loot_Skeleton
+  m_EditorClassIdentifier: 
+  entries:
+  - item: {fileID: 11400000, guid: 10b89fb8388ac1848bcbb858c3323632, type: 2}
+    qualityGroup: 0
+    chance: 0.15
+  - item: {fileID: 11400000, guid: 5d53f1e749c8a184e89fc47e0c023cbb, type: 2}
+    qualityGroup: 0
+    chance: 1
+  - item: {fileID: 11400000, guid: bec29775fd7cac546be04aa6eeb2946e, type: 2}
+    qualityGroup: 0
+    chance: 0.09

@@ -1,0 +1,27 @@
+# Unity
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+# Codely 团结AI缓存索引
+/.codely-cli/
+
+MemoryCaptures/
+.vs/
+*.csproj
+*.sln
+*.userprefs
+*.pidb
+*.suo
+*.tmp
+*.blend1
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# 不要忽略meta！！
+# !/Assets/**/*.meta

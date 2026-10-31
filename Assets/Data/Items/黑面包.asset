@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46831801b27da2b47ab71e37185a0f01, type: 3}
+  m_Name: "\u9ED1\u9762\u5305"
+  m_EditorClassIdentifier: 
+  itemId: 
+  itemName: "\u9ED1\u9762\u5305"
+  type: 2
+  description: 
+  width: 1
+  height: 1
+  icon: {fileID: 0}
+  rarity: 0
+  attackPower: 0
+  defensePower: 0
+  healAmount: 25
+  weaponType: 0
+  attackSpeed: 1
+  staminaCostPerSwing: 12
+  weight: 0
+  healStamina: 0
+  eatDuration: 1.5
+  price: 8
+  sellPrice: 8
+  maxStack: 9

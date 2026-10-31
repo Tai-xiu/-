@@ -1,0 +1,1420 @@
+fileFormatVersion: 2
+guid: DnxMsS2uACp5h4LZGfFbGCiTjfT0PlzZEGq+1lbYNUhLb0rm7CYe80w=
+ModelImporter:
+  serializedVersion: 22361
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    aCLCompressionLevel: 3
+    aCLCurvePrecision: 0.01
+    aCLFastSampleMode: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+    tuanjieGIEnable: 0
+    tuanjieGIGenSDFFactor: 1
+    tuanjieGIGenSDFBias: 0.25
+    tuanjieGIDoubleSidedMode: 0
+    tuanjieGIGenFacetNums: 12
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    totalVerticesCount: 3840
+    totalTrianglesCount: 1920
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  virtualGeometry:
+    virtualGeometry: 0
+    hasBoneWeight: 0
+    useTransparent: 0
+    setVGForeachMesh: 0
+    isFirstUse: 1
+    virtualGeometrySettings:
+      generateGeometryBuffer: 0
+      surfaceCompensation: 0
+      allMeshUse: 1
+      ignoreSimpleMesh: 0
+      transformScaleState: 0
+      isPossibleOverflow: 0
+    virtualGeometryPlatformSettings: []
+    selectedVGMeshes:
+    - index: 0
+      meshName: LVL_Boss_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 1
+      meshName: LVL_Boss_W45
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 2
+      meshName: LVL_Boss_W46
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 3
+      meshName: LVL_Boss_W47
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 4
+      meshName: LVL_Boss_W48
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 5
+      meshName: LVL_Boss_W49
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 6
+      meshName: LVL_Boss_W50
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 7
+      meshName: LVL_Boss_W51
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 8
+      meshName: LVL_Boss_W52
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 9
+      meshName: LVL_C1_Chest_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 10
+      meshName: LVL_C1_Chest_W71
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 11
+      meshName: LVL_C1_Chest_W72
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 12
+      meshName: LVL_C1_Chest_W73
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 13
+      meshName: LVL_C1_Chest_W74
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 14
+      meshName: LVL_C1_Chest_W75
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 15
+      meshName: LVL_C1_Chest_W76
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 16
+      meshName: LVL_C1_Chest_W77
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 17
+      meshName: LVL_C1_Chest_W78
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 18
+      meshName: LVL_Corr_0_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 19
+      meshName: LVL_Corr_10_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 20
+      meshName: LVL_Corr_11_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 21
+      meshName: LVL_Corr_12_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 22
+      meshName: LVL_Corr_13_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 23
+      meshName: LVL_Corr_14_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 24
+      meshName: LVL_Corr_15_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 25
+      meshName: LVL_Corr_16_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 26
+      meshName: LVL_Corr_17_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 27
+      meshName: LVL_Corr_18_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 28
+      meshName: LVL_Corr_19_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 29
+      meshName: LVL_Corr_1_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 30
+      meshName: LVL_Corr_20_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 31
+      meshName: LVL_Corr_21_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 32
+      meshName: LVL_Corr_22_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 33
+      meshName: LVL_Corr_23_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 34
+      meshName: LVL_Corr_24_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 35
+      meshName: LVL_Corr_25_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 36
+      meshName: LVL_Corr_26_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 37
+      meshName: LVL_Corr_27_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 38
+      meshName: LVL_Corr_28_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 39
+      meshName: LVL_Corr_29_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 40
+      meshName: LVL_Corr_2_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 41
+      meshName: LVL_Corr_30_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 42
+      meshName: LVL_Corr_31_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 43
+      meshName: LVL_Corr_32_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 44
+      meshName: LVL_Corr_33_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 45
+      meshName: LVL_Corr_34_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 46
+      meshName: LVL_Corr_35_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 47
+      meshName: LVL_Corr_36_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 48
+      meshName: LVL_Corr_37_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 49
+      meshName: LVL_Corr_38_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 50
+      meshName: LVL_Corr_39_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 51
+      meshName: LVL_Corr_3_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 52
+      meshName: LVL_Corr_40_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 53
+      meshName: LVL_Corr_41_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 54
+      meshName: LVL_Corr_4_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 55
+      meshName: LVL_Corr_5_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 56
+      meshName: LVL_Corr_6_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 57
+      meshName: LVL_Corr_7_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 58
+      meshName: LVL_Corr_8_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 59
+      meshName: LVL_Corr_9_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 60
+      meshName: LVL_M1_Monster_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 61
+      meshName: LVL_M1_Monster_W79
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 62
+      meshName: LVL_M1_Monster_W80
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 63
+      meshName: LVL_M1_Monster_W81
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 64
+      meshName: LVL_M1_Monster_W82
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 65
+      meshName: LVL_M1_Monster_W83
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 66
+      meshName: LVL_M1_Monster_W84
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 67
+      meshName: LVL_M1_Monster_W85
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 68
+      meshName: LVL_M1_Monster_W86
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 69
+      meshName: LVL_M1_Monster_W87
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 70
+      meshName: LVL_M1_Monster_W88
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 71
+      meshName: LVL_M2_Monster_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 72
+      meshName: LVL_M2_Monster_W61
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 73
+      meshName: LVL_M2_Monster_W62
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 74
+      meshName: LVL_M2_Monster_W63
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 75
+      meshName: LVL_M2_Monster_W64
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 76
+      meshName: LVL_M2_Monster_W65
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 77
+      meshName: LVL_M2_Monster_W66
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 78
+      meshName: LVL_M2_Monster_W67
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 79
+      meshName: LVL_M2_Monster_W68
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 80
+      meshName: LVL_M2_Monster_W69
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 81
+      meshName: LVL_M2_Monster_W70
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 82
+      meshName: LVL_M3_Monster_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 83
+      meshName: LVL_M3_Monster_W10
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 84
+      meshName: LVL_M3_Monster_W11
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 85
+      meshName: LVL_M3_Monster_W12
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 86
+      meshName: LVL_M3_Monster_W13
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 87
+      meshName: LVL_M3_Monster_W14
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 88
+      meshName: LVL_M3_Monster_W15
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 89
+      meshName: LVL_M3_Monster_W16
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 90
+      meshName: LVL_M3_Monster_W17
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 91
+      meshName: LVL_M3_Monster_W18
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 92
+      meshName: LVL_M3_Monster_W9
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 93
+      meshName: LVL_Marker_Extract
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 94
+      meshName: LVL_Marker_Spawn
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 95
+      meshName: LVL_R1_Reward_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 96
+      meshName: LVL_R1_Reward_W89
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 97
+      meshName: LVL_R1_Reward_W90
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 98
+      meshName: LVL_R1_Reward_W91
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 99
+      meshName: LVL_R1_Reward_W92
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 100
+      meshName: LVL_R1_Reward_W93
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 101
+      meshName: LVL_R1_Reward_W94
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 102
+      meshName: LVL_R1_Reward_W95
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 103
+      meshName: LVL_R1_Reward_W96
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 104
+      meshName: LVL_R2_Reward_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 105
+      meshName: LVL_R2_Reward_W53
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 106
+      meshName: LVL_R2_Reward_W54
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 107
+      meshName: LVL_R2_Reward_W55
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 108
+      meshName: LVL_R2_Reward_W56
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 109
+      meshName: LVL_R2_Reward_W57
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 110
+      meshName: LVL_R2_Reward_W58
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 111
+      meshName: LVL_R2_Reward_W59
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 112
+      meshName: LVL_R2_Reward_W60
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 113
+      meshName: LVL_R3_Reward_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 114
+      meshName: LVL_R3_Reward_W19
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 115
+      meshName: LVL_R3_Reward_W20
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 116
+      meshName: LVL_R3_Reward_W21
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 117
+      meshName: LVL_R3_Reward_W22
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 118
+      meshName: LVL_R3_Reward_W23
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 119
+      meshName: LVL_R3_Reward_W24
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 120
+      meshName: LVL_R3_Reward_W25
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 121
+      meshName: LVL_R3_Reward_W26
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 122
+      meshName: LVL_R3_Reward_W27
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 123
+      meshName: LVL_R3_Reward_W28
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 124
+      meshName: LVL_S_Spawn_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 125
+      meshName: LVL_S_Spawn_W1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 126
+      meshName: LVL_S_Spawn_W2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 127
+      meshName: LVL_S_Spawn_W3
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 128
+      meshName: LVL_S_Spawn_W4
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 129
+      meshName: LVL_S_Spawn_W5
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 130
+      meshName: LVL_S_Spawn_W6
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 131
+      meshName: LVL_S_Spawn_W7
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 132
+      meshName: LVL_S_Spawn_W8
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 133
+      meshName: LVL_T1_Trap_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 134
+      meshName: LVL_T1_Trap_W37
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 135
+      meshName: LVL_T1_Trap_W38
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 136
+      meshName: LVL_T1_Trap_W39
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 137
+      meshName: LVL_T1_Trap_W40
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 138
+      meshName: LVL_T1_Trap_W41
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 139
+      meshName: LVL_T1_Trap_W42
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 140
+      meshName: LVL_T1_Trap_W43
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 141
+      meshName: LVL_T1_Trap_W44
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 142
+      meshName: LVL_T2_Trap_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 143
+      meshName: LVL_T2_Trap_W100
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 144
+      meshName: LVL_T2_Trap_W101
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 145
+      meshName: LVL_T2_Trap_W102
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 146
+      meshName: LVL_T2_Trap_W103
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 147
+      meshName: LVL_T2_Trap_W104
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 148
+      meshName: LVL_T2_Trap_W97
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 149
+      meshName: LVL_T2_Trap_W98
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 150
+      meshName: LVL_T2_Trap_W99
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 151
+      meshName: LVL_X_Extract_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 152
+      meshName: LVL_X_Extract_W29
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 153
+      meshName: LVL_X_Extract_W30
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 154
+      meshName: LVL_X_Extract_W31
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 155
+      meshName: LVL_X_Extract_W32
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 156
+      meshName: LVL_X_Extract_W33
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 157
+      meshName: LVL_X_Extract_W34
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 158
+      meshName: LVL_X_Extract_W35
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 159
+      meshName: LVL_X_Extract_W36
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    supportVGMeshes:
+    - index: 0
+      meshName: LVL_Boss_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 1
+      meshName: LVL_Boss_W45
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 2
+      meshName: LVL_Boss_W46
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 3
+      meshName: LVL_Boss_W47
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 4
+      meshName: LVL_Boss_W48
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 5
+      meshName: LVL_Boss_W49
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 6
+      meshName: LVL_Boss_W50
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 7
+      meshName: LVL_Boss_W51
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 8
+      meshName: LVL_Boss_W52
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 9
+      meshName: LVL_C1_Chest_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 10
+      meshName: LVL_C1_Chest_W71
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 11
+      meshName: LVL_C1_Chest_W72
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 12
+      meshName: LVL_C1_Chest_W73
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 13
+      meshName: LVL_C1_Chest_W74
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 14
+      meshName: LVL_C1_Chest_W75
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 15
+      meshName: LVL_C1_Chest_W76
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 16
+      meshName: LVL_C1_Chest_W77
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 17
+      meshName: LVL_C1_Chest_W78
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 18
+      meshName: LVL_Corr_0_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 19
+      meshName: LVL_Corr_10_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 20
+      meshName: LVL_Corr_11_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 21
+      meshName: LVL_Corr_12_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 22
+      meshName: LVL_Corr_13_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 23
+      meshName: LVL_Corr_14_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 24
+      meshName: LVL_Corr_15_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 25
+      meshName: LVL_Corr_16_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 26
+      meshName: LVL_Corr_17_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 27
+      meshName: LVL_Corr_18_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 28
+      meshName: LVL_Corr_19_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 29
+      meshName: LVL_Corr_1_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 30
+      meshName: LVL_Corr_20_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 31
+      meshName: LVL_Corr_21_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 32
+      meshName: LVL_Corr_22_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 33
+      meshName: LVL_Corr_23_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 34
+      meshName: LVL_Corr_24_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 35
+      meshName: LVL_Corr_25_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 36
+      meshName: LVL_Corr_26_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 37
+      meshName: LVL_Corr_27_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 38
+      meshName: LVL_Corr_28_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 39
+      meshName: LVL_Corr_29_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 40
+      meshName: LVL_Corr_2_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 41
+      meshName: LVL_Corr_30_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 42
+      meshName: LVL_Corr_31_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 43
+      meshName: LVL_Corr_32_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 44
+      meshName: LVL_Corr_33_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 45
+      meshName: LVL_Corr_34_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 46
+      meshName: LVL_Corr_35_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 47
+      meshName: LVL_Corr_36_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 48
+      meshName: LVL_Corr_37_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 49
+      meshName: LVL_Corr_38_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 50
+      meshName: LVL_Corr_39_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 51
+      meshName: LVL_Corr_3_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 52
+      meshName: LVL_Corr_40_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 53
+      meshName: LVL_Corr_41_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 54
+      meshName: LVL_Corr_4_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 55
+      meshName: LVL_Corr_5_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 56
+      meshName: LVL_Corr_6_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 57
+      meshName: LVL_Corr_7_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 58
+      meshName: LVL_Corr_8_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 59
+      meshName: LVL_Corr_9_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 60
+      meshName: LVL_M1_Monster_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 61
+      meshName: LVL_M1_Monster_W79
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 62
+      meshName: LVL_M1_Monster_W80
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 63
+      meshName: LVL_M1_Monster_W81
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 64
+      meshName: LVL_M1_Monster_W82
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 65
+      meshName: LVL_M1_Monster_W83
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 66
+      meshName: LVL_M1_Monster_W84
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 67
+      meshName: LVL_M1_Monster_W85
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 68
+      meshName: LVL_M1_Monster_W86
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 69
+      meshName: LVL_M1_Monster_W87
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 70
+      meshName: LVL_M1_Monster_W88
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 71
+      meshName: LVL_M2_Monster_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 72
+      meshName: LVL_M2_Monster_W61
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 73
+      meshName: LVL_M2_Monster_W62
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 74
+      meshName: LVL_M2_Monster_W63
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 75
+      meshName: LVL_M2_Monster_W64
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 76
+      meshName: LVL_M2_Monster_W65
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 77
+      meshName: LVL_M2_Monster_W66
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 78
+      meshName: LVL_M2_Monster_W67
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 79
+      meshName: LVL_M2_Monster_W68
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 80
+      meshName: LVL_M2_Monster_W69
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 81
+      meshName: LVL_M2_Monster_W70
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 82
+      meshName: LVL_M3_Monster_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 83
+      meshName: LVL_M3_Monster_W10
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 84
+      meshName: LVL_M3_Monster_W11
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 85
+      meshName: LVL_M3_Monster_W12
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 86
+      meshName: LVL_M3_Monster_W13
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 87
+      meshName: LVL_M3_Monster_W14
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 88
+      meshName: LVL_M3_Monster_W15
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 89
+      meshName: LVL_M3_Monster_W16
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 90
+      meshName: LVL_M3_Monster_W17
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 91
+      meshName: LVL_M3_Monster_W18
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 92
+      meshName: LVL_M3_Monster_W9
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 93
+      meshName: LVL_Marker_Extract
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 94
+      meshName: LVL_Marker_Spawn
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 95
+      meshName: LVL_R1_Reward_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 96
+      meshName: LVL_R1_Reward_W89
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 97
+      meshName: LVL_R1_Reward_W90
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 98
+      meshName: LVL_R1_Reward_W91
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 99
+      meshName: LVL_R1_Reward_W92
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 100
+      meshName: LVL_R1_Reward_W93
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 101
+      meshName: LVL_R1_Reward_W94
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 102
+      meshName: LVL_R1_Reward_W95
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 103
+      meshName: LVL_R1_Reward_W96
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 104
+      meshName: LVL_R2_Reward_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 105
+      meshName: LVL_R2_Reward_W53
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 106
+      meshName: LVL_R2_Reward_W54
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 107
+      meshName: LVL_R2_Reward_W55
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 108
+      meshName: LVL_R2_Reward_W56
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 109
+      meshName: LVL_R2_Reward_W57
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 110
+      meshName: LVL_R2_Reward_W58
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 111
+      meshName: LVL_R2_Reward_W59
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 112
+      meshName: LVL_R2_Reward_W60
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 113
+      meshName: LVL_R3_Reward_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 114
+      meshName: LVL_R3_Reward_W19
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 115
+      meshName: LVL_R3_Reward_W20
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 116
+      meshName: LVL_R3_Reward_W21
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 117
+      meshName: LVL_R3_Reward_W22
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 118
+      meshName: LVL_R3_Reward_W23
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 119
+      meshName: LVL_R3_Reward_W24
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 120
+      meshName: LVL_R3_Reward_W25
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 121
+      meshName: LVL_R3_Reward_W26
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 122
+      meshName: LVL_R3_Reward_W27
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 123
+      meshName: LVL_R3_Reward_W28
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 124
+      meshName: LVL_S_Spawn_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 125
+      meshName: LVL_S_Spawn_W1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 126
+      meshName: LVL_S_Spawn_W2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 127
+      meshName: LVL_S_Spawn_W3
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 128
+      meshName: LVL_S_Spawn_W4
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 129
+      meshName: LVL_S_Spawn_W5
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 130
+      meshName: LVL_S_Spawn_W6
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 131
+      meshName: LVL_S_Spawn_W7
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 132
+      meshName: LVL_S_Spawn_W8
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 133
+      meshName: LVL_T1_Trap_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 134
+      meshName: LVL_T1_Trap_W37
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 135
+      meshName: LVL_T1_Trap_W38
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 136
+      meshName: LVL_T1_Trap_W39
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 137
+      meshName: LVL_T1_Trap_W40
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 138
+      meshName: LVL_T1_Trap_W41
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 139
+      meshName: LVL_T1_Trap_W42
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 140
+      meshName: LVL_T1_Trap_W43
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 141
+      meshName: LVL_T1_Trap_W44
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 142
+      meshName: LVL_T2_Trap_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 143
+      meshName: LVL_T2_Trap_W100
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 144
+      meshName: LVL_T2_Trap_W101
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 145
+      meshName: LVL_T2_Trap_W102
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 146
+      meshName: LVL_T2_Trap_W103
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 147
+      meshName: LVL_T2_Trap_W104
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 148
+      meshName: LVL_T2_Trap_W97
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 149
+      meshName: LVL_T2_Trap_W98
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 150
+      meshName: LVL_T2_Trap_W99
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 151
+      meshName: LVL_X_Extract_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 152
+      meshName: LVL_X_Extract_W29
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 153
+      meshName: LVL_X_Extract_W30
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 154
+      meshName: LVL_X_Extract_W31
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 155
+      meshName: LVL_X_Extract_W32
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 156
+      meshName: LVL_X_Extract_W33
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 157
+      meshName: LVL_X_Extract_W34
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 158
+      meshName: LVL_X_Extract_W35
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 159
+      meshName: LVL_X_Extract_W36
+      lodLevel: 0
+      meshGeometryBuffer: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  overrideDefaultPose: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    namedPoseList:
+    - name: Default
+      skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    defaultPoseIndex: -1
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

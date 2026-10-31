@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca467da33466ef44cb7e3869eebe5345, type: 3}
+  m_Name: Loot_Chest
+  m_EditorClassIdentifier: 
+  entries:
+  - item: {fileID: 11400000, guid: 10b89fb8388ac1848bcbb858c3323632, type: 2}
+    qualityGroup: 0
+    chance: 0.8
+  - item: {fileID: 11400000, guid: bec29775fd7cac546be04aa6eeb2946e, type: 2}
+    qualityGroup: 0
+    chance: 0.4
+  - item: {fileID: 11400000, guid: 6acb9b73dec1318448fd73bc12371dc5, type: 2}
+    qualityGroup: 0
+    chance: 0.15
+  - item: {fileID: 11400000, guid: 15e50760b861ed94bb6d52547a045475, type: 2}
+    qualityGroup: 0
+    chance: 0.08
+  - item: {fileID: 0}
+    qualityGroup: 1
+    chance: 0.05
+  - item: {fileID: 0}
+    qualityGroup: 3
+    chance: 0.05
+  - item: {fileID: 0}
+    qualityGroup: 2
+    chance: 0.025
+  - item: {fileID: 0}
+    qualityGroup: 4
+    chance: 0.025

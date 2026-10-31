@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 795e2eb4796bfa04b9bd33ba7cdc2999, type: 3}
+  m_Name: Quest_TreasureHunter
+  m_EditorClassIdentifier: 
+  questId: treasure_hunter
+  questName: "\u5BFB\u5B9D\u8005"
+  desc: "\u62FE\u53D61\u4EF6\u84DD\u8272\u54C1\u8D28\u7269\u54C1\u5E76\u6210\u529F\u64A4\u79BB\uFF08\u6B7B\u4EA1\u4F5C\u5E9F\uFF09\u3002"
+  type: 1
+  isDaily: 0
+  targetMonster: 0
+  targetRarity: 1
+  targetCount: 1
+  rewardGold: 120
+  rewardItem: {fileID: 0}

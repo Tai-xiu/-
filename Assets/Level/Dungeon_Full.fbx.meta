@@ -1,0 +1,3356 @@
+fileFormatVersion: 2
+guid: WSgfvXilWyjhv8mid9HIL3aPpY0JyoSh/7YKf95XOFqup4fdcOFc/IE=
+ModelImporter:
+  serializedVersion: 22361
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    aCLCompressionLevel: 3
+    aCLCurvePrecision: 0.01
+    aCLFastSampleMode: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+    tuanjieGIEnable: 0
+    tuanjieGIGenSDFFactor: 1
+    tuanjieGIGenSDFBias: 0.25
+    tuanjieGIDoubleSidedMode: 0
+    tuanjieGIGenFacetNums: 12
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    totalVerticesCount: 18642
+    totalTrianglesCount: 10820
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  virtualGeometry:
+    virtualGeometry: 0
+    hasBoneWeight: 0
+    useTransparent: 0
+    setVGForeachMesh: 0
+    isFirstUse: 1
+    virtualGeometrySettings:
+      generateGeometryBuffer: 0
+      surfaceCompensation: 0
+      allMeshUse: 1
+      ignoreSimpleMesh: 0
+      transformScaleState: 0
+      isPossibleOverflow: 0
+    virtualGeometryPlatformSettings: []
+    selectedVGMeshes:
+    - index: 0
+      meshName: Dungeon_Arch_CorrE_K4_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 1
+      meshName: Dungeon_Arch_CorrE_K4_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 2
+      meshName: Dungeon_Arch_CorrE_K7_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 3
+      meshName: Dungeon_Arch_CorrE_K7_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 4
+      meshName: Dungeon_Arch_CorrE_T_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 5
+      meshName: Dungeon_Arch_CorrE_T_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 6
+      meshName: Dungeon_Arch_CorrNE_U_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 7
+      meshName: Dungeon_Arch_CorrNE_U_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 8
+      meshName: Dungeon_Arch_CorrN_U_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 9
+      meshName: Dungeon_Arch_CorrN_U_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 10
+      meshName: Dungeon_Arch_CorrSE_HV_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 11
+      meshName: Dungeon_Arch_CorrSE_HV_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 12
+      meshName: Dungeon_Arch_CorrS_K6_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 13
+      meshName: Dungeon_Arch_CorrS_K6_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 14
+      meshName: Dungeon_Arch_CorrS_K7_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 15
+      meshName: Dungeon_Arch_CorrS_K7_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 16
+      meshName: Dungeon_Arch_RoomE6_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 17
+      meshName: Dungeon_Arch_RoomE6_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 18
+      meshName: Dungeon_Arch_RoomNE_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 19
+      meshName: Dungeon_Arch_RoomNE_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 20
+      meshName: Dungeon_Arch_RoomN_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 21
+      meshName: Dungeon_Arch_RoomN_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 22
+      meshName: Dungeon_Arch_RoomT9_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 23
+      meshName: Dungeon_Arch_RoomT9_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 24
+      meshName: Dungeon_Arch_RoomWL_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 25
+      meshName: Dungeon_Arch_RoomWL_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 26
+      meshName: Dungeon_ChamberCorr_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 27
+      meshName: Dungeon_ChamberCorr_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 28
+      meshName: Dungeon_ChamberCorr_Beam_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 29
+      meshName: Dungeon_ChamberCorr_Beam_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 30
+      meshName: Dungeon_ChamberCorr_Beam_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 31
+      meshName: Dungeon_ChamberCorr_Beam_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 32
+      meshName: Dungeon_ChamberCorr_Beam_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 33
+      meshName: Dungeon_ChamberCorr_Brace_L_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 34
+      meshName: Dungeon_ChamberCorr_Brace_L_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 35
+      meshName: Dungeon_ChamberCorr_Brace_L_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 36
+      meshName: Dungeon_ChamberCorr_Brace_L_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 37
+      meshName: Dungeon_ChamberCorr_Brace_L_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 38
+      meshName: Dungeon_ChamberCorr_Brace_R_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 39
+      meshName: Dungeon_ChamberCorr_Brace_R_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 40
+      meshName: Dungeon_ChamberCorr_Brace_R_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 41
+      meshName: Dungeon_ChamberCorr_Brace_R_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 42
+      meshName: Dungeon_ChamberCorr_Brace_R_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 43
+      meshName: Dungeon_ChamberCorr_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 44
+      meshName: Dungeon_ChamberCorr_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 45
+      meshName: Dungeon_ChamberCorr_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 46
+      meshName: Dungeon_ChamberCorr_Pillar_L_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 47
+      meshName: Dungeon_ChamberCorr_Pillar_L_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 48
+      meshName: Dungeon_ChamberCorr_Pillar_L_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 49
+      meshName: Dungeon_ChamberCorr_Pillar_L_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 50
+      meshName: Dungeon_ChamberCorr_Pillar_L_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 51
+      meshName: Dungeon_ChamberCorr_Pillar_R_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 52
+      meshName: Dungeon_ChamberCorr_Pillar_R_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 53
+      meshName: Dungeon_ChamberCorr_Pillar_R_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 54
+      meshName: Dungeon_ChamberCorr_Pillar_R_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 55
+      meshName: Dungeon_ChamberCorr_Pillar_R_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 56
+      meshName: Dungeon_ChamberCorr_Wall_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 57
+      meshName: Dungeon_ChamberCorr_Wall_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 58
+      meshName: Dungeon_ChamberHall_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 59
+      meshName: Dungeon_ChamberHall_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 60
+      meshName: Dungeon_ChamberHall_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 61
+      meshName: Dungeon_ChamberHall_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 62
+      meshName: Dungeon_ChamberHall_Support_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 63
+      meshName: Dungeon_ChamberHall_Support_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 64
+      meshName: Dungeon_ChamberHall_Support_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 65
+      meshName: Dungeon_ChamberHall_Support_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 66
+      meshName: Dungeon_ChamberHall_Support_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 67
+      meshName: Dungeon_ChamberHall_Wall_Back_A
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 68
+      meshName: Dungeon_ChamberHall_Wall_Back_B
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 69
+      meshName: Dungeon_ChamberHall_Wall_Front_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 70
+      meshName: Dungeon_ChamberHall_Wall_Front_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 71
+      meshName: Dungeon_ChamberHall_Wall_Left_A
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 72
+      meshName: Dungeon_ChamberHall_Wall_Left_B
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 73
+      meshName: Dungeon_ChamberHall_Wall_Right_A
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 74
+      meshName: Dungeon_ChamberHall_Wall_Right_B
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 75
+      meshName: Dungeon_ChamberHall_Wall_Right_C
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 76
+      meshName: Dungeon_ChamberRoom2_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 77
+      meshName: Dungeon_ChamberRoom2_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 78
+      meshName: Dungeon_ChamberRoom2_Wall_Far
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 79
+      meshName: Dungeon_ChamberRoom2_Wall_SideA
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 80
+      meshName: Dungeon_ChamberRoom2_Wall_SideB
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 81
+      meshName: Dungeon_ChamberRoom_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 82
+      meshName: Dungeon_ChamberRoom_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 83
+      meshName: Dungeon_ChamberRoom_Wall_Back
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 84
+      meshName: Dungeon_ChamberRoom_Wall_Front_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 85
+      meshName: Dungeon_ChamberRoom_Wall_Front_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 86
+      meshName: Dungeon_ChamberRoom_Wall_Left
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 87
+      meshName: Dungeon_ChamberRoom_Wall_Right
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 88
+      meshName: Dungeon_CorrE2_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 89
+      meshName: Dungeon_CorrE2_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 90
+      meshName: Dungeon_CorrE2_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 91
+      meshName: Dungeon_CorrE2_WallR1d1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 92
+      meshName: Dungeon_CorrE2_WallR1w0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 93
+      meshName: Dungeon_CorrE2_WallR1w2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 94
+      meshName: Dungeon_CorrE_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 95
+      meshName: Dungeon_CorrE_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 96
+      meshName: Dungeon_CorrE_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 97
+      meshName: Dungeon_CorrE_WallL0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 98
+      meshName: Dungeon_CorrE_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 99
+      meshName: Dungeon_CorrE_WallR0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 100
+      meshName: Dungeon_CorrE_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 101
+      meshName: Dungeon_CorrNE_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 102
+      meshName: Dungeon_CorrNE_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 103
+      meshName: Dungeon_CorrNE_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 104
+      meshName: Dungeon_CorrNE_WallL2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 105
+      meshName: Dungeon_CorrNE_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 106
+      meshName: Dungeon_CorrNE_WallR2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 107
+      meshName: Dungeon_CorrN_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 108
+      meshName: Dungeon_CorrN_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 109
+      meshName: Dungeon_CorrN_WallL0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 110
+      meshName: Dungeon_CorrN_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 111
+      meshName: Dungeon_CorrN_WallR0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 112
+      meshName: Dungeon_CorrN_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 113
+      meshName: Dungeon_CorrSE_H_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 114
+      meshName: Dungeon_CorrSE_H_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 115
+      meshName: Dungeon_CorrSE_H_WallL0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 116
+      meshName: Dungeon_CorrSE_H_WallR0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 117
+      meshName: Dungeon_CorrSE_V_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 118
+      meshName: Dungeon_CorrSE_V_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 119
+      meshName: Dungeon_CorrSE_V_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 120
+      meshName: Dungeon_CorrSE_V_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 121
+      meshName: Dungeon_CorrS_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 122
+      meshName: Dungeon_CorrS_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 123
+      meshName: Dungeon_CorrS_WallL0d1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 124
+      meshName: Dungeon_CorrS_WallL0d3
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 125
+      meshName: Dungeon_CorrS_WallL0w0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 126
+      meshName: Dungeon_CorrS_WallL0w2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 127
+      meshName: Dungeon_CorrS_WallL0w4
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 128
+      meshName: Dungeon_CorrS_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 129
+      meshName: Dungeon_CorrS_WallR2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 130
+      meshName: Dungeon_CorrS_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 131
+      meshName: Dungeon_CorrSup_E0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 132
+      meshName: Dungeon_CorrSup_E0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 133
+      meshName: Dungeon_CorrSup_E0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 134
+      meshName: Dungeon_CorrSup_E0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 135
+      meshName: Dungeon_CorrSup_E0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 136
+      meshName: Dungeon_CorrSup_E1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 137
+      meshName: Dungeon_CorrSup_E1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 138
+      meshName: Dungeon_CorrSup_E1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 139
+      meshName: Dungeon_CorrSup_E1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 140
+      meshName: Dungeon_CorrSup_E1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 141
+      meshName: Dungeon_CorrSup_E2_0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 142
+      meshName: Dungeon_CorrSup_E2_0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 143
+      meshName: Dungeon_CorrSup_E2_0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 144
+      meshName: Dungeon_CorrSup_E2_0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 145
+      meshName: Dungeon_CorrSup_E2_0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 146
+      meshName: Dungeon_CorrSup_E2_1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 147
+      meshName: Dungeon_CorrSup_E2_1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 148
+      meshName: Dungeon_CorrSup_E2_1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 149
+      meshName: Dungeon_CorrSup_E2_1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 150
+      meshName: Dungeon_CorrSup_E2_1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 151
+      meshName: Dungeon_CorrSup_E2_2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 152
+      meshName: Dungeon_CorrSup_E2_2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 153
+      meshName: Dungeon_CorrSup_E2_2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 154
+      meshName: Dungeon_CorrSup_E2_2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 155
+      meshName: Dungeon_CorrSup_E2_2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 156
+      meshName: Dungeon_CorrSup_E2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 157
+      meshName: Dungeon_CorrSup_E2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 158
+      meshName: Dungeon_CorrSup_E2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 159
+      meshName: Dungeon_CorrSup_E2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 160
+      meshName: Dungeon_CorrSup_E2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 161
+      meshName: Dungeon_CorrSup_E3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 162
+      meshName: Dungeon_CorrSup_E3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 163
+      meshName: Dungeon_CorrSup_E3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 164
+      meshName: Dungeon_CorrSup_E3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 165
+      meshName: Dungeon_CorrSup_E3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 166
+      meshName: Dungeon_CorrSup_E4_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 167
+      meshName: Dungeon_CorrSup_E4_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 168
+      meshName: Dungeon_CorrSup_E4_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 169
+      meshName: Dungeon_CorrSup_E4_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 170
+      meshName: Dungeon_CorrSup_E4_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 171
+      meshName: Dungeon_CorrSup_E5_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 172
+      meshName: Dungeon_CorrSup_E5_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 173
+      meshName: Dungeon_CorrSup_E5_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 174
+      meshName: Dungeon_CorrSup_E5_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 175
+      meshName: Dungeon_CorrSup_E5_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 176
+      meshName: Dungeon_CorrSup_N0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 177
+      meshName: Dungeon_CorrSup_N0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 178
+      meshName: Dungeon_CorrSup_N0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 179
+      meshName: Dungeon_CorrSup_N0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 180
+      meshName: Dungeon_CorrSup_N0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 181
+      meshName: Dungeon_CorrSup_N1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 182
+      meshName: Dungeon_CorrSup_N1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 183
+      meshName: Dungeon_CorrSup_N1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 184
+      meshName: Dungeon_CorrSup_N1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 185
+      meshName: Dungeon_CorrSup_N1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 186
+      meshName: Dungeon_CorrSup_NE0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 187
+      meshName: Dungeon_CorrSup_NE0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 188
+      meshName: Dungeon_CorrSup_NE0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 189
+      meshName: Dungeon_CorrSup_NE0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 190
+      meshName: Dungeon_CorrSup_NE0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 191
+      meshName: Dungeon_CorrSup_NE1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 192
+      meshName: Dungeon_CorrSup_NE1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 193
+      meshName: Dungeon_CorrSup_NE1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 194
+      meshName: Dungeon_CorrSup_NE1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 195
+      meshName: Dungeon_CorrSup_NE1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 196
+      meshName: Dungeon_CorrSup_NE2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 197
+      meshName: Dungeon_CorrSup_NE2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 198
+      meshName: Dungeon_CorrSup_NE2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 199
+      meshName: Dungeon_CorrSup_NE2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 200
+      meshName: Dungeon_CorrSup_NE2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 201
+      meshName: Dungeon_CorrSup_NE3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 202
+      meshName: Dungeon_CorrSup_NE3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 203
+      meshName: Dungeon_CorrSup_NE3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 204
+      meshName: Dungeon_CorrSup_NE3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 205
+      meshName: Dungeon_CorrSup_NE3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 206
+      meshName: Dungeon_CorrSup_NE4_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 207
+      meshName: Dungeon_CorrSup_NE4_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 208
+      meshName: Dungeon_CorrSup_NE4_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 209
+      meshName: Dungeon_CorrSup_NE4_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 210
+      meshName: Dungeon_CorrSup_NE4_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 211
+      meshName: Dungeon_CorrSup_NE5_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 212
+      meshName: Dungeon_CorrSup_NE5_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 213
+      meshName: Dungeon_CorrSup_NE5_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 214
+      meshName: Dungeon_CorrSup_NE5_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 215
+      meshName: Dungeon_CorrSup_NE5_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 216
+      meshName: Dungeon_CorrSup_S0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 217
+      meshName: Dungeon_CorrSup_S0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 218
+      meshName: Dungeon_CorrSup_S0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 219
+      meshName: Dungeon_CorrSup_S0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 220
+      meshName: Dungeon_CorrSup_S0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 221
+      meshName: Dungeon_CorrSup_S1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 222
+      meshName: Dungeon_CorrSup_S1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 223
+      meshName: Dungeon_CorrSup_S1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 224
+      meshName: Dungeon_CorrSup_S1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 225
+      meshName: Dungeon_CorrSup_S1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 226
+      meshName: Dungeon_CorrSup_S2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 227
+      meshName: Dungeon_CorrSup_S2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 228
+      meshName: Dungeon_CorrSup_S2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 229
+      meshName: Dungeon_CorrSup_S2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 230
+      meshName: Dungeon_CorrSup_S2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 231
+      meshName: Dungeon_CorrSup_S3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 232
+      meshName: Dungeon_CorrSup_S3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 233
+      meshName: Dungeon_CorrSup_S3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 234
+      meshName: Dungeon_CorrSup_S3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 235
+      meshName: Dungeon_CorrSup_S3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 236
+      meshName: Dungeon_CorrSup_SEH0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 237
+      meshName: Dungeon_CorrSup_SEH0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 238
+      meshName: Dungeon_CorrSup_SEH0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 239
+      meshName: Dungeon_CorrSup_SEH0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 240
+      meshName: Dungeon_CorrSup_SEH0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 241
+      meshName: Dungeon_CorrSup_SEH1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 242
+      meshName: Dungeon_CorrSup_SEH1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 243
+      meshName: Dungeon_CorrSup_SEH1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 244
+      meshName: Dungeon_CorrSup_SEH1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 245
+      meshName: Dungeon_CorrSup_SEH1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 246
+      meshName: Dungeon_CorrSup_SEH2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 247
+      meshName: Dungeon_CorrSup_SEH2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 248
+      meshName: Dungeon_CorrSup_SEH2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 249
+      meshName: Dungeon_CorrSup_SEH2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 250
+      meshName: Dungeon_CorrSup_SEH2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 251
+      meshName: Dungeon_CorrSup_SEV0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 252
+      meshName: Dungeon_CorrSup_SEV0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 253
+      meshName: Dungeon_CorrSup_SEV0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 254
+      meshName: Dungeon_CorrSup_SEV0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 255
+      meshName: Dungeon_CorrSup_SEV0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 256
+      meshName: Dungeon_CorrSup_SEV1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 257
+      meshName: Dungeon_CorrSup_SEV1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 258
+      meshName: Dungeon_CorrSup_SEV1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 259
+      meshName: Dungeon_CorrSup_SEV1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 260
+      meshName: Dungeon_CorrSup_SEV1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 261
+      meshName: Dungeon_CorrSup_T0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 262
+      meshName: Dungeon_CorrSup_T0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 263
+      meshName: Dungeon_CorrSup_T0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 264
+      meshName: Dungeon_CorrSup_T0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 265
+      meshName: Dungeon_CorrSup_T0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 266
+      meshName: Dungeon_CorrSup_T1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 267
+      meshName: Dungeon_CorrSup_T1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 268
+      meshName: Dungeon_CorrSup_T1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 269
+      meshName: Dungeon_CorrSup_T1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 270
+      meshName: Dungeon_CorrSup_T1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 271
+      meshName: Dungeon_CorrSup_T2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 272
+      meshName: Dungeon_CorrSup_T2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 273
+      meshName: Dungeon_CorrSup_T2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 274
+      meshName: Dungeon_CorrSup_T2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 275
+      meshName: Dungeon_CorrSup_T2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 276
+      meshName: Dungeon_CorrSup_U0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 277
+      meshName: Dungeon_CorrSup_U0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 278
+      meshName: Dungeon_CorrSup_U0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 279
+      meshName: Dungeon_CorrSup_U0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 280
+      meshName: Dungeon_CorrSup_U0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 281
+      meshName: Dungeon_CorrSup_U1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 282
+      meshName: Dungeon_CorrSup_U1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 283
+      meshName: Dungeon_CorrSup_U1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 284
+      meshName: Dungeon_CorrSup_U1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 285
+      meshName: Dungeon_CorrSup_U1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 286
+      meshName: Dungeon_CorrSup_U2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 287
+      meshName: Dungeon_CorrSup_U2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 288
+      meshName: Dungeon_CorrSup_U2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 289
+      meshName: Dungeon_CorrSup_U2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 290
+      meshName: Dungeon_CorrSup_U2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 291
+      meshName: Dungeon_CorrSup_U3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 292
+      meshName: Dungeon_CorrSup_U3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 293
+      meshName: Dungeon_CorrSup_U3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 294
+      meshName: Dungeon_CorrSup_U3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 295
+      meshName: Dungeon_CorrSup_U3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 296
+      meshName: Dungeon_CorrSup_W0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 297
+      meshName: Dungeon_CorrSup_W0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 298
+      meshName: Dungeon_CorrSup_W0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 299
+      meshName: Dungeon_CorrSup_W0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 300
+      meshName: Dungeon_CorrSup_W0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 301
+      meshName: Dungeon_CorrSup_W1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 302
+      meshName: Dungeon_CorrSup_W1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 303
+      meshName: Dungeon_CorrSup_W1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 304
+      meshName: Dungeon_CorrSup_W1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 305
+      meshName: Dungeon_CorrSup_W1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 306
+      meshName: Dungeon_CorrSup_W2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 307
+      meshName: Dungeon_CorrSup_W2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 308
+      meshName: Dungeon_CorrSup_W2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 309
+      meshName: Dungeon_CorrSup_W2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 310
+      meshName: Dungeon_CorrSup_W2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 311
+      meshName: Dungeon_CorrSup_W3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 312
+      meshName: Dungeon_CorrSup_W3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 313
+      meshName: Dungeon_CorrSup_W3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 314
+      meshName: Dungeon_CorrSup_W3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 315
+      meshName: Dungeon_CorrSup_W3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 316
+      meshName: Dungeon_CorrT_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 317
+      meshName: Dungeon_CorrT_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 318
+      meshName: Dungeon_CorrT_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 319
+      meshName: Dungeon_CorrT_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 320
+      meshName: Dungeon_CorrU_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 321
+      meshName: Dungeon_CorrU_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 322
+      meshName: Dungeon_CorrU_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 323
+      meshName: Dungeon_CorrU_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 324
+      meshName: Dungeon_CorrW_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 325
+      meshName: Dungeon_CorrW_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 326
+      meshName: Dungeon_CorrW_WallL0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 327
+      meshName: Dungeon_CorrW_WallR0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 328
+      meshName: Dungeon_Door_RoomE_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 329
+      meshName: Dungeon_Door_RoomS1_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 330
+      meshName: Dungeon_Door_RoomS2_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 331
+      meshName: Dungeon_Door_RoomUC_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 332
+      meshName: Dungeon_Door_RoomWLB_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 333
+      meshName: Dungeon_HubArch_E1_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 334
+      meshName: Dungeon_HubArch_E1_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 335
+      meshName: Dungeon_HubArch_E2_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 336
+      meshName: Dungeon_HubArch_E2_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 337
+      meshName: Dungeon_HubArch_N_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 338
+      meshName: Dungeon_HubArch_N_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 339
+      meshName: Dungeon_HubArch_W_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 340
+      meshName: Dungeon_HubArch_W_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 341
+      meshName: Dungeon_RoomE6_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 342
+      meshName: Dungeon_RoomE6_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 343
+      meshName: Dungeon_RoomE6_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 344
+      meshName: Dungeon_RoomE6_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 345
+      meshName: Dungeon_RoomE6_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 346
+      meshName: Dungeon_RoomE6_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 347
+      meshName: Dungeon_RoomE6_WallW1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 348
+      meshName: Dungeon_RoomE_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 349
+      meshName: Dungeon_RoomE_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 350
+      meshName: Dungeon_RoomE_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 351
+      meshName: Dungeon_RoomE_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 352
+      meshName: Dungeon_RoomE_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 353
+      meshName: Dungeon_RoomNE_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 354
+      meshName: Dungeon_RoomNE_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 355
+      meshName: Dungeon_RoomNE_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 356
+      meshName: Dungeon_RoomNE_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 357
+      meshName: Dungeon_RoomNE_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 358
+      meshName: Dungeon_RoomNE_WallS1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 359
+      meshName: Dungeon_RoomNE_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 360
+      meshName: Dungeon_RoomN_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 361
+      meshName: Dungeon_RoomN_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 362
+      meshName: Dungeon_RoomN_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 363
+      meshName: Dungeon_RoomN_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 364
+      meshName: Dungeon_RoomN_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 365
+      meshName: Dungeon_RoomN_WallS1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 366
+      meshName: Dungeon_RoomN_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 367
+      meshName: Dungeon_RoomS1_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 368
+      meshName: Dungeon_RoomS1_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 369
+      meshName: Dungeon_RoomS1_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 370
+      meshName: Dungeon_RoomS1_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 371
+      meshName: Dungeon_RoomS1_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 372
+      meshName: Dungeon_RoomS2_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 373
+      meshName: Dungeon_RoomS2_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 374
+      meshName: Dungeon_RoomS2_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 375
+      meshName: Dungeon_RoomS2_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 376
+      meshName: Dungeon_RoomS2_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 377
+      meshName: Dungeon_RoomT9_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 378
+      meshName: Dungeon_RoomT9_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 379
+      meshName: Dungeon_RoomT9_Spandrel
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 380
+      meshName: Dungeon_RoomT9_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 381
+      meshName: Dungeon_RoomT9_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 382
+      meshName: Dungeon_RoomT9_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 383
+      meshName: Dungeon_RoomT9_WallS1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 384
+      meshName: Dungeon_RoomT9_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 385
+      meshName: Dungeon_RoomUC_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 386
+      meshName: Dungeon_RoomUC_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 387
+      meshName: Dungeon_RoomUC_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 388
+      meshName: Dungeon_RoomUC_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 389
+      meshName: Dungeon_RoomUC_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 390
+      meshName: Dungeon_RoomWLB_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 391
+      meshName: Dungeon_RoomWLB_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 392
+      meshName: Dungeon_RoomWLB_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 393
+      meshName: Dungeon_RoomWLB_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 394
+      meshName: Dungeon_RoomWLB_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 395
+      meshName: Dungeon_RoomWL_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 396
+      meshName: Dungeon_RoomWL_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 397
+      meshName: Dungeon_RoomWL_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 398
+      meshName: Dungeon_RoomWL_WallE1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 399
+      meshName: Dungeon_RoomWL_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 400
+      meshName: Dungeon_RoomWL_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 401
+      meshName: Dungeon_RoomWL_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    supportVGMeshes:
+    - index: 0
+      meshName: Dungeon_Arch_CorrE_K4_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 1
+      meshName: Dungeon_Arch_CorrE_K4_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 2
+      meshName: Dungeon_Arch_CorrE_K7_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 3
+      meshName: Dungeon_Arch_CorrE_K7_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 4
+      meshName: Dungeon_Arch_CorrE_T_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 5
+      meshName: Dungeon_Arch_CorrE_T_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 6
+      meshName: Dungeon_Arch_CorrNE_U_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 7
+      meshName: Dungeon_Arch_CorrNE_U_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 8
+      meshName: Dungeon_Arch_CorrN_U_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 9
+      meshName: Dungeon_Arch_CorrN_U_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 10
+      meshName: Dungeon_Arch_CorrSE_HV_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 11
+      meshName: Dungeon_Arch_CorrSE_HV_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 12
+      meshName: Dungeon_Arch_CorrS_K6_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 13
+      meshName: Dungeon_Arch_CorrS_K6_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 14
+      meshName: Dungeon_Arch_CorrS_K7_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 15
+      meshName: Dungeon_Arch_CorrS_K7_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 16
+      meshName: Dungeon_Arch_RoomE6_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 17
+      meshName: Dungeon_Arch_RoomE6_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 18
+      meshName: Dungeon_Arch_RoomNE_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 19
+      meshName: Dungeon_Arch_RoomNE_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 20
+      meshName: Dungeon_Arch_RoomN_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 21
+      meshName: Dungeon_Arch_RoomN_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 22
+      meshName: Dungeon_Arch_RoomT9_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 23
+      meshName: Dungeon_Arch_RoomT9_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 24
+      meshName: Dungeon_Arch_RoomWL_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 25
+      meshName: Dungeon_Arch_RoomWL_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 26
+      meshName: Dungeon_ChamberCorr_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 27
+      meshName: Dungeon_ChamberCorr_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 28
+      meshName: Dungeon_ChamberCorr_Beam_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 29
+      meshName: Dungeon_ChamberCorr_Beam_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 30
+      meshName: Dungeon_ChamberCorr_Beam_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 31
+      meshName: Dungeon_ChamberCorr_Beam_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 32
+      meshName: Dungeon_ChamberCorr_Beam_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 33
+      meshName: Dungeon_ChamberCorr_Brace_L_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 34
+      meshName: Dungeon_ChamberCorr_Brace_L_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 35
+      meshName: Dungeon_ChamberCorr_Brace_L_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 36
+      meshName: Dungeon_ChamberCorr_Brace_L_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 37
+      meshName: Dungeon_ChamberCorr_Brace_L_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 38
+      meshName: Dungeon_ChamberCorr_Brace_R_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 39
+      meshName: Dungeon_ChamberCorr_Brace_R_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 40
+      meshName: Dungeon_ChamberCorr_Brace_R_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 41
+      meshName: Dungeon_ChamberCorr_Brace_R_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 42
+      meshName: Dungeon_ChamberCorr_Brace_R_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 43
+      meshName: Dungeon_ChamberCorr_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 44
+      meshName: Dungeon_ChamberCorr_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 45
+      meshName: Dungeon_ChamberCorr_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 46
+      meshName: Dungeon_ChamberCorr_Pillar_L_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 47
+      meshName: Dungeon_ChamberCorr_Pillar_L_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 48
+      meshName: Dungeon_ChamberCorr_Pillar_L_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 49
+      meshName: Dungeon_ChamberCorr_Pillar_L_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 50
+      meshName: Dungeon_ChamberCorr_Pillar_L_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 51
+      meshName: Dungeon_ChamberCorr_Pillar_R_00
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 52
+      meshName: Dungeon_ChamberCorr_Pillar_R_00.001
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 53
+      meshName: Dungeon_ChamberCorr_Pillar_R_01
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 54
+      meshName: Dungeon_ChamberCorr_Pillar_R_02
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 55
+      meshName: Dungeon_ChamberCorr_Pillar_R_03
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 56
+      meshName: Dungeon_ChamberCorr_Wall_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 57
+      meshName: Dungeon_ChamberCorr_Wall_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 58
+      meshName: Dungeon_ChamberHall_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 59
+      meshName: Dungeon_ChamberHall_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 60
+      meshName: Dungeon_ChamberHall_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 61
+      meshName: Dungeon_ChamberHall_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 62
+      meshName: Dungeon_ChamberHall_Support_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 63
+      meshName: Dungeon_ChamberHall_Support_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 64
+      meshName: Dungeon_ChamberHall_Support_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 65
+      meshName: Dungeon_ChamberHall_Support_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 66
+      meshName: Dungeon_ChamberHall_Support_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 67
+      meshName: Dungeon_ChamberHall_Wall_Back_A
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 68
+      meshName: Dungeon_ChamberHall_Wall_Back_B
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 69
+      meshName: Dungeon_ChamberHall_Wall_Front_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 70
+      meshName: Dungeon_ChamberHall_Wall_Front_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 71
+      meshName: Dungeon_ChamberHall_Wall_Left_A
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 72
+      meshName: Dungeon_ChamberHall_Wall_Left_B
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 73
+      meshName: Dungeon_ChamberHall_Wall_Right_A
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 74
+      meshName: Dungeon_ChamberHall_Wall_Right_B
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 75
+      meshName: Dungeon_ChamberHall_Wall_Right_C
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 76
+      meshName: Dungeon_ChamberRoom2_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 77
+      meshName: Dungeon_ChamberRoom2_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 78
+      meshName: Dungeon_ChamberRoom2_Wall_Far
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 79
+      meshName: Dungeon_ChamberRoom2_Wall_SideA
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 80
+      meshName: Dungeon_ChamberRoom2_Wall_SideB
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 81
+      meshName: Dungeon_ChamberRoom_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 82
+      meshName: Dungeon_ChamberRoom_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 83
+      meshName: Dungeon_ChamberRoom_Wall_Back
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 84
+      meshName: Dungeon_ChamberRoom_Wall_Front_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 85
+      meshName: Dungeon_ChamberRoom_Wall_Front_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 86
+      meshName: Dungeon_ChamberRoom_Wall_Left
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 87
+      meshName: Dungeon_ChamberRoom_Wall_Right
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 88
+      meshName: Dungeon_CorrE2_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 89
+      meshName: Dungeon_CorrE2_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 90
+      meshName: Dungeon_CorrE2_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 91
+      meshName: Dungeon_CorrE2_WallR1d1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 92
+      meshName: Dungeon_CorrE2_WallR1w0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 93
+      meshName: Dungeon_CorrE2_WallR1w2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 94
+      meshName: Dungeon_CorrE_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 95
+      meshName: Dungeon_CorrE_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 96
+      meshName: Dungeon_CorrE_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 97
+      meshName: Dungeon_CorrE_WallL0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 98
+      meshName: Dungeon_CorrE_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 99
+      meshName: Dungeon_CorrE_WallR0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 100
+      meshName: Dungeon_CorrE_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 101
+      meshName: Dungeon_CorrNE_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 102
+      meshName: Dungeon_CorrNE_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 103
+      meshName: Dungeon_CorrNE_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 104
+      meshName: Dungeon_CorrNE_WallL2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 105
+      meshName: Dungeon_CorrNE_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 106
+      meshName: Dungeon_CorrNE_WallR2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 107
+      meshName: Dungeon_CorrN_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 108
+      meshName: Dungeon_CorrN_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 109
+      meshName: Dungeon_CorrN_WallL0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 110
+      meshName: Dungeon_CorrN_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 111
+      meshName: Dungeon_CorrN_WallR0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 112
+      meshName: Dungeon_CorrN_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 113
+      meshName: Dungeon_CorrSE_H_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 114
+      meshName: Dungeon_CorrSE_H_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 115
+      meshName: Dungeon_CorrSE_H_WallL0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 116
+      meshName: Dungeon_CorrSE_H_WallR0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 117
+      meshName: Dungeon_CorrSE_V_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 118
+      meshName: Dungeon_CorrSE_V_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 119
+      meshName: Dungeon_CorrSE_V_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 120
+      meshName: Dungeon_CorrSE_V_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 121
+      meshName: Dungeon_CorrS_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 122
+      meshName: Dungeon_CorrS_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 123
+      meshName: Dungeon_CorrS_WallL0d1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 124
+      meshName: Dungeon_CorrS_WallL0d3
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 125
+      meshName: Dungeon_CorrS_WallL0w0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 126
+      meshName: Dungeon_CorrS_WallL0w2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 127
+      meshName: Dungeon_CorrS_WallL0w4
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 128
+      meshName: Dungeon_CorrS_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 129
+      meshName: Dungeon_CorrS_WallR2
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 130
+      meshName: Dungeon_CorrS_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 131
+      meshName: Dungeon_CorrSup_E0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 132
+      meshName: Dungeon_CorrSup_E0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 133
+      meshName: Dungeon_CorrSup_E0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 134
+      meshName: Dungeon_CorrSup_E0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 135
+      meshName: Dungeon_CorrSup_E0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 136
+      meshName: Dungeon_CorrSup_E1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 137
+      meshName: Dungeon_CorrSup_E1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 138
+      meshName: Dungeon_CorrSup_E1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 139
+      meshName: Dungeon_CorrSup_E1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 140
+      meshName: Dungeon_CorrSup_E1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 141
+      meshName: Dungeon_CorrSup_E2_0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 142
+      meshName: Dungeon_CorrSup_E2_0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 143
+      meshName: Dungeon_CorrSup_E2_0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 144
+      meshName: Dungeon_CorrSup_E2_0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 145
+      meshName: Dungeon_CorrSup_E2_0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 146
+      meshName: Dungeon_CorrSup_E2_1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 147
+      meshName: Dungeon_CorrSup_E2_1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 148
+      meshName: Dungeon_CorrSup_E2_1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 149
+      meshName: Dungeon_CorrSup_E2_1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 150
+      meshName: Dungeon_CorrSup_E2_1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 151
+      meshName: Dungeon_CorrSup_E2_2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 152
+      meshName: Dungeon_CorrSup_E2_2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 153
+      meshName: Dungeon_CorrSup_E2_2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 154
+      meshName: Dungeon_CorrSup_E2_2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 155
+      meshName: Dungeon_CorrSup_E2_2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 156
+      meshName: Dungeon_CorrSup_E2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 157
+      meshName: Dungeon_CorrSup_E2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 158
+      meshName: Dungeon_CorrSup_E2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 159
+      meshName: Dungeon_CorrSup_E2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 160
+      meshName: Dungeon_CorrSup_E2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 161
+      meshName: Dungeon_CorrSup_E3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 162
+      meshName: Dungeon_CorrSup_E3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 163
+      meshName: Dungeon_CorrSup_E3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 164
+      meshName: Dungeon_CorrSup_E3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 165
+      meshName: Dungeon_CorrSup_E3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 166
+      meshName: Dungeon_CorrSup_E4_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 167
+      meshName: Dungeon_CorrSup_E4_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 168
+      meshName: Dungeon_CorrSup_E4_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 169
+      meshName: Dungeon_CorrSup_E4_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 170
+      meshName: Dungeon_CorrSup_E4_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 171
+      meshName: Dungeon_CorrSup_E5_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 172
+      meshName: Dungeon_CorrSup_E5_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 173
+      meshName: Dungeon_CorrSup_E5_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 174
+      meshName: Dungeon_CorrSup_E5_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 175
+      meshName: Dungeon_CorrSup_E5_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 176
+      meshName: Dungeon_CorrSup_N0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 177
+      meshName: Dungeon_CorrSup_N0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 178
+      meshName: Dungeon_CorrSup_N0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 179
+      meshName: Dungeon_CorrSup_N0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 180
+      meshName: Dungeon_CorrSup_N0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 181
+      meshName: Dungeon_CorrSup_N1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 182
+      meshName: Dungeon_CorrSup_N1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 183
+      meshName: Dungeon_CorrSup_N1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 184
+      meshName: Dungeon_CorrSup_N1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 185
+      meshName: Dungeon_CorrSup_N1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 186
+      meshName: Dungeon_CorrSup_NE0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 187
+      meshName: Dungeon_CorrSup_NE0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 188
+      meshName: Dungeon_CorrSup_NE0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 189
+      meshName: Dungeon_CorrSup_NE0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 190
+      meshName: Dungeon_CorrSup_NE0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 191
+      meshName: Dungeon_CorrSup_NE1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 192
+      meshName: Dungeon_CorrSup_NE1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 193
+      meshName: Dungeon_CorrSup_NE1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 194
+      meshName: Dungeon_CorrSup_NE1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 195
+      meshName: Dungeon_CorrSup_NE1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 196
+      meshName: Dungeon_CorrSup_NE2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 197
+      meshName: Dungeon_CorrSup_NE2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 198
+      meshName: Dungeon_CorrSup_NE2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 199
+      meshName: Dungeon_CorrSup_NE2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 200
+      meshName: Dungeon_CorrSup_NE2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 201
+      meshName: Dungeon_CorrSup_NE3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 202
+      meshName: Dungeon_CorrSup_NE3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 203
+      meshName: Dungeon_CorrSup_NE3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 204
+      meshName: Dungeon_CorrSup_NE3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 205
+      meshName: Dungeon_CorrSup_NE3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 206
+      meshName: Dungeon_CorrSup_NE4_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 207
+      meshName: Dungeon_CorrSup_NE4_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 208
+      meshName: Dungeon_CorrSup_NE4_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 209
+      meshName: Dungeon_CorrSup_NE4_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 210
+      meshName: Dungeon_CorrSup_NE4_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 211
+      meshName: Dungeon_CorrSup_NE5_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 212
+      meshName: Dungeon_CorrSup_NE5_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 213
+      meshName: Dungeon_CorrSup_NE5_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 214
+      meshName: Dungeon_CorrSup_NE5_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 215
+      meshName: Dungeon_CorrSup_NE5_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 216
+      meshName: Dungeon_CorrSup_S0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 217
+      meshName: Dungeon_CorrSup_S0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 218
+      meshName: Dungeon_CorrSup_S0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 219
+      meshName: Dungeon_CorrSup_S0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 220
+      meshName: Dungeon_CorrSup_S0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 221
+      meshName: Dungeon_CorrSup_S1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 222
+      meshName: Dungeon_CorrSup_S1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 223
+      meshName: Dungeon_CorrSup_S1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 224
+      meshName: Dungeon_CorrSup_S1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 225
+      meshName: Dungeon_CorrSup_S1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 226
+      meshName: Dungeon_CorrSup_S2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 227
+      meshName: Dungeon_CorrSup_S2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 228
+      meshName: Dungeon_CorrSup_S2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 229
+      meshName: Dungeon_CorrSup_S2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 230
+      meshName: Dungeon_CorrSup_S2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 231
+      meshName: Dungeon_CorrSup_S3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 232
+      meshName: Dungeon_CorrSup_S3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 233
+      meshName: Dungeon_CorrSup_S3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 234
+      meshName: Dungeon_CorrSup_S3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 235
+      meshName: Dungeon_CorrSup_S3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 236
+      meshName: Dungeon_CorrSup_SEH0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 237
+      meshName: Dungeon_CorrSup_SEH0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 238
+      meshName: Dungeon_CorrSup_SEH0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 239
+      meshName: Dungeon_CorrSup_SEH0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 240
+      meshName: Dungeon_CorrSup_SEH0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 241
+      meshName: Dungeon_CorrSup_SEH1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 242
+      meshName: Dungeon_CorrSup_SEH1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 243
+      meshName: Dungeon_CorrSup_SEH1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 244
+      meshName: Dungeon_CorrSup_SEH1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 245
+      meshName: Dungeon_CorrSup_SEH1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 246
+      meshName: Dungeon_CorrSup_SEH2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 247
+      meshName: Dungeon_CorrSup_SEH2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 248
+      meshName: Dungeon_CorrSup_SEH2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 249
+      meshName: Dungeon_CorrSup_SEH2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 250
+      meshName: Dungeon_CorrSup_SEH2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 251
+      meshName: Dungeon_CorrSup_SEV0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 252
+      meshName: Dungeon_CorrSup_SEV0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 253
+      meshName: Dungeon_CorrSup_SEV0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 254
+      meshName: Dungeon_CorrSup_SEV0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 255
+      meshName: Dungeon_CorrSup_SEV0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 256
+      meshName: Dungeon_CorrSup_SEV1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 257
+      meshName: Dungeon_CorrSup_SEV1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 258
+      meshName: Dungeon_CorrSup_SEV1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 259
+      meshName: Dungeon_CorrSup_SEV1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 260
+      meshName: Dungeon_CorrSup_SEV1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 261
+      meshName: Dungeon_CorrSup_T0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 262
+      meshName: Dungeon_CorrSup_T0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 263
+      meshName: Dungeon_CorrSup_T0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 264
+      meshName: Dungeon_CorrSup_T0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 265
+      meshName: Dungeon_CorrSup_T0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 266
+      meshName: Dungeon_CorrSup_T1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 267
+      meshName: Dungeon_CorrSup_T1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 268
+      meshName: Dungeon_CorrSup_T1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 269
+      meshName: Dungeon_CorrSup_T1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 270
+      meshName: Dungeon_CorrSup_T1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 271
+      meshName: Dungeon_CorrSup_T2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 272
+      meshName: Dungeon_CorrSup_T2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 273
+      meshName: Dungeon_CorrSup_T2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 274
+      meshName: Dungeon_CorrSup_T2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 275
+      meshName: Dungeon_CorrSup_T2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 276
+      meshName: Dungeon_CorrSup_U0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 277
+      meshName: Dungeon_CorrSup_U0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 278
+      meshName: Dungeon_CorrSup_U0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 279
+      meshName: Dungeon_CorrSup_U0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 280
+      meshName: Dungeon_CorrSup_U0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 281
+      meshName: Dungeon_CorrSup_U1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 282
+      meshName: Dungeon_CorrSup_U1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 283
+      meshName: Dungeon_CorrSup_U1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 284
+      meshName: Dungeon_CorrSup_U1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 285
+      meshName: Dungeon_CorrSup_U1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 286
+      meshName: Dungeon_CorrSup_U2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 287
+      meshName: Dungeon_CorrSup_U2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 288
+      meshName: Dungeon_CorrSup_U2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 289
+      meshName: Dungeon_CorrSup_U2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 290
+      meshName: Dungeon_CorrSup_U2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 291
+      meshName: Dungeon_CorrSup_U3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 292
+      meshName: Dungeon_CorrSup_U3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 293
+      meshName: Dungeon_CorrSup_U3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 294
+      meshName: Dungeon_CorrSup_U3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 295
+      meshName: Dungeon_CorrSup_U3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 296
+      meshName: Dungeon_CorrSup_W0_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 297
+      meshName: Dungeon_CorrSup_W0_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 298
+      meshName: Dungeon_CorrSup_W0_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 299
+      meshName: Dungeon_CorrSup_W0_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 300
+      meshName: Dungeon_CorrSup_W0_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 301
+      meshName: Dungeon_CorrSup_W1_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 302
+      meshName: Dungeon_CorrSup_W1_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 303
+      meshName: Dungeon_CorrSup_W1_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 304
+      meshName: Dungeon_CorrSup_W1_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 305
+      meshName: Dungeon_CorrSup_W1_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 306
+      meshName: Dungeon_CorrSup_W2_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 307
+      meshName: Dungeon_CorrSup_W2_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 308
+      meshName: Dungeon_CorrSup_W2_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 309
+      meshName: Dungeon_CorrSup_W2_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 310
+      meshName: Dungeon_CorrSup_W2_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 311
+      meshName: Dungeon_CorrSup_W3_Beam
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 312
+      meshName: Dungeon_CorrSup_W3_Brace_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 313
+      meshName: Dungeon_CorrSup_W3_Brace_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 314
+      meshName: Dungeon_CorrSup_W3_Pillar_L
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 315
+      meshName: Dungeon_CorrSup_W3_Pillar_R
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 316
+      meshName: Dungeon_CorrT_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 317
+      meshName: Dungeon_CorrT_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 318
+      meshName: Dungeon_CorrT_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 319
+      meshName: Dungeon_CorrT_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 320
+      meshName: Dungeon_CorrU_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 321
+      meshName: Dungeon_CorrU_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 322
+      meshName: Dungeon_CorrU_WallL1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 323
+      meshName: Dungeon_CorrU_WallR1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 324
+      meshName: Dungeon_CorrW_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 325
+      meshName: Dungeon_CorrW_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 326
+      meshName: Dungeon_CorrW_WallL0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 327
+      meshName: Dungeon_CorrW_WallR0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 328
+      meshName: Dungeon_Door_RoomE_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 329
+      meshName: Dungeon_Door_RoomS1_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 330
+      meshName: Dungeon_Door_RoomS2_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 331
+      meshName: Dungeon_Door_RoomUC_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 332
+      meshName: Dungeon_Door_RoomWLB_DoorFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 333
+      meshName: Dungeon_HubArch_E1_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 334
+      meshName: Dungeon_HubArch_E1_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 335
+      meshName: Dungeon_HubArch_E2_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 336
+      meshName: Dungeon_HubArch_E2_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 337
+      meshName: Dungeon_HubArch_N_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 338
+      meshName: Dungeon_HubArch_N_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 339
+      meshName: Dungeon_HubArch_W_ArchFrame
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 340
+      meshName: Dungeon_HubArch_W_ArchWall
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 341
+      meshName: Dungeon_RoomE6_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 342
+      meshName: Dungeon_RoomE6_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 343
+      meshName: Dungeon_RoomE6_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 344
+      meshName: Dungeon_RoomE6_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 345
+      meshName: Dungeon_RoomE6_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 346
+      meshName: Dungeon_RoomE6_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 347
+      meshName: Dungeon_RoomE6_WallW1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 348
+      meshName: Dungeon_RoomE_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 349
+      meshName: Dungeon_RoomE_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 350
+      meshName: Dungeon_RoomE_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 351
+      meshName: Dungeon_RoomE_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 352
+      meshName: Dungeon_RoomE_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 353
+      meshName: Dungeon_RoomNE_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 354
+      meshName: Dungeon_RoomNE_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 355
+      meshName: Dungeon_RoomNE_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 356
+      meshName: Dungeon_RoomNE_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 357
+      meshName: Dungeon_RoomNE_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 358
+      meshName: Dungeon_RoomNE_WallS1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 359
+      meshName: Dungeon_RoomNE_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 360
+      meshName: Dungeon_RoomN_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 361
+      meshName: Dungeon_RoomN_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 362
+      meshName: Dungeon_RoomN_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 363
+      meshName: Dungeon_RoomN_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 364
+      meshName: Dungeon_RoomN_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 365
+      meshName: Dungeon_RoomN_WallS1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 366
+      meshName: Dungeon_RoomN_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 367
+      meshName: Dungeon_RoomS1_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 368
+      meshName: Dungeon_RoomS1_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 369
+      meshName: Dungeon_RoomS1_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 370
+      meshName: Dungeon_RoomS1_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 371
+      meshName: Dungeon_RoomS1_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 372
+      meshName: Dungeon_RoomS2_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 373
+      meshName: Dungeon_RoomS2_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 374
+      meshName: Dungeon_RoomS2_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 375
+      meshName: Dungeon_RoomS2_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 376
+      meshName: Dungeon_RoomS2_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 377
+      meshName: Dungeon_RoomT9_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 378
+      meshName: Dungeon_RoomT9_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 379
+      meshName: Dungeon_RoomT9_Spandrel
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 380
+      meshName: Dungeon_RoomT9_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 381
+      meshName: Dungeon_RoomT9_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 382
+      meshName: Dungeon_RoomT9_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 383
+      meshName: Dungeon_RoomT9_WallS1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 384
+      meshName: Dungeon_RoomT9_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 385
+      meshName: Dungeon_RoomUC_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 386
+      meshName: Dungeon_RoomUC_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 387
+      meshName: Dungeon_RoomUC_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 388
+      meshName: Dungeon_RoomUC_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 389
+      meshName: Dungeon_RoomUC_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 390
+      meshName: Dungeon_RoomWLB_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 391
+      meshName: Dungeon_RoomWLB_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 392
+      meshName: Dungeon_RoomWLB_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 393
+      meshName: Dungeon_RoomWLB_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 394
+      meshName: Dungeon_RoomWLB_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 395
+      meshName: Dungeon_RoomWL_Ceiling
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 396
+      meshName: Dungeon_RoomWL_Floor
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 397
+      meshName: Dungeon_RoomWL_WallE0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 398
+      meshName: Dungeon_RoomWL_WallE1
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 399
+      meshName: Dungeon_RoomWL_WallN0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 400
+      meshName: Dungeon_RoomWL_WallS0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+    - index: 401
+      meshName: Dungeon_RoomWL_WallW0
+      lodLevel: 0
+      meshGeometryBuffer: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  overrideDefaultPose: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    namedPoseList:
+    - name: Default
+      skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    defaultPoseIndex: -1
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 795e2eb4796bfa04b9bd33ba7cdc2999, type: 3}
+  m_Name: Quest_RookieTrial
+  m_EditorClassIdentifier: 
+  questId: rookie_trial
+  questName: "\u65B0\u5175\u8BD5\u70BC"
+  desc: "\u5B8C\u62101\u6B21\u64A4\u79BB\uFF0C\u8BC1\u660E\u4F60\u6709\u8D44\u683C\u63A5\u66F4\u8D35\u7684\u60AC\u8D4F\u3002"
+  type: 2
+  isDaily: 0
+  targetMonster: 0
+  targetRarity: 0
+  targetCount: 1
+  rewardGold: 50
+  rewardItem: {fileID: 0}
