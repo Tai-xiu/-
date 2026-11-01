@@ -15,6 +15,9 @@ using UnityEngine.UI;
 /// </summary>
 public class SearchPanelUI : MonoBehaviour
 {
+    // 本面板仍是浅色底，用自己的深色文字/线条（不跟随背包的深色 kit 主题）
+    private static readonly Color LineColor = new Color(0.85f, 0.75f, 0.53f, 1f);
+
     public static SearchPanelUI Instance { get; private set; }
 
     private const int Rows = 4;
@@ -139,14 +142,18 @@ public class SearchPanelUI : MonoBehaviour
     private void BuildPanel(Transform canvasRoot)
     {
         _rootPanel = new GameObject("SearchBarPanel", typeof(Image), typeof(VerticalLayoutGroup));
-        _rootPanel.GetComponent<Image>().color = InventoryUI.PanelBg;
+        UIKit.EnsureLoaded();
+        var panelImg = _rootPanel.GetComponent<Image>();
+        panelImg.sprite = UIKit.Panel;
+        panelImg.type = Image.Type.Sliced;
+        panelImg.color = Color.white;
         var prt = _rootPanel.GetComponent<RectTransform>();
         prt.SetParent(canvasRoot, false);
         prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
         prt.anchoredPosition = new Vector2(BarOffsetX, 0f);
         prt.sizeDelta = new Vector2(PanelW, PanelH);
         var pOutline = _rootPanel.AddComponent<Outline>();
-        pOutline.effectColor = InventoryUI.LineColor;
+        pOutline.enabled = false;
         pOutline.effectDistance = new Vector2(InventoryUI.BorderWidth, InventoryUI.BorderWidth);
 
         var vlg = _rootPanel.GetComponent<VerticalLayoutGroup>();
@@ -187,9 +194,12 @@ public class SearchPanelUI : MonoBehaviour
         {
             var cell = new GameObject("Cell_" + i, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
             cell.transform.SetParent(grid.transform, false);
-            cell.GetComponent<Image>().color = InventoryUI.PanelBg;
+            var cimg = cell.GetComponent<Image>();
+            cimg.sprite = UIKit.Slot;
+            cimg.type = Image.Type.Sliced;
+            cimg.color = Color.white;
             var ol = cell.GetComponent<Outline>();
-            ol.effectColor = InventoryUI.LineColor;
+            ol.effectColor = LineColor;
             ol.effectDistance = new Vector2(InventoryUI.BorderWidth, InventoryUI.BorderWidth);
             cell.AddComponent<SearchResultCellUI>().Init(this, i);
             _cells.Add(cell);
@@ -258,7 +268,7 @@ public class SearchPanelUI : MonoBehaviour
             bool sel = i == _hoverIndex;
             float border = sel ? InventoryUI.SelectedBorder : InventoryUI.BorderWidth;
             _cellOutlines[i].effectDistance = new Vector2(border, border);
-            _cellOutlines[i].effectColor = InventoryUI.LineColor;
+            _cellOutlines[i].effectColor = LineColor;
         }
         if (_statusText != null) _statusText.text = "结果 " + remaining + "/" + Capacity;
     }
@@ -469,9 +479,13 @@ public class SearchPanelUI : MonoBehaviour
     {
         var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
         go.transform.SetParent(_rootPanel.transform, false);
-        go.GetComponent<Image>().color = InventoryUI.PanelBg;
+        UIKit.EnsureLoaded();
+        var bimg = go.GetComponent<Image>();
+        bimg.sprite = UIKit.PanelInner;
+        bimg.type = Image.Type.Sliced;
+        bimg.color = Color.white;
         var ol = go.GetComponent<Outline>();
-        ol.effectColor = InventoryUI.LineColor;
+        ol.effectColor = LineColor;
         ol.effectDistance = new Vector2(InventoryUI.BorderWidth, InventoryUI.BorderWidth);
         return go;
     }
@@ -482,10 +496,10 @@ public class SearchPanelUI : MonoBehaviour
         go.transform.SetParent(parent, false);
         var t = go.GetComponent<Text>();
         t.text = label;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = size;
         t.alignment = anchor;
-        t.color = InventoryUI.LineColor;
+        t.color = LineColor;
         t.horizontalOverflow = HorizontalWrapMode.Overflow;
         t.supportRichText = true;
         var le = go.AddComponent<LayoutElement>();

@@ -87,24 +87,21 @@ public static class UIOverlayPrefabBuilder
         ring.SetActive(false);
 
         // 提示行（准星下方 34px）
-        var hint = new GameObject("Hint", typeof(RectTransform), typeof(Text));
+        var hint = new GameObject("Hint", typeof(RectTransform));
         hint.transform.SetParent(root.transform, false);
         var hrt = hint.GetComponent<RectTransform>();
         hrt.anchorMin = hrt.anchorMax = hrt.pivot = new Vector2(0.5f, 0.5f);
-        hrt.sizeDelta = new Vector2(400f, 22f);
+        hrt.sizeDelta = new Vector2(400f, 24f);
         hrt.anchoredPosition = new Vector2(0f, -34f);
-        var t = hint.GetComponent<Text>();
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        t.fontSize = 14;
-        t.fontStyle = FontStyle.Bold;
-        t.alignment = TextAnchor.MiddleCenter;
-        t.color = Color.white;
+        var t = hint.AddComponent<TMPro.TextMeshProUGUI>();
+        t.font = UIKit.FontCN;
         t.text = "";
+        t.fontSize = 12;
+        t.alignment = TMPro.TextAlignmentOptions.Center;
+        t.color = Color.white;
         t.raycastTarget = false;
-        t.horizontalOverflow = HorizontalWrapMode.Overflow;
-        var ol = hint.AddComponent<Outline>();
-        ol.effectColor = new Color32(0x1A, 0x1A, 0x22, 0xFF);
-        ol.effectDistance = new Vector2(1f, -1f);
+        t.enableWordWrapping = false;
+        t.overflowMode = TMPro.TextOverflowModes.Overflow;
         hint.SetActive(false);
 
         PrefabUtility.SaveAsPrefabAsset(root, INTERACT);

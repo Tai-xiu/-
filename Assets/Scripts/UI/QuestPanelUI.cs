@@ -20,6 +20,9 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class QuestPanelUI : MonoBehaviour
 {
+    // 本面板仍是浅色底，用自己的深色文字/线条（不跟随背包的深色 kit 主题）
+    private static readonly Color LineColor = new Color(0.85f, 0.75f, 0.53f, 1f);
+
     public static QuestPanelUI Instance { get; private set; }
 
     private GameObject _panel;
@@ -114,14 +117,18 @@ public class QuestPanelUI : MonoBehaviour
 
         // 根面板：白盒底色+黑色实线边框，左侧镜像定位
         _panel = new GameObject("QuestPanel", typeof(Image), typeof(VerticalLayoutGroup));
-        _panel.GetComponent<Image>().color = InventoryUI.PanelBg;
+        UIKit.EnsureLoaded();
+        var panelImg = _panel.GetComponent<Image>();
+        panelImg.sprite = UIKit.Panel;
+        panelImg.type = Image.Type.Sliced;
+        panelImg.color = Color.white;
         var prt = _panel.GetComponent<RectTransform>();
         prt.SetParent(canvasRoot, false);
         prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
         prt.anchoredPosition = new Vector2(OffsetX, 0f);
         prt.sizeDelta = new Vector2(PanelW, PanelH);
         var pOutline = _panel.AddComponent<Outline>();
-        pOutline.effectColor = InventoryUI.LineColor;
+        pOutline.enabled = false;
         pOutline.effectDistance = new Vector2(InventoryUI.BorderWidth, InventoryUI.BorderWidth);
 
         var vlg = _panel.GetComponent<VerticalLayoutGroup>();
@@ -206,9 +213,13 @@ public class QuestPanelUI : MonoBehaviour
     {
         var go = new GameObject("Scrollbar", typeof(RectTransform), typeof(Image), typeof(Scrollbar));
         go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = Color.white;
+        UIKit.EnsureLoaded();
+        var trackImg = go.GetComponent<Image>();
+        trackImg.sprite = UIKit.BarFrame;
+        trackImg.type = Image.Type.Sliced;
+        trackImg.color = Color.white;
         var ol = go.AddComponent<Outline>();
-        ol.effectColor = InventoryUI.LineColor;
+        ol.effectColor = LineColor;
         ol.effectDistance = new Vector2(InventoryUI.BorderWidth, InventoryUI.BorderWidth);
         var rt = go.GetComponent<RectTransform>();
         rt.anchorMin = new Vector2(1f, 0f);
@@ -219,7 +230,7 @@ public class QuestPanelUI : MonoBehaviour
 
         var handle = new GameObject("Sliding Handle", typeof(RectTransform), typeof(Image));
         handle.transform.SetParent(go.transform, false);
-        handle.GetComponent<Image>().color = InventoryUI.LineColor;
+        handle.GetComponent<Image>().color = LineColor;
         handle.GetComponent<Image>().raycastTarget = false;
         var hrt = handle.GetComponent<RectTransform>();
         hrt.anchorMin = new Vector2(0f, 0f);
@@ -262,9 +273,13 @@ public class QuestPanelUI : MonoBehaviour
             // 空占位挂滚动内容容器下（CreateBorderedBox固定挂面板根，不能用——否则占位框脱离列表区）
             var empty = new GameObject("EmptyRow", typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
             empty.transform.SetParent(_content, false);
-            empty.GetComponent<Image>().color = InventoryUI.PanelBg;
+            empty.AddComponent<Image>();
+            var eimg = empty.GetComponent<Image>();
+            eimg.sprite = UnityEngine.Resources.Load<UnityEngine.Sprite>("UI/PixelKit/panel_inner");
+            eimg.type = Image.Type.Sliced;
+            eimg.color = Color.white;
             var eol = empty.GetComponent<Outline>();
-            eol.effectColor = InventoryUI.LineColor;
+            eol.effectColor = LineColor;
             eol.effectDistance = new Vector2(InventoryUI.BorderWidth, InventoryUI.BorderWidth);
             var ele = empty.GetComponent<LayoutElement>();
             ele.preferredHeight = 64f;
@@ -291,14 +306,17 @@ public class QuestPanelUI : MonoBehaviour
     {
         var state = QuestManager.Instance.GetState(card);
         bool claimable = state == QuestState.Completed;
-        Color nameColor = claimable ? GoldColor : InventoryUI.LineColor;
+        Color nameColor = claimable ? GoldColor : LineColor;
 
         // 条目根（无固定高度：VerticalLayoutGroup作为ILayoutElement向父级上报自适应首选高度）
         var entry = new GameObject("QuestEntry_" + card.questId, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(VerticalLayoutGroup));
         entry.transform.SetParent(_content, false);
-        entry.GetComponent<Image>().color = InventoryUI.PanelBg;
+        var entryImg = entry.GetComponent<Image>();
+        entryImg.sprite = UnityEngine.Resources.Load<UnityEngine.Sprite>("UI/PixelKit/panel_inner");
+        entryImg.type = Image.Type.Sliced;
+        entryImg.color = Color.white;
         var ol = entry.GetComponent<Outline>();
-        ol.effectColor = claimable ? GoldColor : InventoryUI.LineColor; // 可领奖整框金色
+        ol.effectColor = claimable ? GoldColor : LineColor; // 可领奖整框金色
         ol.effectDistance = new Vector2(InventoryUI.BorderWidth, InventoryUI.BorderWidth);
         var evlg = entry.GetComponent<VerticalLayoutGroup>();
         evlg.padding = new RectOffset(8, 8, 6, 6);
@@ -311,7 +329,10 @@ public class QuestPanelUI : MonoBehaviour
         // —— 表头（可点击折叠开关） ——
         var header = new GameObject("Header", typeof(RectTransform), typeof(Image), typeof(Button), typeof(LayoutElement), typeof(HorizontalLayoutGroup));
         header.transform.SetParent(entry.transform, false);
-        header.GetComponent<Image>().color = InventoryUI.PanelBg; // 与底同色（视觉无色块，仅承接点击射线）
+        var headImg = header.GetComponent<Image>();
+        headImg.sprite = UnityEngine.Resources.Load<UnityEngine.Sprite>("UI/PixelKit/panel_inner");
+        headImg.type = Image.Type.Sliced;
+        headImg.color = Color.white;
         var hle = header.GetComponent<LayoutElement>();
         hle.preferredHeight = 26f;
         hle.flexibleWidth = 1f;
@@ -328,12 +349,12 @@ public class QuestPanelUI : MonoBehaviour
         nameT.GetComponent<LayoutElement>().flexibleWidth = 1f;
 
         string compact = claimable ? "可领奖" : QuestManager.Instance.GetDisplayProgress(card) + "/" + card.targetCount;
-        var compactT = CreateText(header.transform, compact, 12, TextAnchor.MiddleRight, claimable ? GoldColor : InventoryUI.LineColor);
+        var compactT = CreateText(header.transform, compact, 12, TextAnchor.MiddleRight, claimable ? GoldColor : LineColor);
         compactT.GetComponent<LayoutElement>().preferredWidth = 56f;
 
         bool expanded;
         _expanded.TryGetValue(card.questId, out expanded);
-        var markT = CreateText(header.transform, expanded ? "−" : "+", 13, TextAnchor.MiddleRight, InventoryUI.LineColor);
+        var markT = CreateText(header.transform, expanded ? "−" : "+", 13, TextAnchor.MiddleRight, LineColor);
         markT.GetComponent<LayoutElement>().preferredWidth = 16f;
 
         // —— 详情组（SetActive折叠/展开；高度由布局自适应，无需手算） ——
@@ -350,7 +371,7 @@ public class QuestPanelUI : MonoBehaviour
         var goalT = CreateText(info.transform, GoalText(card), 12, TextAnchor.UpperLeft);
         var progT = CreateText(info.transform, ProgressText(card, state), 12, TextAnchor.UpperLeft);
         var rewardT = CreateText(info.transform, "奖励：" + card.rewardGold + "金币" + (card.rewardItem != null ? "+" + card.rewardItem.itemName : ""), 12, TextAnchor.UpperLeft);
-        var statusT = CreateText(info.transform, claimable ? "可领奖（前往协会）" : "进行中", 12, TextAnchor.UpperLeft, claimable ? GoldColor : InventoryUI.LineColor);
+        var statusT = CreateText(info.transform, claimable ? "可领奖（前往协会）" : "进行中", 12, TextAnchor.UpperLeft, claimable ? GoldColor : LineColor);
         statusT.fontStyle = claimable ? FontStyle.Bold : FontStyle.Normal;
         var descT = CreateText(info.transform, card.desc, 11, TextAnchor.UpperLeft);
         descT.horizontalOverflow = HorizontalWrapMode.Wrap;
@@ -419,9 +440,13 @@ public class QuestPanelUI : MonoBehaviour
     {
         var go = new GameObject(boxName, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
         go.transform.SetParent(_panel.transform, false);
-        go.GetComponent<Image>().color = InventoryUI.PanelBg;
+        UIKit.EnsureLoaded();
+        var bimg = go.GetComponent<Image>();
+        bimg.sprite = UIKit.PanelInner;
+        bimg.type = Image.Type.Sliced;
+        bimg.color = Color.white;
         var ol = go.GetComponent<Outline>();
-        ol.effectColor = InventoryUI.LineColor;
+        ol.effectColor = LineColor;
         ol.effectDistance = new Vector2(InventoryUI.BorderWidth, InventoryUI.BorderWidth);
         return go;
     }
@@ -432,10 +457,10 @@ public class QuestPanelUI : MonoBehaviour
         go.transform.SetParent(parent, false);
         var t = go.GetComponent<Text>();
         t.text = label;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = size;
         t.alignment = anchor;
-        t.color = InventoryUI.LineColor;
+        t.color = LineColor;
         t.horizontalOverflow = HorizontalWrapMode.Overflow;
         t.supportRichText = true;
         t.raycastTarget = false;

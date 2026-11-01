@@ -215,54 +215,37 @@ public class PortalTeleportRunner : MonoBehaviour
         _victoryFaderRoot = faderRoot;
         var lootLog = GameManager.Instance.LootLog;
 
-        var panel = new GameObject("VictoryPanel", typeof(Image), typeof(VerticalLayoutGroup));
-        panel.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.95f);
-        var prt = panel.GetComponent<RectTransform>();
-        prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
-        prt.anchoredPosition = Vector2.zero;
-        prt.sizeDelta = new Vector2(520, 420);
-        panel.transform.SetParent(faderRoot, false);
+        var refs = GameUIRefs.Instance;
+        if (refs == null)
+        {
+            Debug.LogError("[Portal] GameUIRefs 未就绪，无法显示结算面板");
+            return;
+        }
+        var panel = refs.CreateVictoryPanel(faderRoot);
+        if (panel == null) return;
 
-        var pvlg = panel.GetComponent<VerticalLayoutGroup>();
-        pvlg.padding = new RectOffset(16, 16, 16, 16);
-        pvlg.spacing = 8f;
-        pvlg.childControlWidth = true;
-        pvlg.childControlHeight = false;
-        pvlg.childForceExpandHeight = false;
-        pvlg.childForceExpandWidth = true;
+        // 战利品清单仍由代码填（动态内容不烤进 Prefab）
+        var lootTr = panel.transform.Find("LootList");
+        if (lootTr != null)
+        {
+            var lootText = lootLog.Count > 0
+                ? "  · " + string.Join("\n  · ", lootLog)
+                : "  （未拾取战利品）";
+            lootTr.GetComponent<Text>().text = lootText;
+        }
 
-        CreateText(panel.transform, "探索成功！", 30, TextAnchor.MiddleCenter,
-            new Color(1f, 0.9f, 0.3f, 1f)).GetComponent<LayoutElement>().minHeight = 44f;
-
-        CreateText(panel.transform, "本次带回的战利品：", 17, TextAnchor.MiddleLeft)
-            .GetComponent<LayoutElement>().minHeight = 26f;
-
-        string lootText = lootLog.Count > 0
-            ? "  · " + string.Join("\n  · ", lootLog)
-            : "  （未拾取战利品）";
-        var lootTextComp = CreateText(panel.transform, lootText, 17, TextAnchor.UpperLeft);
-        lootTextComp.GetComponent<LayoutElement>().flexibleHeight = 1f;
-
-        CreateText(panel.transform, "已返回营地，可前往商店出售战利品换取金币", 15, TextAnchor.MiddleLeft)
-            .GetComponent<LayoutElement>().minHeight = 24f;
-
-        var btn = new GameObject("Btn_继续", typeof(Image), typeof(Button), typeof(LayoutElement));
-        btn.GetComponent<Image>().color = new Color(0.3f, 0.5f, 0.8f, 1f);
-        btn.GetComponent<LayoutElement>().preferredHeight = 42f;
-        btn.transform.SetParent(panel.transform, false);
-        var btnText = CreateText(btn.transform, "继 续", 18, TextAnchor.MiddleCenter);
-        var brt = btnText.rectTransform;
-        brt.anchorMin = Vector2.zero;
-        brt.anchorMax = Vector2.one;
-        brt.offsetMin = Vector2.zero;
-        brt.offsetMax = Vector2.zero;
-        btnText.GetComponent<LayoutElement>().ignoreLayout = true;
+        // 按钮绑定（Prefab 里的 Btn_Continue）
+        var btnTr = panel.transform.Find("Btn_Continue");
+        var btn = btnTr != null ? btnTr.GetComponent<Button>() : null;
+        if (btn != null)
+        {
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(CloseVictory);
+        }
 
         // 注册进全局UI状态门：CursorManager据此解锁鼠标（否则光标锁定无法点击"继续"）；
         // Esc分层路由也会命中本面板（TryCloseTopPanel→closeAction：等效点击"继续"）
         GameUIState.RegisterPanel("VictoryPanel", CloseVictory);
-
-        btn.GetComponent<Button>().onClick.AddListener(CloseVictory);
     }
 
     /// <summary>关闭结算面板：注销UI状态+销毁黑屏与runner（Esc与点"继续"共用，判空防重复销毁）</summary>
@@ -280,7 +263,7 @@ public class PortalTeleportRunner : MonoBehaviour
         go.transform.SetParent(parent, false);
         var t = go.GetComponent<Text>();
         t.text = label;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = size;
         t.alignment = anchor;
         t.color = color ?? Color.white;

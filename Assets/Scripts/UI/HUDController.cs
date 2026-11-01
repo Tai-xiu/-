@@ -197,6 +197,7 @@ public class HUDController : MonoBehaviour
     /// <summary>绑定 Prefab 节点（不再创建 UI）：Fail-fast，找不到就报错停用</summary>
     private void BindHud()
     {
+        UIKit.EnsureLoaded();
         var refs = GameUIRefs.Instance;
         if (refs == null || refs.Hud == null)
         {
@@ -220,7 +221,15 @@ public class HUDController : MonoBehaviour
         _innerWidth = _root.sizeDelta.x - 6f;
 
         var vt = _root.Find("Value");
-        if (vt != null) _valueText = vt.GetComponent<TMPro.TextMeshProUGUI>();
+        if (vt != null)
+        {
+            _valueText = vt.GetComponent<TMPro.TextMeshProUGUI>();
+            if (_valueText != null)
+            {
+                _valueText.font = UIKit.FontCN;
+                _valueText.fontSize = 24;
+            }
+        }
         _maxHpHex = ColorUtility.ToHtmlStringRGB(textMaxColor);
 
         var st = hud.Find("StaminaBar_Spec") as RectTransform;

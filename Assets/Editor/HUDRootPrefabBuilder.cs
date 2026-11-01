@@ -255,7 +255,7 @@ public static class HUDRootPrefabBuilder
         var go = new GameObject(name, typeof(RectTransform));
         go.transform.SetParent(parent, false);
         var t = go.AddComponent<TMPro.TextMeshProUGUI>();
-        t.font = UIKit.Font;
+        t.font = UIKit.FontCN;
         t.text = content;
         t.fontSize = size;
         t.color = color;

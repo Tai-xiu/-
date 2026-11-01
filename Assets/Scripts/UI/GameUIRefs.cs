@@ -21,6 +21,32 @@ public class GameUIRefs : MonoBehaviour
     [Tooltip("交互提示（四角框 + 蓄力环 + 提示行）")]
     public GameObject interactPromptPrefab;
 
+    [Tooltip("暂停面板")]
+    public GameObject pausePanelPrefab;
+
+    [Tooltip("阵亡面板")]
+    public GameObject deathPanelPrefab;
+
+    [Tooltip("探索成功结算面板")]
+    public GameObject victoryPanelPrefab;
+
+    [Tooltip("背包格子模板")]
+    public GameObject inventorySlotPrefab;
+
+    /// <summary>在指定父级下实例化胜利面板（父级是传送黑屏，不挂 GameCanvas）</summary>
+    public GameObject CreateVictoryPanel(Transform parent)
+    {
+        if (parent == null || victoryPanelPrefab == null)
+        {
+            Debug.LogError("[GameUIRefs] victoryPanelPrefab 未绑定或父级为空");
+            return null;
+        }
+        var go = Instantiate(victoryPanelPrefab, parent, false);
+        go.name = "VictoryPanel";
+        go.SetActive(true);
+        return go;
+    }
+
     public static GameUIRefs Instance { get; private set; }
 
     /// <summary>当前场景使用的 HUDRoot 实例</summary>
@@ -106,6 +132,35 @@ public class GameUIRefs : MonoBehaviour
         go.name = "InteractPrompt";
         InteractPrompt = go.transform;
         return InteractPrompt;
+    }
+
+    /// <summary>暂停面板（幂等；Prefab 默认隐藏）</summary>
+    public Transform EnsurePausePanel(Canvas canvas)
+    {
+        return EnsurePanel(canvas, "PausePanel", pausePanelPrefab);
+    }
+
+    /// <summary>阵亡面板（幂等；Prefab 默认隐藏）</summary>
+    public Transform EnsureDeathPanel(Canvas canvas)
+    {
+        return EnsurePanel(canvas, "DeathPanel", deathPanelPrefab);
+    }
+
+    /// <summary>面板通用实例化：幂等、已存在则复用</summary>
+    private Transform EnsurePanel(Canvas canvas, string name, GameObject prefab)
+    {
+        if (canvas == null) return null;
+        Instance = this;
+        var existing = canvas.transform.Find(name);
+        if (existing != null) return existing;
+        if (prefab == null)
+        {
+            Debug.LogError("[GameUIRefs] " + name + " 的 Prefab 未绑定");
+            return null;
+        }
+        var go = Instantiate(prefab, canvas.transform, false);
+        go.name = name;
+        return go.transform;
     }
 
     /// <summary>设计尺寸 1920 → 画布基准宽度的补偿缩放</summary>

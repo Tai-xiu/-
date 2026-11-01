@@ -58,9 +58,10 @@ public class ShopUI : MonoBehaviour
 
     // ===== 白盒样式常量（与InventoryUI一致） =====
     private static readonly Color PanelBg = new Color(0.94f, 0.94f, 0.94f, 1f);      // 面板底色
-    private static readonly Color LineColor = new Color(0.1f, 0.1f, 0.1f, 1f);       // 统一线条/文字黑
+    private static readonly Color LineColor = new Color(0.85f, 0.75f, 0.53f, 1f);       // 统一线条/文字黑
     private static readonly Color WarnColor = new Color(0.65f, 0.12f, 0.12f, 1f);    // 警告文字深红（同InventoryUI提示色）
     private static readonly Color TabSelectedBg = new Color(0.1f, 0.1f, 0.1f, 1f);   // 选中Tab黑底
+    private static readonly Color TabUnselectedText = new Color(0.55f, 0.50f, 0.42f, 1f); // 未选中Tab暗字
     private static readonly Color TabSelectedText = new Color(0.95f, 0.95f, 0.95f, 1f); // 选中Tab白字
     private const float BorderWidth = 2f;   // 统一实线边框粗细
     private const float DashSegLen = 8f;    // 虚线段长
@@ -145,14 +146,18 @@ public class ShopUI : MonoBehaviour
     {
         // 面板底板（竖版，白盒底色+黑色实线边框）
         _panel = new GameObject("ShopPanel", typeof(Image), typeof(VerticalLayoutGroup));
-        _panel.GetComponent<Image>().color = PanelBg;
+        UIKit.EnsureLoaded();
+        var panelImg = _panel.GetComponent<Image>();
+        panelImg.sprite = UIKit.Panel;
+        panelImg.type = Image.Type.Sliced;
+        panelImg.color = Color.white;
         var prt = _panel.GetComponent<RectTransform>();
         prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
         prt.anchoredPosition = Vector2.zero;
         prt.sizeDelta = new Vector2(480f, 430f);
         _panel.transform.SetParent(canvasRoot, false);
         var pOutline = _panel.AddComponent<Outline>();
-        pOutline.effectColor = LineColor;
+        pOutline.enabled = false;
         pOutline.effectDistance = new Vector2(BorderWidth, BorderWidth);
 
         var pvlg = _panel.GetComponent<VerticalLayoutGroup>();
@@ -248,7 +253,9 @@ public class ShopUI : MonoBehaviour
         var btn = new GameObject("Btn_Close", typeof(RectTransform), typeof(Image), typeof(Button), typeof(LayoutElement));
         btn.transform.SetParent(_panel.transform, false);
         var img = btn.GetComponent<Image>();
-        img.sprite = CloseCircleSprite();
+        UIKit.EnsureLoaded();
+        img.sprite = UIKit.CircleBtn;
+        img.type = Image.Type.Simple;
         img.color = Color.white;
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = new Vector2(1f, 1f);
@@ -384,12 +391,16 @@ public class ShopUI : MonoBehaviour
     /// <summary>竖向滑动条：白色轨道黑框+深色滑块（白盒风格），锚显示框右缘（滑块长度由ScrollRect按内容占比自动驱动）</summary>
     private Scrollbar BuildScrollbar(Transform parent)
     {
+        UIKit.EnsureLoaded();
         var go = new GameObject("Scrollbar", typeof(RectTransform), typeof(Image), typeof(Scrollbar));
         go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = Color.white;
+        // 轨道：kit 条框（深色内凹），与面板同族，不再是白块
+        var trackImg = go.GetComponent<Image>();
+        trackImg.sprite = UIKit.BarFrame;
+        trackImg.type = Image.Type.Sliced;
+        trackImg.color = Color.white;
         var ol = go.AddComponent<Outline>();
-        ol.effectColor = LineColor;
-        ol.effectDistance = new Vector2(BorderWidth, BorderWidth);
+        ol.enabled = false;
         var rt = go.GetComponent<RectTransform>();
         rt.anchorMin = new Vector2(1f, 0f);
         rt.anchorMax = new Vector2(1f, 1f);
@@ -404,7 +415,7 @@ public class ShopUI : MonoBehaviour
         var hrt = handle.GetComponent<RectTransform>();
         hrt.anchorMin = new Vector2(0f, 0f);
         hrt.anchorMax = new Vector2(1f, 1f);
-        hrt.sizeDelta = new Vector2(-8f, 0f); // 横向留边4×2，滑动条宽度内收
+        hrt.sizeDelta = new Vector2(-10f, -6f); // 横向/纵向内缩，露出 kit 轨道边框
 
         var sb = go.GetComponent<Scrollbar>();
         sb.handleRect = hrt;
@@ -421,13 +432,25 @@ public class ShopUI : MonoBehaviour
         go.transform.SetParent(parent, false);
         go.GetComponent<Image>().color = Color.white;
         var ol = go.GetComponent<Outline>();
-        ol.effectColor = LineColor;
+        ol.enabled = false;
         ol.effectDistance = new Vector2(BorderWidth, BorderWidth);
         var t = CreateText(go.transform, label, 14, TextAnchor.MiddleCenter, TabSelectedText);
         t.fontStyle = FontStyle.Bold;
         StretchRect(t.rectTransform);
         t.GetComponent<LayoutElement>().ignoreLayout = true;
         return go;
+    }
+
+
+    /// <summary>Tab 样式：选中=kit 按钮框+金字，未选中=透明底+暗字</summary>
+    private static void StyleTab(Image img, Text txt, bool sel)
+    {
+        UIKit.EnsureLoaded();
+        // 始终保留 kit 边框（未选中也是暗框），避免 sprite 置空导致 preferredSize 变化挤压布局
+        img.sprite = sel ? UIKit.BtnN : UIKit.BtnP;
+        img.type = Image.Type.Sliced;
+        img.color = sel ? Color.white : new Color(0.72f, 0.70f, 0.66f, 1f);
+        if (txt != null) txt.color = sel ? LineColor : TabUnselectedText;
     }
 
     /// <summary>切换购买/出售页签并应用选中样式（选中=黑底白字，未选中=白底黑字）</summary>
@@ -437,10 +460,8 @@ public class ShopUI : MonoBehaviour
         _buyPage.SetActive(page == 0);
         _sellPage.SetActive(page == 1);
         bool buySel = page == 0;
-        _tabBuyImage.color = buySel ? TabSelectedBg : Color.white;
-        _tabBuyText.color = buySel ? TabSelectedText : LineColor;
-        _tabSellImage.color = buySel ? Color.white : TabSelectedBg;
-        _tabSellText.color = buySel ? LineColor : TabSelectedText;
+        StyleTab(_tabBuyImage, _tabBuyText, buySel);
+        StyleTab(_tabSellImage, _tabSellText, !buySel);
         Refresh();
     }
 
@@ -458,8 +479,7 @@ public class ShopUI : MonoBehaviour
         for (int i = 0; i < _catImages.Length; i++)
         {
             bool sel = i == _buyCategory;
-            _catImages[i].color = sel ? TabSelectedBg : Color.white;
-            _catTexts[i].color = sel ? TabSelectedText : LineColor;
+            StyleTab(_catImages[i], _catTexts[i], sel);
         }
     }
 
@@ -617,28 +637,21 @@ public class ShopUI : MonoBehaviour
         return row;
     }
 
-    /// <summary>虚线图标占位框（固定size×size，四边均匀虚线段，线宽与实线一致）</summary>
+    /// <summary>图标占位框：kit 槽位（替代原虚线框）</summary>
     private GameObject CreateDashedIconBox(Transform parent, float size)
     {
-        var go = new GameObject("IconBox", typeof(RectTransform), typeof(LayoutElement));
+        UIKit.EnsureLoaded();
+        var go = new GameObject("IconBox", typeof(RectTransform), typeof(Image), typeof(LayoutElement));
         go.transform.SetParent(parent, false);
         var le = go.GetComponent<LayoutElement>();
         le.preferredWidth = size;
         le.preferredHeight = size;
 
-        // 四边统一分段：n段×段长，余量摊入间隔（四边疏密一致 → 视觉规整）
-        const int n = 3;
-        float seg = DashSegLen;
-        float gap = (size - n * seg) / (n + 1f);
-        for (int i = 0; i < n; i++)
-        {
-            float x = gap + i * (seg + gap);
-            float y = gap + i * (seg + gap);
-            AddDash(go.GetComponent<RectTransform>(), new Vector2(x, 0f), new Vector2(seg, BorderWidth), new Vector2(0f, 1f)); // 上边
-            AddDash(go.GetComponent<RectTransform>(), new Vector2(x, 0f), new Vector2(seg, BorderWidth), new Vector2(0f, 0f)); // 下边
-            AddDash(go.GetComponent<RectTransform>(), new Vector2(0f, y), new Vector2(BorderWidth, seg), new Vector2(0f, 0f)); // 左边
-            AddDash(go.GetComponent<RectTransform>(), new Vector2(0f, y), new Vector2(BorderWidth, seg), new Vector2(1f, 0f)); // 右边
-        }
+        var img = go.GetComponent<Image>();
+        img.sprite = UIKit.Slot;
+        img.type = Image.Type.Sliced;
+        img.color = Color.white;
+        img.raycastTarget = false;
         return go;
     }
 
@@ -662,9 +675,13 @@ public class ShopUI : MonoBehaviour
     {
         var go = new GameObject("Btn_" + label, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement), typeof(Button));
         go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = Color.white; // 白底（无填充色块风格）
+        UIKit.EnsureLoaded();
+        var bimg = go.GetComponent<Image>();
+        bimg.sprite = UIKit.BtnN;          // kit 按钮框
+        bimg.type = Image.Type.Sliced;
+        bimg.color = Color.white;
         var ol = go.GetComponent<Outline>();
-        ol.effectColor = LineColor;
+        ol.enabled = false;
         ol.effectDistance = new Vector2(BorderWidth, BorderWidth);
         var le = go.GetComponent<LayoutElement>();
         le.preferredWidth = size.x;
@@ -684,9 +701,13 @@ public class ShopUI : MonoBehaviour
     {
         var go = new GameObject(boxName, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
         go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = PanelBg;
+        UIKit.EnsureLoaded();
+        var bimg = go.GetComponent<Image>();
+        bimg.sprite = UIKit.PanelInner;
+        bimg.type = Image.Type.Sliced;
+        bimg.color = Color.white;
         var ol = go.GetComponent<Outline>();
-        ol.effectColor = LineColor;
+        ol.enabled = false;
         ol.effectDistance = new Vector2(BorderWidth, BorderWidth);
         go.GetComponent<LayoutElement>().preferredHeight = height;
         return go;
@@ -698,7 +719,7 @@ public class ShopUI : MonoBehaviour
         go.transform.SetParent(parent, false);
         var t = go.GetComponent<Text>();
         t.text = label;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = size;
         t.alignment = anchor;
         t.color = color ?? LineColor;

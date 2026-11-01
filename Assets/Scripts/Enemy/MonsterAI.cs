@@ -540,7 +540,7 @@ public class MonsterAI : MonoBehaviour
         go.transform.localPosition = new Vector3(0f, 1.6f, 0f);
         var tm = go.GetComponent<TextMesh>();
         tm.text = "!";
-        tm.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        tm.font = UIKit.LegacyFont;
         tm.fontSize = 64;
         tm.characterSize = 0.35f;
         tm.anchor = TextAnchor.MiddleCenter;

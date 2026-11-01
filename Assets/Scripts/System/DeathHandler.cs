@@ -54,51 +54,31 @@ public class DeathHandler : MonoBehaviour
         BuildDeathPanel();
     }
 
-    /// <summary>构建"你已阵亡"面板（常驻UI根画布下）</summary>
+    /// <summary>绑定阵亡面板 Prefab（不再创建 UI）</summary>
     private void BuildDeathPanel()
     {
-        Transform root;
-        if (GameManager.Instance != null && GameManager.Instance.GameCanvas != null)
+        var refs = GameUIRefs.Instance;
+        var canvas = GameManager.Instance != null ? GameManager.Instance.GameCanvas : null;
+        if (refs == null || canvas == null)
         {
-            root = GameManager.Instance.GameCanvas.transform;
+            Debug.LogError("[DeathHandler] GameUIRefs/GameCanvas 未就绪，阵亡面板无法绑定");
+            return;
         }
-        else
+        var tr = refs.EnsureDeathPanel(canvas);
+        if (tr == null) return;
+        _panel = tr.gameObject;
+        _panel.SetActive(true);
+
+        var btn = tr.Find("Btn_ReturnCamp") != null ? tr.Find("Btn_ReturnCamp").GetComponent<UnityEngine.UI.Button>() : null;
+        if (btn != null)
         {
-            // 兜底：GameManager缺失时自建常驻画布
-            var go = new GameObject("GameCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            var cv = go.GetComponent<Canvas>();
-            cv.renderMode = RenderMode.ScreenSpaceOverlay;
-            root = go.transform;
-            DontDestroyOnLoad(go);
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(() =>
+            {
+                AudioManager.PlaySfx("SFX_UIClick");
+                OnReturnCampButton();
+            });
         }
-
-        _panel = new GameObject("DeathPanel", typeof(Image), typeof(VerticalLayoutGroup));
-        _panel.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.85f);
-        var prt = _panel.GetComponent<RectTransform>();
-        prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
-        prt.anchoredPosition = Vector2.zero;
-        prt.sizeDelta = new Vector2(520, 360);
-        _panel.transform.SetParent(root, false);
-
-        var pvlg = _panel.GetComponent<VerticalLayoutGroup>();
-        pvlg.padding = new RectOffset(16, 16, 16, 16);
-        pvlg.spacing = 12f;
-        pvlg.childControlWidth = true;
-        pvlg.childControlHeight = false;
-        pvlg.childForceExpandHeight = false;
-        pvlg.childForceExpandWidth = true;
-
-        // 标题（红色）
-        var title = CreateText(_panel.transform, "你已阵亡", 34, TextAnchor.MiddleCenter, new Color(0.9f, 0.2f, 0.2f, 1f));
-        title.GetComponent<LayoutElement>().minHeight = 52f;
-
-        // 说明
-        var sub = CreateText(_panel.transform, "装备与物品栏已被清空（金币保留）", 16, TextAnchor.MiddleCenter,
-            new Color(1f, 1f, 1f, 0.8f));
-        sub.GetComponent<LayoutElement>().minHeight = 26f;
-
-        // 返回营地按钮（红底）
-        CreateButton(_panel.transform, "返 回 营 地", new Color(0.7f, 0.3f, 0.3f, 1f), OnReturnCampButton);
     }
 
     /// <summary>
@@ -145,7 +125,7 @@ public class DeathHandler : MonoBehaviour
         go.transform.SetParent(parent, false);
         var t = go.GetComponent<Text>();
         t.text = label;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = size;
         t.alignment = anchor;
         t.color = color ?? Color.white;

@@ -46,7 +46,7 @@ public class FloatingText : MonoBehaviour
         _labelGo.transform.SetParent(canvas.transform, false);
         var t = _labelGo.GetComponent<Text>();
         t.text = text;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = 22;
         t.alignment = TextAnchor.MiddleCenter;
         t.color = new Color(1f, 0.95f, 0.6f, 1f); // 淡黄色

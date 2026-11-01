@@ -24584,6 +24584,10 @@ MonoBehaviour:
   hudPrefab: {fileID: 3361103634545108342, guid: 39d96b4b5ed9a7a4b8dbb85779ac7c27, type: 3}
   crosshairPrefab: {fileID: 6404755447682071660, guid: 72e6b131f45c035499fc01d7b9aa5da8, type: 3}
   interactPromptPrefab: {fileID: 761206834824730972, guid: dbc14022eae0f7841a45e8a4b8f957b7, type: 3}
+  pausePanelPrefab: {fileID: 3298461265819668974, guid: f8581fca5f5d6fd40a9f35a56b2daddb, type: 3}
+  deathPanelPrefab: {fileID: 1161189133292119289, guid: e762a157f11ea764082361a9e36aa9f7, type: 3}
+  victoryPanelPrefab: {fileID: 8610370291122961699, guid: 4404de262bae8824ea68ee7bd4741107, type: 3}
+  inventorySlotPrefab: {fileID: 708727352631431714, guid: 6bbd10d5c22c8504d901540c5440543b, type: 3}
 --- !u!4 &529594554 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4198829569295946599, guid: bccfc599ab70ebc4987f5f1906db8aa8, type: 3}

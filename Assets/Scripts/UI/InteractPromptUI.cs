@@ -19,7 +19,7 @@ public class InteractPromptUI : MonoBehaviour
     public static InteractPromptUI Instance { get; private set; }
 
     private RectTransform _bracket;   // 四角括号（瞄准可交互目标时显示）
-    private Text _hint;               // 交互提示行（准星下方）
+    private TMPro.TMP_Text _hint;               // 交互提示行（准星下方）
     private Image _ring;              // 长按进度环（蓄力时绕准星径向填充）
     private float _flash;             // 打断反馈剩余时长（>0=红环淡出中）
     private float _flashProgress;     // 打断时刻冻结的进度（红环显示用）
@@ -150,7 +150,7 @@ public class InteractPromptUI : MonoBehaviour
         var ringT = root.Find("HoldRing");
         _ring = ringT != null ? ringT.GetComponent<Image>() : null;
         var hintT = root.Find("Hint");
-        _hint = hintT != null ? hintT.GetComponent<Text>() : null;
+        _hint = hintT != null ? hintT.GetComponent<TMPro.TMP_Text>() : null;
 
         if (_bracket == null || _ring == null || _hint == null)
         {
@@ -254,7 +254,7 @@ public class InteractPromptUI : MonoBehaviour
         rt.anchoredPosition = new Vector2(0f, -34f);
         rt.sizeDelta = new Vector2(400f, 22f);
         var t = go.GetComponent<Text>();
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = 14;
         t.fontStyle = FontStyle.Bold;
         t.alignment = TextAnchor.MiddleCenter;

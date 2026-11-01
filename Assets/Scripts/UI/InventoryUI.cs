@@ -104,7 +104,7 @@ public class InventoryUI : MonoBehaviour
     public const float BorderWidth = 2f;      // 实线边框粗细（全UI统一）
     public const float SelectedBorder = 3.5f; // 选中边框粗细
     public static readonly Color PanelBg = new Color(0.94f, 0.94f, 0.94f, 1f);  // 面板底色（框体填充同色→视觉无色块；SearchPanelUI复用）
-    public static readonly Color LineColor = new Color(0.1f, 0.1f, 0.1f, 1f);   // 统一线条/文字黑色（SearchPanelUI复用）
+    public static readonly Color LineColor = new Color(0.85f, 0.75f, 0.53f, 1f);   // 深色 kit 面板上的文字/线条色   // 统一线条/文字黑色（SearchPanelUI复用）
     private static readonly Color HintColor = new Color(0.65f, 0.12f, 0.12f, 1f);// 操作失败提示（深红）
     private static readonly Color LegalColor = new Color(0.15f, 0.7f, 0.2f, 1f); // 拖拽预览合法=绿框
     private static readonly Color IllegalColor = new Color(0.85f, 0.15f, 0.15f, 1f); // 拖拽预览非法=红框
@@ -273,15 +273,19 @@ public class InventoryUI : MonoBehaviour
         }
 
         // 根面板（实线边框，填充与底色一致→视觉上无色块）
+        UIKit.EnsureLoaded();
         _rootPanel = new GameObject("InventoryPanel", typeof(Image), typeof(VerticalLayoutGroup));
-        _rootPanel.GetComponent<Image>().color = PanelBg;
+        var pimg = _rootPanel.GetComponent<Image>();
+        pimg.sprite = UIKit.Panel;          // kit 九宫格面板框
+        pimg.type = Image.Type.Sliced;
+        pimg.color = Color.white;
         var prt = _rootPanel.GetComponent<RectTransform>();
         prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
         prt.anchoredPosition = Vector2.zero;
         prt.sizeDelta = new Vector2(660f, 544f);
         _rootPanel.transform.SetParent(canvasRoot, false);
         var pOutline = _rootPanel.AddComponent<Outline>();
-        pOutline.effectColor = LineColor;
+        pOutline.enabled = false;   // kit 面板框自带边框，Outline 关闭
         pOutline.effectDistance = new Vector2(BorderWidth, BorderWidth);
 
         var pvlg = _rootPanel.GetComponent<VerticalLayoutGroup>();
@@ -501,10 +505,13 @@ public class InventoryUI : MonoBehaviour
         {
             var cell = new GameObject("Hotbar_" + i, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
             cell.transform.SetParent(hotbarRow.transform, false);
-            cell.GetComponent<Image>().color = PanelBg;
+            UIKit.EnsureLoaded();
+            var hbImg = cell.GetComponent<Image>();
+            hbImg.sprite = UIKit.Slot;
+            hbImg.type = Image.Type.Sliced;
+            hbImg.color = Color.white;
             var ol = cell.GetComponent<Outline>();
-            ol.effectColor = LineColor;
-            ol.effectDistance = new Vector2(BorderWidth, BorderWidth);
+            ol.enabled = false;
             var cle = cell.GetComponent<LayoutElement>();
             cle.flexibleWidth = 1f;      // 四格均分行宽（约47px近方形）
             cle.preferredHeight = 48f;
@@ -597,13 +604,23 @@ public class InventoryUI : MonoBehaviour
     /// <summary>创建单个背包交互格（实线边框无填充；物品名由覆盖层渲染，格内不再放文字）</summary>
     private InventoryCellUI CreateGridCell(int index)
     {
-        var cell = new GameObject("Cell_" + index, typeof(RectTransform), typeof(Image));
-        cell.transform.SetParent(_gridRoot, false);
-        cell.GetComponent<Image>().color = PanelBg;
-
-        var outline = cell.AddComponent<Outline>();
-        outline.effectColor = LineColor;
-        outline.effectDistance = new Vector2(BorderWidth, BorderWidth);
+        // 视觉来自 InventorySlot Prefab（kit slot）；InventoryCellUI 运行时补挂
+        GameObject cell;
+        var refs = GameUIRefs.Instance;
+        if (refs != null && refs.inventorySlotPrefab != null)
+        {
+            cell = Instantiate(refs.inventorySlotPrefab, _gridRoot, false);
+            cell.name = "Cell_" + index;
+        }
+        else
+        {
+            cell = new GameObject("Cell_" + index, typeof(RectTransform), typeof(Image));
+            cell.transform.SetParent(_gridRoot, false);
+            cell.GetComponent<Image>().color = PanelBg;
+            var ol2 = cell.AddComponent<Outline>();
+            ol2.effectColor = LineColor;
+            ol2.effectDistance = new Vector2(BorderWidth, BorderWidth);
+        }
 
         var cellUI = cell.AddComponent<InventoryCellUI>();
         cellUI.Init(this, InventoryCellUI.CellKind.Bag, index);
@@ -992,15 +1009,29 @@ public class InventoryUI : MonoBehaviour
     {
         var btn = new GameObject("Btn_Close", typeof(RectTransform), typeof(Image), typeof(Button), typeof(LayoutElement));
         btn.transform.SetParent(_rootPanel.transform, false);
+        UIKit.EnsureLoaded();
         var img = btn.GetComponent<Image>();
-        img.sprite = CloseCircleSprite();
+        img.sprite = UIKit.CircleBtn;
+        img.type = Image.Type.Simple;
         img.color = Color.white;
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = new Vector2(1f, 1f);
         rt.pivot = new Vector2(1f, 1f);
         rt.anchoredPosition = new Vector2(-8f, -8f);
-        rt.sizeDelta = new Vector2(30f, 30f);
+        rt.sizeDelta = new Vector2(34f, 34f);
         btn.GetComponent<LayoutElement>().ignoreLayout = true;
+
+        // kit 关闭图标
+        var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
+        iconGo.transform.SetParent(btn.transform, false);
+        var irt = iconGo.GetComponent<RectTransform>();
+        irt.anchorMin = irt.anchorMax = new Vector2(0.5f, 0.5f);
+        irt.pivot = new Vector2(0.5f, 0.5f);
+        irt.anchoredPosition = Vector2.zero;
+        irt.sizeDelta = new Vector2(16f, 16f);
+        var iconImg = iconGo.GetComponent<Image>();
+        iconImg.sprite = UIKit.IconClose;
+        iconImg.raycastTarget = false;
         btn.GetComponent<Button>().onClick.AddListener(() =>
         {
             AudioManager.PlaySfx("SFX_UIClick");
@@ -1773,7 +1804,7 @@ public class InventoryUI : MonoBehaviour
         else
         {
             var ct = center.AddComponent<Text>();
-            ct.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            ct.font = UIKit.LegacyFont;
             ct.fontSize = Mathf.Clamp(Mathf.RoundToInt(iconSize * 0.8f), 18, 44);
             ct.alignment = TextAnchor.MiddleCenter;
             ct.color = new Color(baseColor.r * 0.55f, baseColor.g * 0.55f, baseColor.b * 0.55f, 1f); // 类型色深色版
@@ -1791,7 +1822,7 @@ public class InventoryUI : MonoBehaviour
             var nameGo = new GameObject("Name", typeof(Text));
             nameGo.transform.SetParent(root.transform, false);
             var nt = nameGo.GetComponent<Text>();
-            nt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            nt.font = UIKit.LegacyFont;
             nt.fontSize = 11;
             nt.alignment = TextAnchor.MiddleCenter;
             nt.color = LineColor;
@@ -1811,7 +1842,7 @@ public class InventoryUI : MonoBehaviour
             var badge = new GameObject("Count", typeof(Text));
             badge.transform.SetParent(root.transform, false);
             var bt = badge.GetComponent<Text>();
-            bt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            bt.font = UIKit.LegacyFont;
             bt.fontSize = 12;
             bt.fontStyle = FontStyle.Bold;
             bt.alignment = TextAnchor.MiddleRight;
@@ -1927,12 +1958,15 @@ public class InventoryUI : MonoBehaviour
     /// <summary>创建实线边框容器：填充与面板同色（视觉无色块）+ 统一粗细黑色边框</summary>
     private GameObject CreateBorderedBox(Transform parent, string name)
     {
+        UIKit.EnsureLoaded();
         var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
         go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = PanelBg;
+        var img = go.GetComponent<Image>();
+        img.sprite = UIKit.PanelInner;      // kit 内嵌框
+        img.type = Image.Type.Sliced;
+        img.color = Color.white;
         var ol = go.GetComponent<Outline>();
-        ol.effectColor = LineColor;
-        ol.effectDistance = new Vector2(BorderWidth, BorderWidth);
+        ol.enabled = false;                  // kit 框自带边框
         return go;
     }
 
@@ -2005,7 +2039,7 @@ public class InventoryUI : MonoBehaviour
         go.transform.SetParent(parent, false);
         var t = go.GetComponent<Text>();
         t.text = label;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = size;
         t.alignment = anchor;
         t.color = color ?? LineColor;

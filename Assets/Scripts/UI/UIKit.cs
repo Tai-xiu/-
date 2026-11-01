@@ -18,6 +18,12 @@ public static class UIKit
 
     public static TMP_FontAsset Font;
 
+    /// <summary>中英混排像素字体（16px em，含 846 个汉字）——面板/正文用这套</summary>
+    public static TMP_FontAsset FontCN;
+
+    /// <summary>旧 uGUI Text 用的 Font 资产（ArkPixel12）——过渡期统一字体</summary>
+    public static Font LegacyFont;
+
     public static Sprite Panel, PanelInner, TitleBar, Tooltip, Divider, CircleBtn;
     public static Sprite Slot, SlotHover, SlotSelected;
     public static Sprite BtnN, BtnH, BtnP, BtnD;
@@ -32,6 +38,10 @@ public static class UIKit
         _loaded = true;
         Font = Resources.Load<TMP_FontAsset>(ROOT + "Fonts/PixelFont5x7");
         if (Font == null) Debug.LogError("[UIKit] 缺字体 UI/PixelKit/Fonts/PixelFont5x7");
+        FontCN = Resources.Load<TMP_FontAsset>(ROOT + "Fonts/ArkPixel12Asset");
+        if (FontCN == null) Debug.LogError("[UIKit] 缺字体 UI/PixelKit/Fonts/ArkPixel12Asset");
+        LegacyFont = Resources.Load<Font>(ROOT + "Fonts/ArkPixel12");
+        if (LegacyFont == null) Debug.LogError("[UIKit] 缺字体 UI/PixelKit/Fonts/ArkPixel12.ttf");
 
         Panel = L("panel_frame");
         PanelInner = L("panel_inner");
@@ -125,7 +135,7 @@ public static class UIKit
         var go = new GameObject(name, typeof(RectTransform));
         go.transform.SetParent(parent, false);
         var t = go.AddComponent<TextMeshProUGUI>();
-        t.font = Font;
+        t.font = FontCN != null ? FontCN : Font;
         t.text = content;
         t.fontSize = size;
         t.color = color;

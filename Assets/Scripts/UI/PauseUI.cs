@@ -78,44 +78,40 @@ public class PauseUI : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    /// <summary>构建暂停面板（常驻UI根画布下）</summary>
+    /// <summary>绑定暂停面板 Prefab（不再创建 UI）</summary>
     private void BuildPanel()
     {
-        Transform root;
-        if (GameManager.Instance != null && GameManager.Instance.GameCanvas != null)
+        var refs = GameUIRefs.Instance;
+        var canvas = GameManager.Instance != null ? GameManager.Instance.GameCanvas : null;
+        if (refs == null || canvas == null)
         {
-            root = GameManager.Instance.GameCanvas.transform;
+            Debug.LogError("[PauseUI] GameUIRefs/GameCanvas 未就绪，暂停面板无法绑定");
+            return;
         }
-        else
+        var t = refs.EnsurePausePanel(canvas);
+        if (t == null) return;
+        _panel = t.gameObject;
+
+        var btnContinue = t.Find("Btn_Continue") != null ? t.Find("Btn_Continue").GetComponent<Button>() : null;
+        var btnMenu = t.Find("Btn_MainMenu") != null ? t.Find("Btn_MainMenu").GetComponent<Button>() : null;
+        if (btnContinue != null)
         {
-            var go = new GameObject("GameCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            var cv = go.GetComponent<Canvas>();
-            cv.renderMode = RenderMode.ScreenSpaceOverlay;
-            root = go.transform;
-            DontDestroyOnLoad(go);
+            btnContinue.onClick.RemoveAllListeners();
+            btnContinue.onClick.AddListener(() =>
+            {
+                AudioManager.PlaySfx("SFX_UIClick");
+                TogglePause();
+            });
         }
-
-        _panel = new GameObject("PausePanel", typeof(Image), typeof(VerticalLayoutGroup));
-        _panel.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.7f);
-        var prt = _panel.GetComponent<RectTransform>();
-        prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
-        prt.anchoredPosition = Vector2.zero;
-        prt.sizeDelta = new Vector2(460, 340);
-        _panel.transform.SetParent(root, false);
-
-        var pvlg = _panel.GetComponent<VerticalLayoutGroup>();
-        pvlg.padding = new RectOffset(16, 16, 16, 16);
-        pvlg.spacing = 14f;
-        pvlg.childControlWidth = true;
-        pvlg.childControlHeight = false;
-        pvlg.childForceExpandHeight = false;
-        pvlg.childForceExpandWidth = true;
-
-        var title = CreateText(_panel.transform, "游戏已暂停", 30, TextAnchor.MiddleCenter, Color.white);
-        title.GetComponent<LayoutElement>().minHeight = 48f;
-
-        CreateButton(_panel.transform, "继 续", new Color(0.3f, 0.5f, 0.8f, 1f), () => TogglePause());
-        CreateButton(_panel.transform, "回主菜单", new Color(0.6f, 0.35f, 0.3f, 1f), ReturnToMainMenu);
+        if (btnMenu != null)
+        {
+            btnMenu.onClick.RemoveAllListeners();
+            btnMenu.onClick.AddListener(() =>
+            {
+                AudioManager.PlaySfx("SFX_UIClick");
+                ReturnToMainMenu();
+            });
+        }
     }
 
     private Text CreateText(Transform parent, string label, int size, TextAnchor anchor, Color? color = null)
@@ -124,7 +120,7 @@ public class PauseUI : MonoBehaviour
         go.transform.SetParent(parent, false);
         var t = go.GetComponent<Text>();
         t.text = label;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = size;
         t.alignment = anchor;
         t.color = color ?? Color.white;

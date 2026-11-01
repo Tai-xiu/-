@@ -38,7 +38,7 @@ public class QuestBoardUI : MonoBehaviour
 
     // ===== 白盒样式常量（与ShopUI/InventoryUI一致） =====
     private static readonly Color PanelBg = new Color(0.94f, 0.94f, 0.94f, 1f);      // 面板底色
-    private static readonly Color LineColor = new Color(0.1f, 0.1f, 0.1f, 1f);       // 统一线条/文字黑
+    private static readonly Color LineColor = new Color(0.85f, 0.75f, 0.53f, 1f);       // 统一线条/文字黑
     private static readonly Color WarnColor = new Color(0.65f, 0.12f, 0.12f, 1f);    // 警告文字深红
     private static readonly Color GoldColor = new Color(0.85f, 0.65f, 0.2f, 1f);     // 可领奖金色高亮（武器类型色同族）
     private const float BorderWidth = 2f;   // 统一实线边框粗细
@@ -151,14 +151,18 @@ public class QuestBoardUI : MonoBehaviour
 
         // 面板底板（白盒底色+黑色实线边框，ShopUI同款480×430）
         _panel = new GameObject("QuestBoardPanel", typeof(Image), typeof(VerticalLayoutGroup));
-        _panel.GetComponent<Image>().color = PanelBg;
+        UIKit.EnsureLoaded();
+        var panelImg = _panel.GetComponent<Image>();
+        panelImg.sprite = UIKit.Panel;
+        panelImg.type = Image.Type.Sliced;
+        panelImg.color = Color.white;
         var prt = _panel.GetComponent<RectTransform>();
         prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
         prt.anchoredPosition = Vector2.zero;
         prt.sizeDelta = new Vector2(480f, 430f);
         _panel.transform.SetParent(canvasRoot, false);
         var pOutline = _panel.AddComponent<Outline>();
-        pOutline.effectColor = LineColor;
+        pOutline.enabled = false;
         pOutline.effectDistance = new Vector2(BorderWidth, BorderWidth);
 
         var pvlg = _panel.GetComponent<VerticalLayoutGroup>();
@@ -361,7 +365,11 @@ public class QuestBoardUI : MonoBehaviour
     {
         var go = new GameObject("Btn_" + label, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement), typeof(Button));
         go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = Color.white;
+        UIKit.EnsureLoaded();
+        var bimg = go.GetComponent<Image>();
+        bimg.sprite = UIKit.BtnN;
+        bimg.type = Image.Type.Sliced;
+        bimg.color = Color.white;
         var ol = go.GetComponent<Outline>();
         ol.effectColor = LineColor;
         ol.effectDistance = new Vector2(BorderWidth, BorderWidth);
@@ -383,7 +391,11 @@ public class QuestBoardUI : MonoBehaviour
     {
         var go = new GameObject(boxName, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
         go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = PanelBg;
+        UIKit.EnsureLoaded();
+        var bimg = go.GetComponent<Image>();
+        bimg.sprite = UIKit.PanelInner;
+        bimg.type = Image.Type.Sliced;
+        bimg.color = Color.white;
         var ol = go.GetComponent<Outline>();
         ol.effectColor = LineColor;
         ol.effectDistance = new Vector2(BorderWidth, BorderWidth);
@@ -397,7 +409,7 @@ public class QuestBoardUI : MonoBehaviour
         go.transform.SetParent(parent, false);
         var t = go.GetComponent<Text>();
         t.text = label;
-        t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = UIKit.LegacyFont;
         t.fontSize = size;
         t.alignment = anchor;
         t.color = color ?? LineColor;
@@ -441,7 +453,9 @@ public class QuestBoardUI : MonoBehaviour
         var btn = new GameObject("Btn_Close", typeof(RectTransform), typeof(Image), typeof(Button), typeof(LayoutElement));
         btn.transform.SetParent(_panel.transform, false);
         var img = btn.GetComponent<Image>();
-        img.sprite = CloseCircleSprite();
+        UIKit.EnsureLoaded();
+        img.sprite = UIKit.CircleBtn;
+        img.type = Image.Type.Simple;
         img.color = Color.white;
         var rt = btn.GetComponent<RectTransform>();
         rt.anchorMin = rt.anchorMax = new Vector2(1f, 1f);

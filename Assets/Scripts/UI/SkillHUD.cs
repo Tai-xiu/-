@@ -179,7 +179,7 @@ public class SkillHUD : MonoBehaviour
                     go.transform.SetParent(_icons[i].transform, false);
                     var t = go.GetComponent<Text>();
                     t.text = skill.displayName.Substring(0, 1);
-                    t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                    t.font = UIKit.LegacyFont;
                     t.fontSize = 22;
                     t.color = Color.white;
                     t.alignment = TextAnchor.MiddleCenter;
