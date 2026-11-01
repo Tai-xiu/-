@@ -30,7 +30,7 @@ public class SkillHUD : MonoBehaviour
     private RectTransform _root;
     private readonly Image[] _cdOverlays = new Image[SlotCount];
     private readonly Image[] _icons = new Image[SlotCount];
-    private readonly Text[] _cdTexts = new Text[SlotCount];
+    private readonly TMPro.TextMeshProUGUI[] _cdTexts = new TMPro.TextMeshProUGUI[SlotCount];
     private readonly RectTransform[] _slotRects = new RectTransform[SlotCount];
     private readonly GameObject[] _slotGos = new GameObject[SlotCount];
 
@@ -66,8 +66,8 @@ public class SkillHUD : MonoBehaviour
     /// <summary>场景切换：重绑当前场景Player的SkillExecutor（跨场景孤儿自清理）</summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        var stale = transform.Find("SkillBar_Spec");
-        if (stale != null) Destroy(stale.gameObject); // 跨场景重建防重
+        // SkillBar 归 HUDRoot Prefab 所有，由 GameUIRefs 保证唯一实例；
+        // 这里不再自删节点（旧实现会删掉 Prefab 里的 SkillBar_Spec）
         _skills = null;
         _iconsBound = false;
     }
@@ -82,17 +82,11 @@ public class SkillHUD : MonoBehaviour
             return;
         }
 
-        // 权威画布迁移守卫：进Camp/Dungeon后GameManager的常驻GameCanvas就绪，
-        // 把栏从主菜单期复用的兜底画布迁过去（归一到HUD同画布，杜绝双画布错位）
-        if (_root != null && GameManager.Instance != null && GameManager.Instance.GameCanvas != null
-            && _root.parent != GameManager.Instance.GameCanvas.transform)
-        {
-            _root.SetParent(GameManager.Instance.GameCanvas.transform, false);
-        }
-
+        // 注：旧"权威画布迁移守卫"已删除——SkillBar 现在是 HUDRoot Prefab 的固定子节点，
+        // 不应再被 SetParent 到 GameCanvas（那会把节点从 HUDRoot 里拖走）。
         if (_root == null)
         {
-            BuildBar();
+            BindBar();
             RebindPlayer();
         }
 
@@ -201,125 +195,35 @@ public class SkillHUD : MonoBehaviour
     }
 
     /// <summary>构建整栏（一次性；DDOL宿主下挂常驻GameCanvas）</summary>
-    private void BuildBar()
+    /// <summary>绑定 HUDRoot 里的 SkillBar 节点（不再创建 UI）</summary>
+    private void BindBar()
     {
-        // 画布归属三级选择：GameManager常驻GameCanvas优先 → 复用场景已自建的同名常驻画布 →
-        // 兜底自建。主菜单开局时GameManager尚未运行，若直接私建画布，参考分辨率与游戏内
-        // GameCanvas(1280×720)不一致，进Camp后技能槽会缩放错位压到快捷栏下（实测踩坑）
-        Transform canvasRoot = null;
-        if (GameManager.Instance != null && GameManager.Instance.GameCanvas != null)
+        var refs = GameUIRefs.Instance;
+        if (refs == null || refs.Hud == null)
         {
-            canvasRoot = GameManager.Instance.GameCanvas.transform;
+            Debug.LogError("[SkillHUD] HUDRoot 未就绪");
+            return;
         }
-        if (canvasRoot == null)
+        _root = refs.Hud.Find("SkillBar_Spec") as RectTransform;
+        if (_root == null)
         {
-            var existing = GameObject.Find("GameCanvas"); // 主菜单等兜底自建的常驻画布同名
-            if (existing != null && existing.GetComponent<Canvas>() != null)
-                canvasRoot = existing.transform;
+            Debug.LogError("[SkillHUD] SkillBar_Spec 缺失");
+            return;
         }
-        if (canvasRoot == null)
-        {
-            // 兜底自建常驻画布（与HUDController同策略，理论上不触发）
-            var go = new GameObject("GameCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            var cv = go.GetComponent<Canvas>();
-            cv.renderMode = RenderMode.ScreenSpaceOverlay;
-            var scaler = go.GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920f, 1080f);
-            canvasRoot = go.transform;
-            DontDestroyOnLoad(go);
-        }
-
-        _root = new GameObject("SkillBar_Spec", typeof(RectTransform)).GetComponent<RectTransform>();
-        _root.SetParent(canvasRoot, false);
-        _root.anchorMin = new Vector2(0f, 0f);
-        _root.anchorMax = new Vector2(0f, 0f);
-        _root.pivot = new Vector2(0f, 0f);
-        _root.anchoredPosition = BarOrigin;
-        _root.sizeDelta = new Vector2(SlotCount * SlotSize + (SlotCount - 1) * SlotGap, SlotSize);
-
-        var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         for (int i = 0; i < SlotCount; i++)
         {
-            var slot = new GameObject("SkillSlot_" + KeyLabels[i], typeof(RectTransform), typeof(Image), typeof(Outline));
-            slot.transform.SetParent(_root, false);
-            var rt = slot.GetComponent<RectTransform>();
-            rt.anchorMin = new Vector2(0f, 0f);
-            rt.anchorMax = new Vector2(0f, 0f);
-            rt.pivot = new Vector2(0f, 0f);
-            rt.anchoredPosition = new Vector2(i * (SlotSize + SlotGap), 0f);
-            rt.sizeDelta = new Vector2(SlotSize, SlotSize);
-            slot.GetComponent<Image>().color = SlotBg;
-            var ol = slot.GetComponent<Outline>();
-            ol.effectColor = OutlineCol;
-            ol.effectDistance = new Vector2(2f, -2f); // 2px像素描边（HUD风格规范）
-            _slotRects[i] = rt;
-            _slotGos[i] = slot;
+            var slot = _root.Find("SkillSlot_" + KeyLabels[i]) as RectTransform;
+            if (slot == null) { Debug.LogError("[SkillHUD] 缺 SkillSlot_" + KeyLabels[i]); continue; }
+            _slotRects[i] = slot;
+            _slotGos[i] = slot.gameObject;
 
-            // 图标（Sprite由技能卡绑定；无图标时 BindIcons 挂首字Text）
-            var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
-            iconGo.transform.SetParent(slot.transform, false);
-            var irt = iconGo.GetComponent<RectTransform>();
-            irt.anchorMin = new Vector2(0.5f, 0.5f);
-            irt.anchorMax = new Vector2(0.5f, 0.5f);
-            irt.sizeDelta = new Vector2(SlotSize - 12f, SlotSize - 12f);
-            irt.anchoredPosition = Vector2.zero;
-            var img = iconGo.GetComponent<Image>();
-            img.raycastTarget = false; // 不挡事件
-            img.preserveAspect = true;
-            _icons[i] = img;
-
-            // 键位角标（左上）
-            var keyGo = new GameObject("KeyLabel", typeof(RectTransform), typeof(Text));
-            keyGo.transform.SetParent(slot.transform, false);
-            var krt = keyGo.GetComponent<RectTransform>();
-            krt.anchorMin = new Vector2(0f, 1f);
-            krt.anchorMax = new Vector2(0f, 1f);
-            krt.pivot = new Vector2(0f, 1f);
-            krt.anchoredPosition = new Vector2(3f, -2f);
-            krt.sizeDelta = new Vector2(20f, 16f);
-            var kt = keyGo.GetComponent<Text>();
-            kt.text = KeyLabels[i];
-            kt.font = font;
-            kt.fontSize = 13;
-            kt.color = new Color32(0xF5, 0xC5, 0x18, 0xFF); // 体力黄（键位与资源同色系）
-            kt.alignment = TextAnchor.UpperLeft;
-            kt.raycastTarget = false;
-
-            // CD黑色转环遮罩（Radial360顶点顺时针，InteractPromptUI进度环同手法）
-            var cdGo = new GameObject("CdOverlay", typeof(RectTransform), typeof(Image));
-            cdGo.transform.SetParent(slot.transform, false);
-            var crt = cdGo.GetComponent<RectTransform>();
-            crt.anchorMin = Vector2.zero;
-            crt.anchorMax = Vector2.one;
-            crt.offsetMin = Vector2.zero;
-            crt.offsetMax = Vector2.zero;
-            var cdImg = cdGo.GetComponent<Image>();
-            cdImg.color = new Color(0f, 0f, 0f, 0.65f);
-            cdImg.type = Image.Type.Filled;
-            cdImg.fillMethod = Image.FillMethod.Radial360;
-            cdImg.fillOrigin = (int)Image.Origin360.Top;
-            cdImg.fillClockwise = true;
-            cdImg.fillAmount = 0f;
-            cdImg.raycastTarget = false;
-            _cdOverlays[i] = cdImg;
-
-            // CD剩余秒数（右下小字）
-            var cdTextGo = new GameObject("CdText", typeof(RectTransform), typeof(Text));
-            cdTextGo.transform.SetParent(slot.transform, false);
-            var trt = cdTextGo.GetComponent<RectTransform>();
-            trt.anchorMin = new Vector2(1f, 0f);
-            trt.anchorMax = new Vector2(1f, 0f);
-            trt.pivot = new Vector2(1f, 0f);
-            trt.anchoredPosition = new Vector2(-3f, 2f);
-            trt.sizeDelta = new Vector2(30f, 14f);
-            var tt = cdTextGo.GetComponent<Text>();
-            tt.font = font;
-            tt.fontSize = 13;
-            tt.color = Color.white;
-            tt.alignment = TextAnchor.LowerRight;
-            tt.raycastTarget = false;
-            _cdTexts[i] = tt;
+            var icon = slot.Find("Icon");
+            _icons[i] = icon != null ? icon.GetComponent<Image>() : null;
+            var cd = slot.Find("CdOverlay");
+            _cdOverlays[i] = cd != null ? cd.GetComponent<Image>() : null;
+            var cdt = slot.Find("CdText");
+            _cdTexts[i] = cdt != null ? cdt.GetComponent<TMPro.TextMeshProUGUI>() : null;
         }
     }
+
 }

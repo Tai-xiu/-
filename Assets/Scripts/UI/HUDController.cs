@@ -117,11 +117,11 @@ public class HUDController : MonoBehaviour
         _hotbar = GetComponent<HotbarController>();
         if (_hotbar == null) _hotbar = gameObject.AddComponent<HotbarController>();
 
-        BuildBar(canvasRoot);
+        BindHud();
 
         // 体力条（规格组件2）：数据层Stamina由PlayerCombat.Awake自动补挂，存在才建UI
         _stamina = GetComponent<Stamina>();
-        if (_stamina != null) BuildStaminaBar(canvasRoot);
+        // 体力条已在 BindHud 内按 Prefab 节点绑定，无需二次调用
 
         _health.onDamaged.AddListener(OnDamaged);
         _displayHp = _health.Current;
@@ -192,6 +192,48 @@ public class HUDController : MonoBehaviour
         _staminaFillImg = bar.fillImg;
         _staminaFillImg.color = staminaFillColor;
         _staminaInnerW = bar.innerWidth;
+    }
+
+    /// <summary>绑定 Prefab 节点（不再创建 UI）：Fail-fast，找不到就报错停用</summary>
+    private void BindHud()
+    {
+        var refs = GameUIRefs.Instance;
+        if (refs == null || refs.Hud == null)
+        {
+            Debug.LogError("[HUD] HUDRoot 未就绪（GameUIRefs/hudPrefab）");
+            enabled = false;
+            return;
+        }
+        var hud = refs.Hud;
+
+        _root = hud.Find("HPBar_Spec") as RectTransform;
+        var inner = _root != null ? _root.Find("Inner") as RectTransform : null;
+        if (inner == null)
+        {
+            Debug.LogError("[HUD] HPBar_Spec/Inner 缺失");
+            enabled = false;
+            return;
+        }
+        _fillRect = inner.Find("Fill") as RectTransform;
+        _fillImg = _fillRect != null ? _fillRect.GetComponent<Image>() : null;
+        _ghostRect = inner.Find("Ghost") as RectTransform;
+        _innerWidth = _root.sizeDelta.x - 6f;
+
+        var vt = _root.Find("Value");
+        if (vt != null) _valueText = vt.GetComponent<TMPro.TextMeshProUGUI>();
+        _maxHpHex = ColorUtility.ToHtmlStringRGB(textMaxColor);
+
+        var st = hud.Find("StaminaBar_Spec") as RectTransform;
+        if (st != null)
+        {
+            var si = st.Find("Inner") as RectTransform;
+            if (si != null)
+            {
+                _staminaFillRect = si.Find("Fill") as RectTransform;
+                _staminaFillImg = _staminaFillRect != null ? _staminaFillRect.GetComponent<Image>() : null;
+                _staminaInnerW = st.sizeDelta.x - 6f;
+            }
+        }
     }
 
     /// <summary>在parent下创建拉伸/锚点Image（快捷工具）</summary>
@@ -302,7 +344,8 @@ public class HUDController : MonoBehaviour
 
         // —— 数值：瞬间刷新；富文本双色，LowHP实时值变黄 ——
         string liveHex = ColorUtility.ToHtmlStringRGB(low ? textLowColor : textColor);
-        _valueText.text = $"<color=#{liveHex}>{Mathf.RoundToInt(current)}</color><color=#{_maxHpHex}>/{Mathf.RoundToInt(max)}</color>";
+        if (_valueText != null)
+            _valueText.text = $"<color=#{liveHex}>{Mathf.RoundToInt(current)}</color><color=#{_maxHpHex}>/{Mathf.RoundToInt(max)}</color>";
 
         // —— 体力条：无数字（体力靠感觉），<20不足一次挥砍时闪黄（规格组件2） ——
         if (_staminaFillRect != null)

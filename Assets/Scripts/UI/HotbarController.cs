@@ -85,7 +85,7 @@ public class HotbarController : MonoBehaviour
         var old = canvasRoot.Find("HotbarBar_Spec");
         if (old != null) Destroy(old.gameObject); // 跨场景防重
 
-        BuildBar(canvasRoot);
+        BindBar(canvasRoot);
         RefreshSlots();
 
         _inventory.Changed += OnInvChanged;         // 背包消耗/拾取→数量刷新+背包通道校验
@@ -308,6 +308,31 @@ public class HotbarController : MonoBehaviour
             crt.sizeDelta = new Vector2(44f, 18f);
             crt.anchoredPosition = new Vector2(-3f, 3f);
             _countTexts[i] = count;
+        }
+    }
+
+    /// <summary>绑定 Prefab 槽位（不再创建 UI）</summary>
+    private void BindBar(Transform canvasRoot)
+    {
+        var refs = GameUIRefs.Instance;
+        if (refs == null || refs.Hud == null)
+        {
+            Debug.LogError("[Hotbar] HUDRoot 未就绪");
+            return;
+        }
+        _root = refs.Hud.Find("HotbarBar_Spec") as RectTransform;
+        if (_root == null)
+        {
+            Debug.LogError("[Hotbar] HotbarBar_Spec 缺失");
+            return;
+        }
+        for (int i = 0; i < SlotCount; i++)
+        {
+            var slot = _root.Find("Slot_" + (i + 1)) as RectTransform;
+            if (slot == null) { Debug.LogError("[Hotbar] 缺 Slot_" + (i + 1)); continue; }
+            _slotBgs[i] = slot.GetComponent<Image>();
+            var cnt = slot.Find("Count");
+            _countTexts[i] = cnt != null ? cnt.GetComponent<TMPro.TextMeshProUGUI>() : null;
         }
     }
 

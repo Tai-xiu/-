@@ -139,14 +139,24 @@ public class InteractPromptUI : MonoBehaviour
     /// <summary>GameCanvas下挂方框、进度环与提示行（GameManager先于本组件时首帧即就绪）</summary>
     private bool BuildUI()
     {
-        Transform canvasRoot = GameManager.Instance != null && GameManager.Instance.GameCanvas != null
-            ? GameManager.Instance.GameCanvas.transform
-            : null;
-        if (canvasRoot == null) return false;
+        var refs = GameUIRefs.Instance;
+        var canvas = GameManager.Instance != null ? GameManager.Instance.GameCanvas : null;
+        if (refs == null || canvas == null) return false;
 
-        _bracket = BuildBracket(canvasRoot);
-        _ring = BuildRing(canvasRoot);
-        _hint = BuildHint(canvasRoot);
+        var root = refs.EnsureInteractPrompt(canvas);
+        if (root == null) return false;
+
+        _bracket = root.Find("Bracket") as RectTransform;
+        var ringT = root.Find("HoldRing");
+        _ring = ringT != null ? ringT.GetComponent<Image>() : null;
+        var hintT = root.Find("Hint");
+        _hint = hintT != null ? hintT.GetComponent<Text>() : null;
+
+        if (_bracket == null || _ring == null || _hint == null)
+        {
+            Debug.LogError("[Interact] InteractPrompt Prefab 节点缺失（Bracket/HoldRing/Hint）");
+            return false;
+        }
         return true;
     }
 

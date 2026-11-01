@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(go);
             GameCanvas = canvas;
         }
+        // HUDRoot：由 GameUIRefs 实例化到常驻画布（只一次，跨场景复用）
+        var uiRefs = GetComponent<GameUIRefs>();
+        if (uiRefs != null) uiRefs.EnsureHud(GameCanvas);
         ApplySceneUiState(SceneManager.GetActiveScene());
     }
 
@@ -79,6 +82,8 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         EnsureSingleEventSystem();
+        var refs = GetComponent<GameUIRefs>();
+        if (refs != null && GameCanvas != null) refs.EnsureHud(GameCanvas);
         ApplySceneUiState(scene);
     }
 

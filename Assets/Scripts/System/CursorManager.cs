@@ -108,28 +108,15 @@ public class CursorManager : MonoBehaviour
     /// 交互提示由InteractPromptUI叠加），挂常驻GameCanvas，仅锁定时显示</summary>
     private void BuildCrosshair()
     {
-        Transform canvasRoot = null;
-        if (GameManager.Instance != null && GameManager.Instance.GameCanvas != null)
-            canvasRoot = GameManager.Instance.GameCanvas.transform;
-        if (canvasRoot == null)
+        var refs = GameUIRefs.Instance;
+        var canvas = GameManager.Instance != null ? GameManager.Instance.GameCanvas : null;
+        if (refs == null || canvas == null)
         {
-            // 兜底：GameManager未就绪时自建常驻画布
-            var go = new GameObject("CrosshairCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            var cv = go.GetComponent<Canvas>();
-            cv.renderMode = RenderMode.ScreenSpaceOverlay;
-            go.GetComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            canvasRoot = go.transform;
-            DontDestroyOnLoad(go);
+            Debug.LogError("[Cursor] GameUIRefs/GameCanvas 未就绪，准星无法绑定");
+            return;
         }
-
-        var root = new GameObject("Crosshair", typeof(RectTransform)).GetComponent<RectTransform>();
-        root.SetParent(canvasRoot, false);
-        root.anchorMin = root.anchorMax = root.pivot = new Vector2(0.5f, 0.5f); // 屏幕正中
-        root.sizeDelta = new Vector2(14f, 14f);
-        MakeLine(root, new Vector2(14f, 2f)); // 横线
-        MakeLine(root, new Vector2(2f, 14f)); // 竖线
-        root.gameObject.SetActive(false); // 初始未锁定隐藏
-        _crosshair = root;
+        _crosshair = refs.EnsureCrosshair(canvas) as RectTransform;
+        if (_crosshair != null) _crosshair.gameObject.SetActive(false);
     }
 
     /// <summary>单条准星线（白色细线，raycastTarget=false不挡UI点击）</summary>

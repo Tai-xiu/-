@@ -24533,6 +24533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 528945115}
   - component: {fileID: 528945114}
+  - component: {fileID: 528945116}
   m_Layer: 0
   m_HasEditorInfo: 1
   m_Name: GameManager
@@ -24568,6 +24569,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &528945116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528945113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb22162e237a21e4890b4fdda827a4af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hudPrefab: {fileID: 3361103634545108342, guid: 39d96b4b5ed9a7a4b8dbb85779ac7c27, type: 3}
+  crosshairPrefab: {fileID: 6404755447682071660, guid: 72e6b131f45c035499fc01d7b9aa5da8, type: 3}
+  interactPromptPrefab: {fileID: 761206834824730972, guid: dbc14022eae0f7841a45e8a4b8f957b7, type: 3}
 --- !u!4 &529594554 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4198829569295946599, guid: bccfc599ab70ebc4987f5f1906db8aa8, type: 3}
