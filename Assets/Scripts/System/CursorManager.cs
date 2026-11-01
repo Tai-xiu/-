@@ -34,7 +34,7 @@ public class CursorManager : MonoBehaviour
     private static void BootstrapOnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // UI.scene不创建准星和光标控制器，避免手动制作UI时鼠标被锁定
-        if (scene.name == "UI" || Instance != null) return;
+        if (scene.name == "UI" || scene.name == "MainMenu" || Instance != null) return;
         var go = new GameObject("CursorManager");
         go.AddComponent<CursorManager>();
     }
@@ -58,6 +58,24 @@ public class CursorManager : MonoBehaviour
 
     private void Update()
     {
+        // 非游戏场景只保证鼠标可操作，不创建/显示第一人称准星
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "MainMenu" || sceneName == "UI")
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            IsLocked = false;
+            if (_crosshair != null && _crosshair.gameObject.activeSelf) _crosshair.gameObject.SetActive(false);
+            return;
+        }
+
+        // MainMenu中GameUIRefs尚未就绪时不会强行构建；进入游戏场景后每帧检测并重试一次成功的绑定
+        if (_crosshair == null && GameUIRefs.Instance != null
+            && GameManager.Instance != null && GameManager.Instance.GameCanvas != null)
+        {
+            BuildCrosshair();
+        }
+
         // 玩家引用：场景切换后重查（Player为场景对象）
         if (_playerTf == null)
         {
@@ -110,11 +128,8 @@ public class CursorManager : MonoBehaviour
     {
         var refs = GameUIRefs.Instance;
         var canvas = GameManager.Instance != null ? GameManager.Instance.GameCanvas : null;
-        if (refs == null || canvas == null)
-        {
-            Debug.LogError("[Cursor] GameUIRefs/GameCanvas 未就绪，准星无法绑定");
-            return;
-        }
+        // 首场景/场景切换早期尚未就绪属于正常时序，交给Update在后续帧重试
+        if (refs == null || canvas == null) return;
         _crosshair = refs.EnsureCrosshair(canvas) as RectTransform;
         if (_crosshair != null) _crosshair.gameObject.SetActive(false);
     }
