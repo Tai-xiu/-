@@ -1,3 +1,5 @@
+﻿> 2026-11-02：现役面板已全部支持 Prefab 编辑。下方旧批次记录仅供历史参考，当前入口与约束请看 Editable-UI.md。
+
 # UI 重构说明（PixelKit + Prefab 化）
 
 > 最后一次更新：批次 3 完成（背包 / 商店 / 任务侧栏 / 告示板 / 搜索面板换肤）
@@ -71,7 +73,8 @@ VictoryPanel: Btn_Continue / LootList
 | `CursorManager` | `BuildCrosshair()` → `EnsureCrosshair()` |
 | `InteractPromptUI` | `BuildUI()` → `EnsureInteractPrompt()` + 按名取 Bracket/HoldRing/Hint |
 | `PauseUI` / `DeathHandler` / `Portal` | 面板改由 Prefab 提供，按钮在绑定时挂 `onClick` |
-| `InventoryUI` / `ShopUI` / `QuestPanelUI` / `QuestBoardUI` / `SearchPanelUI` | **尚未 Prefab 化**：仍是代码构建，但绘制调用已改为 kit 素材（见第 7 节） |
+| `InventoryUI` | 已迁移为完整 InventoryPanel Prefab + InventoryPanelView 节点引用，详见 Inventory-Prefab.md |
+| `ShopUI` / `QuestPanelUI` / `QuestBoardUI` / `SearchPanelUI` | 已迁移为完整 Prefab + UINodeReferences 节点绑定，详见 Editable-UI.md |
 
 ### GameUIRefs 字段
 
@@ -232,7 +235,7 @@ Camp 与 Dungeon 两个场景的 GameManager 都需要绑定（菜单项会自�
 | HUD（血/体力/快捷栏/技能栏） | ✅ | ✅ | ✅ |
 | 准星 / 交互提示 | ✅ | ✅ | ✅ |
 | 暂停 / 阵亡 / 胜利 | ✅ | ✅ | ✅ |
-| 背包 | ✖（代码构建） | ✅ | ✅ |
+| 背包 | ✅（完整面板与动态内容模板） | ✅ | ✅ |
 | 商店 | ✖ | ✅ | ✅ |
 | 任务侧栏 / 告示板 | ✖ | ✅ | ✅ |
 | 搜索面板 | ✖ | ✅（未验证） | ✅ |

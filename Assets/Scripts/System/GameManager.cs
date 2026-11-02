@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     private readonly Inventory.ItemStack[] _savedSlots = new Inventory.ItemStack[Inventory.SlotCount];
     private ItemData _savedWeapon;
     private ItemData _savedArmor;
+    private ItemData _savedBackpack; // 已装备的背包（容量随快照跨场景保留）
     private readonly ItemData[] _savedHotbar = new ItemData[4]; // 快捷栏绑定（随背包一起跨场景）
     private bool _walletPending;
     private bool _inventoryPending;
@@ -157,6 +158,7 @@ public class GameManager : MonoBehaviour
         }
         _savedWeapon = inventory.EquippedWeapon;
         _savedArmor = inventory.EquippedArmor;
+        _savedBackpack = inventory.Backpack; // 背包随快照跨场景（扩展行内的物品依赖它恢复容量）
         for (int i = 0; i < 4; i++) _savedHotbar[i] = inventory.GetHotbarItem(i); // 快捷栏绑定随背包捕获
         _walletPending = true;
         _inventoryPending = true;
@@ -195,6 +197,17 @@ public class GameManager : MonoBehaviour
         var arr = new ItemData[4];
         for (int i = 0; i < 4; i++) arr[i] = _savedHotbar[i];
         return arr;
+    }
+
+    /// <summary>
+    /// 消费已装备背包快照（须在ConsumeInventory返回true后、RestoreState之前调用：
+    /// 先恢复背包扩容，快照物品才能原位还原到扩展行）
+    /// </summary>
+    public ItemData ConsumeBackpack()
+    {
+        var bag = _savedBackpack;
+        _savedBackpack = null;
+        return bag;
     }
 
     /// <summary>

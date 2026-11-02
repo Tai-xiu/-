@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -179,14 +179,9 @@ public class PortalTeleportRunner : MonoBehaviour
 
     private GameObject CreateFader()
     {
-        // GraphicRaycaster必须存在：胜利面板"继续"按钮需要它才能响应点击
-        var go = new GameObject("SceneFader", typeof(Canvas), typeof(GraphicRaycaster), typeof(Image));
-        var canvas = go.GetComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 999; // 盖住所有UI
-        var img = go.GetComponent<Image>();
-        img.color = new Color(0f, 0f, 0f, 0f);
-        DontDestroyOnLoad(go); // 黑屏与胜利面板必须跨场景存活
+        var go = Instantiate(Resources.Load<GameObject>("UI/Panels/SceneFader"));
+        go.name = "SceneFader";
+        DontDestroyOnLoad(go);
         return go;
     }
 
@@ -257,21 +252,6 @@ public class PortalTeleportRunner : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private Text CreateText(Transform parent, string label, int size, TextAnchor anchor, Color? color = null)
-    {
-        var go = new GameObject("Text", typeof(Text));
-        go.transform.SetParent(parent, false);
-        var t = go.GetComponent<Text>();
-        t.text = label;
-        t.font = UIKit.LegacyFont;
-        t.fontSize = size;
-        t.alignment = anchor;
-        t.color = color ?? Color.white;
-        t.horizontalOverflow = HorizontalWrapMode.Overflow;
-        t.supportRichText = true;
-        var le = go.AddComponent<LayoutElement>();
-        le.minHeight = size + 6f;
-        return t;
-    }
+
 }
 

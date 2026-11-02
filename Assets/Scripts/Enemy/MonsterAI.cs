@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -535,22 +535,11 @@ public class MonsterAI : MonoBehaviour
     /// <summary>构建头顶"!"（3D文本，世界空间，红色，随本体移动）</summary>
     private void BuildAlertMark()
     {
-        var go = new GameObject("AlertMark", typeof(TextMesh));
-        go.transform.SetParent(transform, false);
-        go.transform.localPosition = new Vector3(0f, 1.6f, 0f);
-        var tm = go.GetComponent<TextMesh>();
-        tm.text = "!";
-        tm.font = UIKit.LegacyFont;
-        tm.fontSize = 64;
-        tm.characterSize = 0.35f;
-        tm.anchor = TextAnchor.MiddleCenter;
-        tm.color = new Color(0.95f, 0.15f, 0.1f, 1f);
-        var mr = go.GetComponent<MeshRenderer>();
-        // TextMesh需把字体材质指给渲染器（内置字体材质自带贴图）
-        if (tm.font != null) mr.sharedMaterial = tm.font.material;
+        var go = Instantiate(Resources.Load<GameObject>("UI/Panels/AlertMark"), transform, false);
+        go.name = "AlertMark";
         go.SetActive(false);
         _alertMark = go;
-        _alertText = tm;
+        _alertText = go.GetComponent<TextMesh>();
     }
 
     /// <summary>显示"!"并开始淡出</summary>

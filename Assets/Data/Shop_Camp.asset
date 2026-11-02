@@ -31,3 +31,5 @@ MonoBehaviour:
     buyPrice: 10
   - item: {fileID: 11400000, guid: fab33eaaedf52704ebfe8b11868df536, type: 2}
     buyPrice: 18
+  - item: {fileID: 11400000, guid: 5930357de9e7b9644ba67e3f12be2a19, type: 2}
+    buyPrice: 1

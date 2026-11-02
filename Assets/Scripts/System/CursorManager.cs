@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -135,14 +135,5 @@ public class CursorManager : MonoBehaviour
     }
 
     /// <summary>单条准星线（白色细线，raycastTarget=false不挡UI点击）</summary>
-    private void MakeLine(RectTransform parent, Vector2 size)
-    {
-        var line = new GameObject("Line", typeof(Image)).GetComponent<RectTransform>();
-        line.SetParent(parent, false);
-        line.anchorMin = line.anchorMax = line.pivot = new Vector2(0.5f, 0.5f);
-        line.sizeDelta = size;
-        var img = line.GetComponent<Image>();
-        img.color = new Color(1f, 1f, 1f, 0.85f);
-        img.raycastTarget = false;
-    }
+
 }

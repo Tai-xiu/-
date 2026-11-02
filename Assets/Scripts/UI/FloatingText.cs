@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -42,17 +42,12 @@ public class FloatingText : MonoBehaviour
     {
         Canvas canvas = EnsureCanvas();
 
-        _labelGo = new GameObject("FloatingTextLabel", typeof(Text));
-        _labelGo.transform.SetParent(canvas.transform, false);
-        var t = _labelGo.GetComponent<Text>();
+        var template = Resources.Load<Text>("UI/Panels/FloatingTextLabel");
+        var t = Instantiate(template, canvas.transform, false);
+        _labelGo = t.gameObject;
         t.text = text;
-        t.font = UIKit.LegacyFont;
-        t.fontSize = 22;
-        t.alignment = TextAnchor.MiddleCenter;
-        t.color = new Color(1f, 0.95f, 0.6f, 1f); // 淡黄色
-        t.horizontalOverflow = HorizontalWrapMode.Overflow;
         var rt = t.rectTransform;
-        rt.sizeDelta = new Vector2(620, 40);
+        float baseAlpha = t.color.a;
 
         float elapsed = 0f;
         while (elapsed < duration)
@@ -65,7 +60,7 @@ public class FloatingText : MonoBehaviour
 
             // 后半段线性淡出
             var c = t.color;
-            c.a = 1f - Mathf.Clamp01((elapsed - duration * 0.5f) / (duration * 0.5f));
+            c.a = baseAlpha * (1f - Mathf.Clamp01((elapsed - duration * 0.5f) / (duration * 0.5f)));
             t.color = c;
 
             yield return null;

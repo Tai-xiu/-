@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -134,65 +134,10 @@ public class HUDController : MonoBehaviour
     }
 
     /// <summary>构建血条层级（PixelKit 版）：底槽 + 残影 + 前景 + 刻度 + 像素数值</summary>
-    private void BuildBar(Transform canvasRoot)
-    {
-        const float s = UIKit.LegacyScale;
-        canvasRoot = UIKit.PixelCanvas().transform;
-        Vector2 size = barSize * s;
 
-        var bar = UIKit.BuildBar(canvasRoot, "HPBar_Spec", size, UIKit.BarWhite, 4f, true);
-        _root = bar.root;
-        _root.anchoredPosition = new Vector2(barMargin.x * s,
-            (barMargin.y + _hotbar.BarSize.y + hotbarGap + staminaBarSize.y + staminaGap) * s);
-
-        _fillRect = bar.fill;
-        _fillImg = bar.fillImg;
-        _fillImg.color = fillColor;
-        _ghostRect = bar.ghost;
-        if (_ghostRect != null) _ghostRect.GetComponent<Image>().color = ghostColor;
-        _innerWidth = bar.innerWidth;
-
-        // 分段刻度（每 tickStepHP 一格，盖在填充之上）
-        int ticks = Mathf.Max(0, Mathf.RoundToInt(_health.Max / tickStepHP) - 1);
-        for (int i = 1; i <= ticks; i++)
-        {
-            float ratio = i * tickStepHP / _health.Max;
-            var tick = MakeImage(bar.inner, "Tick_" + i, tickColor,
-                new Vector2(ratio, 0f), new Vector2(ratio, 1f), Vector2.zero, Vector2.zero).rectTransform;
-            tick.anchorMin = new Vector2(ratio, 0f);
-            tick.anchorMax = new Vector2(ratio, 1f);
-            tick.pivot = Vector2.zero;
-            tick.sizeDelta = new Vector2(2f * s, 0f);
-        }
-
-        // 数值：条外左上方，富文本双色（实时值 / 上限）
-        _valueText = UIKit.Txt(_root, "Value", "", 20, textColor, TextAnchor.LowerLeft);
-        var trt = _valueText.rectTransform;
-        trt.anchorMin = new Vector2(0f, 1f);
-        trt.anchorMax = new Vector2(0f, 1f);
-        trt.pivot = new Vector2(0f, 0f);
-        trt.sizeDelta = new Vector2(240f * s, 24f * s);
-        trt.anchoredPosition = new Vector2(0f, 2f * s);
-        _maxHpHex = ColorUtility.ToHtmlStringRGB(textMaxColor);
-        bar.text = _valueText;
-    }
 
     /// <summary>构建体力条（PixelKit 版）：血条正下方，无数字无残影</summary>
-    private void BuildStaminaBar(Transform canvasRoot)
-    {
-        const float s = UIKit.LegacyScale;
-        canvasRoot = UIKit.PixelCanvas().transform;
-        Vector2 size = staminaBarSize * s;
 
-        var bar = UIKit.BuildBar(canvasRoot, "StaminaBar_Spec", size, UIKit.BarWhite, 4f, false);
-        bar.root.anchoredPosition = new Vector2(barMargin.x * s,
-            (barMargin.y + _hotbar.BarSize.y + hotbarGap) * s);
-
-        _staminaFillRect = bar.fill;
-        _staminaFillImg = bar.fillImg;
-        _staminaFillImg.color = staminaFillColor;
-        _staminaInnerW = bar.innerWidth;
-    }
 
     /// <summary>绑定 Prefab 节点（不再创建 UI）：Fail-fast，找不到就报错停用</summary>
     private void BindHud()
@@ -246,39 +191,10 @@ public class HUDController : MonoBehaviour
     }
 
     /// <summary>在parent下创建拉伸/锚点Image（快捷工具）</summary>
-    private Image MakeImage(RectTransform parent, string name, Color color,
-        Vector2 aMin, Vector2 aMax, Vector2 offMin, Vector2 offMax)
-    {
-        var go = new GameObject(name, typeof(Image));
-        go.transform.SetParent(parent, false);
-        var img = go.GetComponent<Image>();
-        img.color = color;
-        img.raycastTarget = false;
-        var rt = img.rectTransform;
-        rt.anchorMin = aMin;
-        rt.anchorMax = aMax;
-        rt.offsetMin = offMin;
-        rt.offsetMax = offMax;
-        return img;
-    }
+
 
     /// <summary>创建一条边框条（锚定边+厚度）</summary>
-    private RectTransform MakeStrip(RectTransform parent, string name, Color color,
-        Vector2 aMin, Vector2 aMax, Vector2 pivot, Vector2 pos, float w, float h)
-    {
-        var go = new GameObject(name, typeof(Image));
-        go.transform.SetParent(parent, false);
-        var img = go.GetComponent<Image>();
-        img.color = color;
-        img.raycastTarget = false;
-        var rt = img.rectTransform;
-        rt.anchorMin = aMin;
-        rt.anchorMax = aMax;
-        rt.pivot = new Vector2(0.5f, 0.5f);
-        rt.sizeDelta = new Vector2(w, h);
-        rt.anchoredPosition = pos;
-        return rt;
-    }
+
 
     /// <summary>受击事件：掉血瞬切+受击闪白闪红+残影延迟追赶启动</summary>
     private void OnDamaged(float damage)

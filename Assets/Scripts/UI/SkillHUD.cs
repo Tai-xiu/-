@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -175,19 +175,8 @@ public class SkillHUD : MonoBehaviour
                 // 无图标→名称首字占位（一次性挂子Text）
                 if (_icons[i].GetComponentInChildren<Text>() == null && !string.IsNullOrEmpty(skill.displayName))
                 {
-                    var go = new GameObject("FallbackText", typeof(Text));
-                    go.transform.SetParent(_icons[i].transform, false);
-                    var t = go.GetComponent<Text>();
+                    var t = Instantiate(Resources.Load<Text>("UI/Panels/SkillFallback"), _icons[i].transform, false);
                     t.text = skill.displayName.Substring(0, 1);
-                    t.font = UIKit.LegacyFont;
-                    t.fontSize = 22;
-                    t.color = Color.white;
-                    t.alignment = TextAnchor.MiddleCenter;
-                    var rt = t.rectTransform;
-                    rt.anchorMin = Vector2.zero;
-                    rt.anchorMax = Vector2.one;
-                    rt.offsetMin = Vector2.zero;
-                    rt.offsetMax = Vector2.zero;
                 }
             }
         }

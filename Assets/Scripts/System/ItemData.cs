@@ -13,7 +13,8 @@ public enum ItemType
     Weapon,     // 武器：提供攻击力加成
     Armor,      // 防具：提供减伤值
     Consumable, // 消耗品：使用后回复生命
-    Material    // 材料：金币等，仅可出售/持有
+    Material,   // 材料：金币等，仅可出售/持有
+    Backpack    // 背包：装备后提升物品栏容量（追加在末尾，避免已有资产枚举值错位）
 }
 
 /// <summary>装备槽类型（拖拽装备时的类型校验用：武器只能进武器槽，护甲只能进护甲槽）</summary>
@@ -90,6 +91,8 @@ public class ItemData : ScriptableObject
     public float healStamina;
     [Tooltip("消耗品：食用硬直时长（秒，期间移速-50%，受击打断）")]
     public float eatDuration = 1.5f;
+    [Tooltip("背包：装备后增加的物品栏格数（基础10格之上，上限40格）")]
+    public int capacityBonus;
     [Tooltip("商店购入基准价（出售价=基准的70%~80%，金币袋/宝石类全额出售）")]
     public int price;
 

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -275,42 +275,6 @@ public class HotbarController : MonoBehaviour
     // ===== UI构建 =====
 
     /// <summary>构建4格栏（PixelKit）：槽位 sprite + 像素字体数量角标</summary>
-    private void BuildBar(Transform canvasRoot)
-    {
-        const float s = UIKit.LegacyScale;
-        canvasRoot = UIKit.PixelCanvas().transform;
-
-        _root = new GameObject("HotbarBar_Spec", typeof(RectTransform)).GetComponent<RectTransform>();
-        _root.SetParent(canvasRoot, false);
-        _root.anchorMin = new Vector2(0f, 0f);
-        _root.anchorMax = new Vector2(0f, 0f);
-        _root.pivot = new Vector2(0f, 0f);
-        _root.anchoredPosition = barMarginConst * s;
-        _root.sizeDelta = BarSize * s;
-
-        float slotPx = SlotSize * s;
-        for (int i = 0; i < SlotCount; i++)
-        {
-            var slot = UIKit.Img(_root, "Slot_" + (i + 1), UIKit.Slot,
-                new Vector2(slotPx, slotPx), new Vector2(i * (SlotSize + SlotGap) * s, 0f));
-            var rt = slot.rectTransform;
-            rt.anchorMin = new Vector2(0f, 0f);
-            rt.anchorMax = new Vector2(0f, 0f);
-            rt.pivot = new Vector2(0f, 0f);
-            _slotBgs[i] = slot;
-
-            // ×N 数量角标（右下）
-            var count = UIKit.Txt(slot.transform, "Count", "", 14, Color.white, TextAnchor.LowerRight);
-            var crt = count.rectTransform;
-            crt.anchorMin = new Vector2(1f, 0f);
-            crt.anchorMax = new Vector2(1f, 0f);
-            crt.pivot = new Vector2(1f, 0f);
-            crt.sizeDelta = new Vector2(44f, 18f);
-            crt.anchoredPosition = new Vector2(-3f, 3f);
-            _countTexts[i] = count;
-        }
-    }
-
     /// <summary>绑定 Prefab 槽位（不再创建 UI）</summary>
     private void BindBar(Transform canvasRoot)
     {
@@ -367,44 +331,17 @@ public class HotbarController : MonoBehaviour
 
     // ===== 食用进度圈 =====
 
-    private static Sprite _ringSprite;
+
 
     /// <summary>白色圆环贴图（96px，环半径40厚8，边缘1px抗锯齿），Radial360填充做进度圈</summary>
-    private static Sprite RingSprite()
-    {
-        if (_ringSprite != null) return _ringSprite;
-        const int n = 96;
-        var tex = new Texture2D(n, n, TextureFormat.RGBA32, false);
-        float c = (n - 1) * 0.5f;
-        float outer = 44f, inner = 36f;
-        for (int y = 0; y < n; y++)
-        {
-            for (int x = 0; x < n; x++)
-            {
-                float d = Vector2.Distance(new Vector2(x, y), new Vector2(c, c));
-                float a = Mathf.Clamp01(Mathf.Min(d - (inner - 0.5f), (outer + 0.5f) - d));
-                tex.SetPixel(x, y, new Color(1f, 1f, 1f, a));
-            }
-        }
-        tex.Apply();
-        _ringSprite = Sprite.Create(tex, new Rect(0, 0, n, n), new Vector2(0.5f, 0.5f), n / 48f);
-        return _ringSprite;
-    }
+
 
     /// <summary>在正在食用的图标上显示进度圈（Radial360顶点起顺时针填充；快捷栏槽56px/背包格64px）</summary>
     private void ShowRing(Transform parent, float size)
     {
         if (_ring == null)
         {
-            var go = new GameObject("EatRing", typeof(RectTransform), typeof(Image));
-            var img = go.GetComponent<Image>();
-            img.sprite = RingSprite();
-            img.type = Image.Type.Filled;
-            img.fillMethod = Image.FillMethod.Radial360;
-            img.fillOrigin = (int)Image.Origin360.Top;
-            img.fillClockwise = true;
-            img.raycastTarget = false;
-            _ring = img;
+            _ring = Instantiate(Resources.Load<Image>("UI/Panels/EatRing"));
         }
         _ring.transform.SetParent(parent, false);
         var rt2 = _ring.rectTransform;

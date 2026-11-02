@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -114,40 +114,7 @@ public class PauseUI : MonoBehaviour
         }
     }
 
-    private Text CreateText(Transform parent, string label, int size, TextAnchor anchor, Color? color = null)
-    {
-        var go = new GameObject("Text", typeof(Text));
-        go.transform.SetParent(parent, false);
-        var t = go.GetComponent<Text>();
-        t.text = label;
-        t.font = UIKit.LegacyFont;
-        t.fontSize = size;
-        t.alignment = anchor;
-        t.color = color ?? Color.white;
-        var le = go.AddComponent<LayoutElement>();
-        le.minHeight = size + 6f;
-        return t;
-    }
 
-    private void CreateButton(Transform parent, string label, Color color, UnityEngine.Events.UnityAction onClick)
-    {
-        var go = new GameObject("Btn_" + label, typeof(Image), typeof(Button), typeof(LayoutElement));
-        go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = color;
-        go.GetComponent<LayoutElement>().preferredHeight = 48f;
 
-        var t = CreateText(go.transform, label, 18, TextAnchor.MiddleCenter);
-        var rt = t.rectTransform;
-        rt.anchorMin = Vector2.zero;
-        rt.anchorMax = Vector2.one;
-        rt.offsetMin = Vector2.zero;
-        rt.offsetMax = Vector2.zero;
-        t.GetComponent<LayoutElement>().ignoreLayout = true;
 
-        go.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            AudioManager.PlaySfx("SFX_UIClick"); // UI点击音效
-            onClick.Invoke();
-        });
-    }
 }

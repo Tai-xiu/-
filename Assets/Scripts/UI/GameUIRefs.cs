@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -32,6 +32,9 @@ public class GameUIRefs : MonoBehaviour
 
     [Tooltip("背包格子模板")]
     public GameObject inventorySlotPrefab;
+
+    [Tooltip("完整背包面板 Prefab（含节点引用与弹窗模板）")]
+    public GameObject inventoryPanelPrefab;
 
     /// <summary>在指定父级下实例化胜利面板（父级是传送黑屏，不挂 GameCanvas）</summary>
     public GameObject CreateVictoryPanel(Transform parent)

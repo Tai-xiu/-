@@ -1,15 +1,14 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// 背包UI（线框图版 V5：多格物品占位 + 方向自动判断）
+/// 背包UI控制器：绑定可编辑 Prefab，更新数据并处理交互。
 /// ─────────────────────────────────────────────
-/// 布局与V3一致：顶部标题栏 / 武器·护甲槽 / 4×5网格 / 状态行 / 属性框 / 详情框
+/// 布局由 InventoryPanel.prefab 编辑；网格基础10格，装备背包后最多40格。
 /// 多格渲染：物品名文字为跨格覆盖层（按锚点与方向铺满整个占位区域，居中显示）
 /// 拖拽规则：
 /// - 多格物品从其占位区域的任意格都可以拖起；图标按物品实际尺寸跟随鼠标并半透明
@@ -21,9 +20,9 @@ using UnityEngine.EventSystems;
 /// - 快捷栏（详情框顶部4格，数字键1~4使用）：拖入消耗品=绑定该槽；快捷栏间拖动=换位；
 ///   拖回背包=解除绑定（2026-10-09改版：取消右键菜单分配，改为拖拽放置）
 /// - 拖拽与点击互斥：位移超过EventSystem像素阈值判定为拖拽，松手不触发点击菜单
-/// 数据与表现分离：数据层为Inventory（bool[4,5]占用数组+锚点/方向），本类只渲染与转发
+/// 数据层为 Inventory；InventoryPanelView 保存序列化节点引用，本类只刷新与转发。
 /// </summary>
-public class InventoryUI : MonoBehaviour
+public partial class InventoryUI : MonoBehaviour
 {
     [Header("—— 按键 ——")]
     [Tooltip("开关背包面板（默认Tab）")]
@@ -33,6 +32,10 @@ public class InventoryUI : MonoBehaviour
     private const string PanelId = "Inventory";
 
     // ===== 组件引用 =====
+    private InventoryPanelView _view;
+    private Color _hintColor, _emptyBagColor;
+    private Vector2 _hpAnchorMin, _hpAnchorMax, _hpOffsetMin, _hpOffsetMax;
+
     private Inventory _inventory;
     private Health _health;
 
@@ -42,6 +45,10 @@ public class InventoryUI : MonoBehaviour
 
     // —— 装备槽 ——
     private Text _weaponSlotText;
+    private Image _weaponSil;
+    private Image _armorSil;
+    private Image _bagSil;
+    private Sprite _bagSilSprite;
     private Text _armorSlotText;
     private InventoryCellUI _weaponCell;
     private InventoryCellUI _armorCell;
@@ -108,14 +115,9 @@ public class InventoryUI : MonoBehaviour
     private static readonly Color HintColor = new Color(0.65f, 0.12f, 0.12f, 1f);// 操作失败提示（深红）
     private static readonly Color LegalColor = new Color(0.15f, 0.7f, 0.2f, 1f); // 拖拽预览合法=绿框
     private static readonly Color IllegalColor = new Color(0.85f, 0.15f, 0.15f, 1f); // 拖拽预览非法=红框
-    private const float DashSegLen = 8f;
-    private const float DashGap = 6f;
-    private const float CellSize = 74f;  // 网格单元尺寸（与GridLayoutGroup配置保持一致）
-    private const float CellGap = 8f;    // 网格单元间距
-    private const float GridPad = 1f;    // 网格内边距
 
     /// <summary>登记待绘制虚线边框的矩形（布局定稿后统一绘制）</summary>
-    private readonly List<RectTransform> _dashedRects = new List<RectTransform>();
+
 
     private void Start()
     {
@@ -160,11 +162,11 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
-        BuildPanel(canvasRoot);
+        if (!BindPanel(canvasRoot)) { enabled = false; return; }
 
         // 先强制完成一次布局拿到各框最终尺寸，再统一绘制虚线边框
         LayoutRebuilder.ForceRebuildLayoutImmediate(_rootPanel.GetComponent<RectTransform>());
-        BuildAllDashedBorders();
+
 
         _inventory.Changed += RefreshAll;
         _inventory.HotbarChanged += RefreshAll; // 快捷栏分配变化同步详情框快捷栏
@@ -174,6 +176,9 @@ public class InventoryUI : MonoBehaviour
 
     private void OnDestroy()
     {
+        HideMenu();
+        if (_ghost != null) Destroy(_ghost);
+        if (_rootPanel != null) Destroy(_rootPanel);
         if (_inventory != null) _inventory.Changed -= RefreshAll;
         if (_inventory != null) _inventory.HotbarChanged -= RefreshAll;
 
@@ -242,7 +247,7 @@ public class InventoryUI : MonoBehaviour
     /// </summary>
     public void OpenPanel()
     {
-        if (_panelOpen) return;
+        if (_panelOpen || _rootPanel == null) return;
         _panelOpen = true;
         GameUIState.RegisterPanel(PanelId, ClosePanel);
         // 置顶到Canvas最上层：头顶血条等常驻UI同挂GameCanvas且序号更靠后会盖住面板
@@ -264,376 +269,159 @@ public class InventoryUI : MonoBehaviour
 
     // ===== 面板构建 =====
 
-    private void BuildPanel(Transform canvasRoot)
-    {
-        if (canvasRoot == null)
-        {
-            Debug.LogWarning("[InventoryUI] BuildPanel: canvasRoot为null，跳过");
-            return;
-        }
 
-        // 根面板（实线边框，填充与底色一致→视觉上无色块）
-        UIKit.EnsureLoaded();
-        _rootPanel = new GameObject("InventoryPanel", typeof(Image), typeof(VerticalLayoutGroup));
-        var pimg = _rootPanel.GetComponent<Image>();
-        pimg.sprite = UIKit.Panel;          // kit 九宫格面板框
-        pimg.type = Image.Type.Sliced;
-        pimg.color = Color.white;
-        var prt = _rootPanel.GetComponent<RectTransform>();
-        prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
-        prt.anchoredPosition = Vector2.zero;
-        prt.sizeDelta = new Vector2(660f, 544f);
-        _rootPanel.transform.SetParent(canvasRoot, false);
-        var pOutline = _rootPanel.AddComponent<Outline>();
-        pOutline.enabled = false;   // kit 面板框自带边框，Outline 关闭
-        pOutline.effectDistance = new Vector2(BorderWidth, BorderWidth);
-
-        var pvlg = _rootPanel.GetComponent<VerticalLayoutGroup>();
-        pvlg.padding = new RectOffset(10, 10, 8, 8);
-        pvlg.spacing = 10f;
-        pvlg.childControlWidth = true;
-        pvlg.childControlHeight = true;
-        pvlg.childForceExpandHeight = false;
-        pvlg.childForceExpandWidth = true;
-
-        // ── 1. 顶部标题栏 ──
-        var titleBar = CreateBorderedBox(_rootPanel.transform, "TitleBar");
-        var tle = titleBar.GetComponent<LayoutElement>();
-        tle.preferredHeight = 40f;
-        tle.flexibleWidth = 0f;   // 显式归零：防止LayoutGroup的flexible=1逐级上报（实测踩坑，下同）
-        tle.flexibleHeight = 0f;
-        var titleText = CreateText(titleBar.transform, "背包(Tab键开关)", 18, TextAnchor.MiddleCenter, LineColor);
-        titleText.fontStyle = FontStyle.Bold;
-        StretchRect(titleText.rectTransform);
-        titleText.GetComponent<LayoutElement>().ignoreLayout = true;
-
-        BuildCloseButton(); // 右上角关闭按钮（红圆白叉，风格同ShopUI）
-
-        // ── 2. 主行：左半区 + 右半区 ──
-        var mainRow = new GameObject("MainRow", typeof(RectTransform), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
-        mainRow.transform.SetParent(_rootPanel.transform, false);
-        var mle = mainRow.GetComponent<LayoutElement>();
-        mle.flexibleHeight = 1f;
-        mle.flexibleWidth = 0f;
-        var mhlg = mainRow.GetComponent<HorizontalLayoutGroup>();
-        mhlg.spacing = 10f;
-        mhlg.childControlWidth = true;
-        mhlg.childControlHeight = true;
-        mhlg.childForceExpandWidth = false;
-        mhlg.childForceExpandHeight = true;
-
-        // —— 左半区：宽度与网格严格等宽（5×74 + 4×8 + 左右padding 1×2 = 404） ——
-        var leftCol = new GameObject("LeftCol", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(LayoutElement));
-        leftCol.transform.SetParent(mainRow.transform, false);
-        var lle = leftCol.GetComponent<LayoutElement>();
-        lle.preferredWidth = 404f;
-        lle.flexibleWidth = 0f;
-        lle.flexibleHeight = 1f;
-        var lvlg = leftCol.GetComponent<VerticalLayoutGroup>();
-        lvlg.spacing = 10f;
-        lvlg.childControlWidth = true;
-        lvlg.childControlHeight = true;
-        lvlg.childForceExpandHeight = false;
-        lvlg.childForceExpandWidth = true;
-
-        // —— 2a. 装备槽行 ——
-        var equipRow = new GameObject("EquipRow", typeof(RectTransform), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
-        equipRow.transform.SetParent(leftCol.transform, false);
-        var ele = equipRow.GetComponent<LayoutElement>();
-        ele.preferredHeight = 112f;
-        ele.flexibleWidth = 0f;
-        ele.flexibleHeight = 0f;
-        var ehlg = equipRow.GetComponent<HorizontalLayoutGroup>();
-        ehlg.spacing = 8f;
-        ehlg.childControlWidth = true;
-        ehlg.childControlHeight = true;
-        ehlg.childForceExpandWidth = true;
-        ehlg.childForceExpandHeight = true;
-
-        BuildEquipSlot(equipRow.transform, "武器", InventoryCellUI.CellKind.EquipWeapon);
-        BuildEquipSlot(equipRow.transform, "护甲", InventoryCellUI.CellKind.EquipArmor);
-
-        // —— 2b. 物品网格：4行×5列=20格 ——
-        var gridGo = new GameObject("GridArea", typeof(RectTransform), typeof(GridLayoutGroup), typeof(LayoutElement));
-        gridGo.transform.SetParent(leftCol.transform, false);
-        var gle0 = gridGo.GetComponent<LayoutElement>();
-        gle0.preferredHeight = 322f; // 4×74 + 3×8 + 上下padding 1×2
-        gle0.flexibleWidth = 0f;
-        gle0.flexibleHeight = 0f;
-        var glg = gridGo.GetComponent<GridLayoutGroup>();
-        glg.padding = new RectOffset(1, 1, 1, 1);
-        glg.cellSize = new Vector2(CellSize, CellSize);
-        glg.spacing = new Vector2(CellGap, CellGap);
-        glg.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-        glg.constraintCount = Inventory.Cols;
-        glg.childAlignment = TextAnchor.UpperLeft;
-        _gridRoot = gridGo.GetComponent<RectTransform>();
-
-        // 创建20个交互格（常驻不重建；物品名由覆盖层单独渲染）
-        for (int i = 0; i < Inventory.SlotCount; i++)
-        {
-            _cells.Add(CreateGridCell(i));
-        }
-
-        // —— 2c. 网格底部状态行 ——
-        var footer = new GameObject("FooterRow", typeof(RectTransform), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
-        footer.transform.SetParent(leftCol.transform, false);
-        var fle = footer.GetComponent<LayoutElement>();
-        fle.preferredHeight = 24f;
-        fle.flexibleWidth = 0f;
-        fle.flexibleHeight = 0f;
-        var fhlg = footer.GetComponent<HorizontalLayoutGroup>();
-        fhlg.childControlWidth = true;
-        fhlg.childControlHeight = true;
-        fhlg.childForceExpandWidth = true;
-        fhlg.childForceExpandHeight = false;
-
-        _slotCountText = CreateText(footer.transform, "格子 0/20", 16, TextAnchor.MiddleLeft, LineColor);
-        var drag = CreateText(footer.transform, "拖动整理", 16, TextAnchor.MiddleRight, LineColor);
-        drag.GetComponent<LayoutElement>().flexibleWidth = 1f;
-
-        // —— 右半区 ——
-        var rightCol = new GameObject("RightCol", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(LayoutElement));
-        rightCol.transform.SetParent(mainRow.transform, false);
-        var rle = rightCol.GetComponent<LayoutElement>();
-        rle.flexibleWidth = 1f;
-        rle.flexibleHeight = 1f;
-        var rvlg = rightCol.GetComponent<VerticalLayoutGroup>();
-        rvlg.spacing = 10f;
-        rvlg.childControlWidth = true;
-        rvlg.childControlHeight = true;
-        rvlg.childForceExpandHeight = false;
-        rvlg.childForceExpandWidth = true;
-
-        // —— 3a. 属性框（攻击/减伤/HP；快捷栏已移至下方详情框HotbarRow） ——
-        var statBox = CreateBorderedBox(rightCol.transform, "StatBox");
-        var sle = statBox.GetComponent<LayoutElement>();
-        sle.preferredHeight = 90f;
-        sle.flexibleWidth = 0f;
-        sle.flexibleHeight = 0f;
-        var shlg = statBox.AddComponent<HorizontalLayoutGroup>();
-        shlg.padding = new RectOffset(10, 8, 6, 6);
-        shlg.spacing = 10f;
-        shlg.childControlWidth = true;
-        shlg.childControlHeight = true;
-        shlg.childForceExpandHeight = false;
-        shlg.childForceExpandWidth = true;
-
-        // 左半：属性文本 + HP行
-        var statLeft = new GameObject("StatLeft", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(LayoutElement));
-        statLeft.transform.SetParent(statBox.transform, false);
-        var slle = statLeft.GetComponent<LayoutElement>();
-        slle.flexibleWidth = 1f;
-        slle.flexibleHeight = 1f;
-        var slvlg = statLeft.GetComponent<VerticalLayoutGroup>();
-        slvlg.spacing = 4f;
-        slvlg.childControlWidth = true;
-        slvlg.childControlHeight = true;
-        slvlg.childForceExpandHeight = false;
-        slvlg.childForceExpandWidth = true;
-
-        _statText = CreateText(statLeft.transform, "攻击 <b>10</b>\n减伤 <b>0</b>", 14, TextAnchor.UpperLeft, LineColor);
-        var stle = _statText.GetComponent<LayoutElement>();
-        stle.preferredHeight = 40f;
-        stle.flexibleWidth = 0f;
-        stle.flexibleHeight = 0f;
-
-        // HP行（纯锚点布局：血条大黑块Bug的修复方案，勿改回嵌套LayoutGroup）
-        var hpRow = new GameObject("HpRow", typeof(RectTransform), typeof(LayoutElement));
-        hpRow.transform.SetParent(statLeft.transform, false);
-        var hple = hpRow.GetComponent<LayoutElement>();
-        hple.preferredHeight = 26f;
-        hple.flexibleWidth = 0f;
-        hple.flexibleHeight = 0f;
-
-        var hpLabel = CreateText(hpRow.transform, "HP", 14, TextAnchor.MiddleLeft, LineColor);
-        var lrt = hpLabel.rectTransform;
-        lrt.anchorMin = new Vector2(0f, 0.5f);
-        lrt.anchorMax = new Vector2(0f, 0.5f);
-        lrt.pivot = new Vector2(0f, 0.5f);
-        lrt.sizeDelta = new Vector2(30f, 20f);
-        lrt.anchoredPosition = Vector2.zero;
-
-        var hpBar = CreateBorderedBox(hpRow.transform, "HpBar");
-        var brt = hpBar.GetComponent<RectTransform>();
-        brt.anchorMin = new Vector2(0f, 0f);
-        brt.anchorMax = new Vector2(1f, 1f);
-        brt.offsetMin = new Vector2(36f, 3f);
-        brt.offsetMax = new Vector2(0f, -3f);
-
-        _hpFill = new GameObject("HpFill", typeof(Image)).GetComponent<Image>();
-        _hpFill.color = LineColor;
-        var frt = _hpFill.rectTransform;
-        frt.SetParent(hpBar.transform, false);
-        frt.anchorMin = new Vector2(0f, 0f);
-        frt.anchorMax = new Vector2(1f, 1f);
-        frt.offsetMin = new Vector2(3f, 3f);
-        frt.offsetMax = new Vector2(-3f, -3f);
-
-        // —— 3b. 详情框 ——
-        var detailBox = CreateBorderedBox(rightCol.transform, "DetailBox");
-        var dle2 = detailBox.GetComponent<LayoutElement>();
-        dle2.flexibleHeight = 1f;
-        dle2.flexibleWidth = 0f;
-        var dvlg = detailBox.AddComponent<VerticalLayoutGroup>();
-        dvlg.padding = new RectOffset(10, 10, 6, 6);
-        dvlg.spacing = 6f;
-        dvlg.childControlWidth = true;
-        dvlg.childControlHeight = true;
-        dvlg.childForceExpandHeight = false;
-        dvlg.childForceExpandWidth = true;
-
-        _detailTitle = CreateText(detailBox.transform, "未选中物品", 15, TextAnchor.MiddleLeft, LineColor);
-        _detailTitle.fontStyle = FontStyle.Bold;
-        _detailTitle.GetComponent<LayoutElement>().preferredHeight = 24f;
-
-        // —— 快捷栏行（规格组件3的背包侧入口：4格横排均分行宽，拖拽放置；数字键1~4使用） ——
-        var hotbarRow = new GameObject("HotbarRow", typeof(RectTransform), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
-        hotbarRow.transform.SetParent(detailBox.transform, false);
-        var hrle = hotbarRow.GetComponent<LayoutElement>();
-        hrle.preferredHeight = 48f;
-        hrle.flexibleWidth = 0f;
-        hrle.flexibleHeight = 0f;
-        var hhlg = hotbarRow.GetComponent<HorizontalLayoutGroup>();
-        hhlg.spacing = 6f;
-        hhlg.childControlWidth = true;
-        hhlg.childControlHeight = true;
-        hhlg.childForceExpandWidth = false;
-        hhlg.childForceExpandHeight = false;
-
-        for (int i = 0; i < 4; i++)
-        {
-            var cell = new GameObject("Hotbar_" + i, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
-            cell.transform.SetParent(hotbarRow.transform, false);
-            UIKit.EnsureLoaded();
-            var hbImg = cell.GetComponent<Image>();
-            hbImg.sprite = UIKit.Slot;
-            hbImg.type = Image.Type.Sliced;
-            hbImg.color = Color.white;
-            var ol = cell.GetComponent<Outline>();
-            ol.enabled = false;
-            var cle = cell.GetComponent<LayoutElement>();
-            cle.flexibleWidth = 1f;      // 四格均分行宽（约47px近方形）
-            cle.preferredHeight = 48f;
-            cle.flexibleHeight = 0f;
-            var cellUI = cell.AddComponent<InventoryCellUI>();
-            cellUI.Init(this, InventoryCellUI.CellKind.Hotbar, i);
-            _hotbarCellUIs[i] = cellUI;
-
-            // 左上角槽位序号（对应HUD数字键1~4）；raycastTarget必须关闭，否则挡住格子的拖拽/悬停事件
-            var num = CreateText(cell.transform, (i + 1).ToString(), 12, TextAnchor.UpperLeft,
-                new Color(LineColor.r, LineColor.g, LineColor.b, 0.55f));
-            var nrt = num.rectTransform;
-            nrt.anchorMin = nrt.anchorMax = new Vector2(0f, 1f);
-            nrt.pivot = new Vector2(0f, 1f);
-            nrt.sizeDelta = new Vector2(16f, 15f);
-            nrt.anchoredPosition = new Vector2(2f, -1f);
-            num.GetComponent<LayoutElement>().ignoreLayout = true;
-            num.raycastTarget = false;
-
-            // 右下角数量角标（RefreshHotbarSlots填充）；同上关闭射线
-            var count = CreateText(cell.transform, "", 12, TextAnchor.LowerRight, LineColor);
-            var crt = count.rectTransform;
-            crt.anchorMin = crt.anchorMax = new Vector2(1f, 0f);
-            crt.pivot = new Vector2(1f, 0f);
-            crt.sizeDelta = new Vector2(32f, 15f);
-            crt.anchoredPosition = new Vector2(-1f, 1f);
-            count.GetComponent<LayoutElement>().ignoreLayout = true;
-            count.raycastTarget = false;
-            _hotbarCounts[i] = count;
-        }
-
-        _detailDesc = CreateText(detailBox.transform, "", 14, TextAnchor.UpperLeft, LineColor);
-        _detailDesc.GetComponent<LayoutElement>().flexibleHeight = 1f;
-
-        // 操作反馈提示行（平时为空文本不占视觉；操作入口已移至右键菜单）
-        _hintText = CreateText(detailBox.transform, "", 13, TextAnchor.MiddleLeft, HintColor);
-        _hintText.horizontalOverflow = HorizontalWrapMode.Wrap;
-        var hle = _hintText.GetComponent<LayoutElement>();
-        hle.preferredHeight = 20f;
-        hle.flexibleWidth = 0f;
-        hle.flexibleHeight = 0f;
-    }
 
     /// <summary>构建单个装备槽（挂InventoryCellUI成为拖拽源/目标，登记槽文字与格子引用）</summary>
-    private void BuildEquipSlot(Transform parent, string label, InventoryCellUI.CellKind kind)
-    {
-        var box = CreateBorderedBox(parent, label + "SlotBox");
-        var ble = box.GetComponent<LayoutElement>();
-        ble.flexibleWidth = 0f;
-        ble.flexibleHeight = 0f;
-        var vlg = box.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(8, 8, 6, 6);
-        vlg.spacing = 4f;
-        vlg.childControlWidth = true;
-        vlg.childControlHeight = true;
-        vlg.childForceExpandHeight = false;
-        vlg.childForceExpandWidth = true;
 
-        var labelText = CreateText(box.transform, label, 16, TextAnchor.MiddleCenter, LineColor);
-        labelText.fontStyle = FontStyle.Bold;
-        labelText.GetComponent<LayoutElement>().preferredHeight = 24f;
-
-        var dashed = new GameObject(label + "DashArea", typeof(RectTransform), typeof(LayoutElement));
-        dashed.transform.SetParent(box.transform, false);
-        var dle = dashed.GetComponent<LayoutElement>();
-        dle.flexibleHeight = 1f;
-        dle.minHeight = 40f;
-        _dashedRects.Add(dashed.GetComponent<RectTransform>());
-
-        var emptyText = CreateText(dashed.transform, "空", 14, TextAnchor.MiddleCenter, LineColor);
-        StretchRect(emptyText.rectTransform);
-        emptyText.GetComponent<LayoutElement>().ignoreLayout = true;
-
-        var cellUI = box.AddComponent<InventoryCellUI>();
-        cellUI.Init(this, kind, -1);
-        if (kind == InventoryCellUI.CellKind.EquipWeapon)
-        {
-            _weaponSlotText = emptyText;
-            _weaponCell = cellUI;
-            _weaponDashRt = dashed.GetComponent<RectTransform>();
-        }
-        else
-        {
-            _armorSlotText = emptyText;
-            _armorCell = cellUI;
-            _armorDashRt = dashed.GetComponent<RectTransform>();
-        }
-    }
 
     /// <summary>创建单个背包交互格（实线边框无填充；物品名由覆盖层渲染，格内不再放文字）</summary>
     private InventoryCellUI CreateGridCell(int index)
     {
-        // 视觉来自 InventorySlot Prefab（kit slot）；InventoryCellUI 运行时补挂
+        GameObject template = _view != null ? _view.slotTemplate : null;
+#if UNITY_EDITOR
+        if (template == null && !Application.isPlaying)
+            template = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/Widgets/InventorySlot.prefab");
+#endif
+        if (template == null) throw new System.InvalidOperationException("背包格子模板未配置");
         GameObject cell;
-        var refs = GameUIRefs.Instance;
-        if (refs != null && refs.inventorySlotPrefab != null)
-        {
-            cell = Instantiate(refs.inventorySlotPrefab, _gridRoot, false);
-            cell.name = "Cell_" + index;
-        }
+#if UNITY_EDITOR
+        if (!Application.isPlaying) cell = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(template, _gridRoot);
         else
-        {
-            cell = new GameObject("Cell_" + index, typeof(RectTransform), typeof(Image));
-            cell.transform.SetParent(_gridRoot, false);
-            cell.GetComponent<Image>().color = PanelBg;
-            var ol2 = cell.AddComponent<Outline>();
-            ol2.effectColor = LineColor;
-            ol2.effectDistance = new Vector2(BorderWidth, BorderWidth);
-        }
-
-        var cellUI = cell.AddComponent<InventoryCellUI>();
+#endif
+            cell = Instantiate(template, _gridRoot, false);
+        cell.name = "Cell_" + index;
+        cell.SetActive(true);
+        var cellUI = cell.GetComponent<InventoryCellUI>() ?? cell.AddComponent<InventoryCellUI>();
         cellUI.Init(this, InventoryCellUI.CellKind.Bag, index);
         return cellUI;
     }
 
     // ===== 刷新 =====
 
+
+    /// <summary>装备背包（由背包槽拖放/右键菜单调用）：提升容量并刷新；失败（缩容放不下）返回false</summary>
+    private void TryEquipBackpack(Inventory.ItemStack stack)
+    {
+        if (stack == null || stack.item == null) return;
+        if (stack.item.type != ItemType.Backpack)
+        {
+            ShowHint(stack.item.itemName + " 不是背包，无法放入");
+            return;
+        }
+        var newBag = stack.item;
+        var oldBag = _inventory.Backpack;
+        bool replacing = oldBag != null && oldBag != newBag;
+
+        // 记录新背包原位：装备缩容会重排物品锚点，失败时按原位放回
+        int count = stack.count;
+        int row = stack.anchorRow, col = stack.anchorCol;
+        var orient = stack.orient;
+        _inventory.RemoveItem(stack.AnchorIndex);
+
+        // 更换时旧背包先放回物品栏（放不下=空间不足，整体回退）
+        if (replacing && !_inventory.AddItem(oldBag, 1))
+        {
+            _inventory.PlaceItem(newBag, count, row, col, orient);
+            RefreshAll();
+            ShowHint("背包空间不足，放不下换下的 " + oldBag.itemName);
+            return;
+        }
+
+        if (!EquipBackpack(newBag))
+        {
+            // 装备失败（物品放不进新容量）：撤回旧背包归位、恢复原装备、新背包放回原位
+            if (replacing)
+            {
+                for (int i = 0; i < _inventory.Slots.Count; i++)
+                {
+                    var s = _inventory.GetSlot(i);
+                    if (s != null && s.item == oldBag) { _inventory.RemoveItem(i); break; }
+                }
+                _inventory.SetBackpack(oldBag); // 恢复原容量（原状态有效必然成功）
+            }
+            _inventory.PlaceItem(newBag, count, row, col, orient);
+            RefreshAll();
+            return; // 失败原因已由EquipBackpack提示
+        }
+
+        RefreshAll();
+        ShowHint("已装备 " + newBag.itemName + "：物品栏 " + _inventory.Capacity + " 格"
+            + (replacing ? "（" + oldBag.itemName + "已放回物品栏）" : ""));
+    }
+
+    /// <summary>装备背包入口（数据层SetBackpack+全量刷新）；缩容放不下物品时提示并返回false</summary>
+    public bool EquipBackpack(ItemData bag)
+    {
+        if (_inventory == null) return false;
+        if (!_inventory.SetBackpack(bag))
+        {
+            ShowHint("物品栏内的物品放不进新容量，无法更换背包");
+            return false;
+        }
+        RefreshAll();
+        return true;
+    }
+
+    /// <summary>右键或拖出背包槽：原子地取下背包，失败时显示原因。</summary>
+    public bool UnequipBackpack()
+    {
+        if (_inventory.Backpack == null) return false;
+        var name = _inventory.Backpack.itemName;
+        if (!_inventory.TryUnequipBackpack())
+        {
+            ShowHint("基础10格放不下现有物品和背包，无法取下");
+            return false;
+        }
+        _selectedIndex = -1;
+        ShowHint("已取下 " + name + "，放回物品栏");
+        return true;
+    }
+
+    /// <summary>容量变化（装/卸背包）时重建格子：多退少补，保持与 Inventory.Capacity 一致</summary>
+    private void RebuildGridIfNeeded()
+    {
+        if (_gridRoot == null) return;
+        int want = _inventory.Capacity;
+        if (_cells.Count == want) return;
+
+        while (_cells.Count > want)
+        {
+            var last = _cells[_cells.Count - 1];
+            _cells.RemoveAt(_cells.Count - 1);
+            if (last != null) { last.gameObject.SetActive(false); Destroy(last.gameObject); }
+        }
+        for (int i = _cells.Count; i < want; i++) _cells.Add(CreateGridCell(i));
+        // 容量变化后强制重排：ContentSizeFitter 依赖 layout 的 preferredHeight 才会更新 content 高度
+        if (_gridRoot != null) UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(_gridRoot);
+        Debug.Log("[InventoryUI] 容量变化 -> " + want + " 格");
+    }
+
+
+    /// <summary>背包槽显示：无背包=白印，有背包=物品图标</summary>
+    private void RefreshBagSlot()
+    {
+        if (_bagSil == null) return;
+        var bag = _inventory.Backpack;
+        if (_view.bagName != null) _view.bagName.text = bag != null ? bag.itemName : "背包";
+        if (bag == null)
+        {
+            _bagSil.sprite = _bagSilSprite;
+            _bagSil.color = _emptyBagColor;
+        }
+        else
+        {
+            _bagSil.sprite = bag.icon != null ? bag.icon : _bagSilSprite;
+            _bagSil.color = Color.white;
+        }
+    }
+
     /// <summary>全量刷新：装备槽、属性、网格（边框+覆盖层）、详情、状态行、快捷栏</summary>
     private void RefreshAll()
     {
         RefreshEquipSlots();
         RefreshStats();
+        RebuildGridIfNeeded();
+        RefreshBagSlot();
         RefreshGrid();
         RefreshDetail();
         RefreshSlotCount();
@@ -671,6 +459,8 @@ public class InventoryUI : MonoBehaviour
     /// <summary>刷新装备槽：槽文字（名称/空）+ 已装备物品的小尺寸图标块（类型色剪影+单字）</summary>
     private void RefreshEquipSlots()
     {
+        if (_weaponSil != null) _weaponSil.gameObject.SetActive(_inventory.EquippedWeapon == null);
+        if (_armorSil != null) _armorSil.gameObject.SetActive(_inventory.EquippedArmor == null);
         RefreshEquipSlotVisual(ref _weaponEquipIcon, _weaponDashRt, _weaponSlotText, _inventory.EquippedWeapon);
         RefreshEquipSlotVisual(ref _armorEquipIcon, _armorDashRt, _armorSlotText, _inventory.EquippedArmor);
     }
@@ -727,10 +517,10 @@ public class InventoryUI : MonoBehaviour
             return;
         }
         _hpFill.enabled = true;
-        rt.anchorMin = new Vector2(0f, 0f);
-        rt.anchorMax = new Vector2(ratio, 1f);
-        rt.offsetMin = new Vector2(3f, 3f);
-        rt.offsetMax = new Vector2(-3f, -3f);
+        rt.anchorMin = _hpAnchorMin;
+        rt.anchorMax = new Vector2(Mathf.Lerp(_hpAnchorMin.x, _hpAnchorMax.x, ratio), _hpAnchorMax.y);
+        rt.offsetMin = _hpOffsetMin;
+        rt.offsetMax = _hpOffsetMax;
     }
 
     /// <summary>刷新网格 = 边框（普通/选中）+ 物品名覆盖层（跨格渲染）</summary>
@@ -749,6 +539,7 @@ public class InventoryUI : MonoBehaviour
         }
         if (_weaponCell != null) _weaponCell.SetBorder(BorderWidth, LineColor);
         if (_armorCell != null) _armorCell.SetBorder(BorderWidth, LineColor);
+        if (_view != null && _view.bagCell != null) _view.bagCell.SetBorder(BorderWidth, LineColor);
         for (int i = 0; i < _hotbarCellUIs.Length; i++)
         {
             if (_hotbarCellUIs[i] != null) _hotbarCellUIs[i].SetBorder(BorderWidth, LineColor);
@@ -772,11 +563,11 @@ public class InventoryUI : MonoBehaviour
     {
         foreach (var kv in _overlayByAnchor)
         {
-            if (kv.Value != null) Destroy(kv.Value);
+            if (kv.Value != null) { kv.Value.SetActive(false); Destroy(kv.Value); }
         }
         _overlayByAnchor.Clear();
 
-        for (int i = 0; i < Inventory.SlotCount; i++)
+        for (int i = 0; i < _cells.Count; i++)
         {
             var s = _inventory.GetSlot(i);
             if (s == null || s.AnchorIndex != i) continue; // 只在锚点格渲染
@@ -785,7 +576,7 @@ public class InventoryUI : MonoBehaviour
             go.name = "Item_" + i;
             go.transform.SetParent(_gridRoot, false);
             // 关键：脱离GridLayoutGroup控制——否则覆盖层会被当成网格子项强制74×74并排到第20格之后
-            var ign = go.AddComponent<LayoutElement>();
+            var ign = go.GetComponent<LayoutElement>() ?? go.AddComponent<LayoutElement>();
             ign.ignoreLayout = true;
 
             // 覆盖区域几何：左上角起点=padding+锚点*(格+间距)
@@ -794,20 +585,22 @@ public class InventoryUI : MonoBehaviour
             rt.anchorMax = new Vector2(0f, 1f);
             rt.pivot = new Vector2(0f, 1f);
             rt.anchoredPosition = new Vector2(
-                GridPad + s.anchorCol * (CellSize + CellGap),
-                -(GridPad + s.anchorRow * (CellSize + CellGap)));
+                _view.grid.padding.left + s.anchorCol * (_view.grid.cellSize.x + _view.grid.spacing.x),
+                -(_view.grid.padding.top + s.anchorRow * (_view.grid.cellSize.y + _view.grid.spacing.y)));
             _overlayByAnchor[i] = go;
         }
 
         // 品质背景：格子底色按物品品质淡染（None=默认面板白；颜色与开箱光柱同族）
-        for (int i = 0; i < Inventory.SlotCount; i++)
+        // 按_cells.Count遍历而非SlotCount：动态容量下格子数=当前Capacity（无背包10/装背包20），
+        // SlotCount是数组上限，用它做下标会在容量未满时越界（实测开包即崩的根因）
+        for (int i = 0; i < _cells.Count; i++)
         {
             var s = _inventory.GetStackAtCell(i);
             var img = _cells[i].GetComponent<Image>();
             bool tinted = s != null && s.item != null && s.item.rarity != ItemRarity.None;
             img.color = tinted
-                ? Color.Lerp(PanelBg, ItemRarityStyle.GetColor(s.item.rarity), 0.45f)
-                : PanelBg;
+                ? Color.Lerp(_cells[i].BaseColor, ItemRarityStyle.GetColor(s.item.rarity), _view.rarityTint)
+                : _cells[i].BaseColor;
         }
     }
 
@@ -833,6 +626,8 @@ public class InventoryUI : MonoBehaviour
         if (stack.item.attackPower > 0) sb.AppendLine("攻击 +" + stack.item.attackPower);
         if (stack.item.defensePower > 0) sb.AppendLine("防御 +" + stack.item.defensePower);
         if (stack.item.healAmount > 0) sb.AppendLine("回复 +" + stack.item.healAmount);
+        if (stack.item.type == ItemType.Backpack)
+            sb.AppendLine("物品栏: 基础10 +" + stack.item.capacityBonus + "格");
         sb.AppendLine("数量: " + stack.count);
         sb.AppendLine("位置: 行" + stack.anchorRow + " 列" + stack.anchorCol);
         _detailDesc.text = sb.ToString();
@@ -841,7 +636,7 @@ public class InventoryUI : MonoBehaviour
     private void RefreshSlotCount()
     {
         // 多格物品按实际占用格计数（与bool[4,5]占用数组一致）
-        _slotCountText.text = "格子 " + _inventory.OccupiedCells + "/" + Inventory.SlotCount;
+        _slotCountText.text = "格子 " + _inventory.OccupiedCells + "/" + _inventory.Capacity;
     }
 
     // ===== 右键操作菜单（使用/装备/拆分/丢弃） =====
@@ -852,6 +647,15 @@ public class InventoryUI : MonoBehaviour
     /// <summary>格子右键：在鼠标处弹出操作菜单（按物品类型与堆叠数量显示可用项）</summary>
     public void OnCellRightClick(InventoryCellUI cell)
     {
+        if (cell.Kind == InventoryCellUI.CellKind.EquipBag)
+        {
+            HideMenu();
+            if (_inventory.Backpack == null) return;
+            var menu = BuildMenuShell();
+            AddMenuItem(true, "取 下", () => UnequipBackpack());
+            PositionMenu(menu);
+            return;
+        }
         if (cell.Kind != InventoryCellUI.CellKind.Bag) return;
         var stack = _inventory.GetStackAtCell(cell.SlotIndex);
         if (stack == null) { HideMenu(); return; } // 空格：收起菜单
@@ -870,6 +674,7 @@ public class InventoryUI : MonoBehaviour
         AddMenuItem(item.type == ItemType.Consumable, "使 用", () => UseWithChannel(anchor));
         AddMenuItem(item.type == ItemType.Weapon, "装 备", () => TryEquipFromMenu(anchor, EquipSlotType.Weapon));
         AddMenuItem(item.type == ItemType.Armor, "装 备", () => TryEquipFromMenu(anchor, EquipSlotType.Armor));
+        AddMenuItem(item.type == ItemType.Backpack, "装 备", () => TryEquipBackpackFromMenu(anchor));
         AddMenuItem(item.maxStack > 1 && stack.count > 1, "拆 分", () => OpenSplitPopup(anchor));
         AddMenuItem(true, "丢 弃", () => _inventory.DropItem(anchor));
 
@@ -877,23 +682,7 @@ public class InventoryUI : MonoBehaviour
     }
 
     /// <summary>重建菜单壳（白底黑框竖排容器，挂在画布顶层）；返回其RectTransform供定位</summary>
-    private RectTransform BuildMenuShell()
-    {
-        _menuRoot = new GameObject("CellMenu", typeof(RectTransform), typeof(Image), typeof(VerticalLayoutGroup), typeof(Outline));
-        _menuRoot.transform.SetParent(_canvasRect, false);
-        _menuRoot.GetComponent<Image>().color = PanelBg;
-        var mol = _menuRoot.GetComponent<Outline>();
-        mol.effectColor = LineColor;
-        mol.effectDistance = new Vector2(BorderWidth, BorderWidth);
-        var vlg = _menuRoot.GetComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(6, 6, 6, 6);
-        vlg.spacing = 4f;
-        vlg.childControlWidth = true;
-        vlg.childControlHeight = true;
-        vlg.childForceExpandHeight = false;
-        vlg.childForceExpandWidth = true;
-        return _menuRoot.GetComponent<RectTransform>();
-    }
+
 
     /// <summary>菜单定位到鼠标处（夹取在画布内不出屏）并置顶</summary>
     private void PositionMenu(RectTransform rt)
@@ -912,10 +701,10 @@ public class InventoryUI : MonoBehaviour
     private void AddMenuItem(bool visible, string label, System.Action action)
     {
         if (!visible) return;
-        var btn = CreateActionButton(_menuRoot.transform, label, () => { HideMenu(); action(); });
-        var le = btn.GetComponent<LayoutElement>();
-        le.preferredHeight = 30f;
-        le.flexibleWidth = 1f;
+        var btn = Instantiate(_view.menuButtonTemplate, _menuRoot.transform, false);
+        btn.gameObject.SetActive(true);
+        btn.GetComponentInChildren<Text>(true).text = label;
+        btn.onClick.AddListener(() => { AudioManager.PlaySfx("SFX_UIClick"); HideMenu(); action(); });
     }
 
     /// <summary>收起右键菜单</summary>
@@ -926,6 +715,13 @@ public class InventoryUI : MonoBehaviour
             Destroy(_menuRoot);
             _menuRoot = null;
         }
+    }
+
+    /// <summary>菜单装备背包动作：取出堆后走TryEquipBackpack（换包回收旧背包）</summary>
+    private void TryEquipBackpackFromMenu(int anchor)
+    {
+        var stack = _inventory.GetSlot(anchor);
+        if (stack != null) TryEquipBackpack(stack);
     }
 
     /// <summary>菜单装备动作：类型校验+换装（失败走提示行）</summary>
@@ -979,83 +775,6 @@ public class InventoryUI : MonoBehaviour
 
     // ===== 右上角关闭按钮 =====
 
-    private static Sprite _closeCircleSprite;
-
-    /// <summary>红色圆形按钮贴图（64px抗锯齿圆，ppu=64/30使sizeDelta=30时1:1清晰），缓存复用</summary>
-    private static Sprite CloseCircleSprite()
-    {
-        if (_closeCircleSprite != null) return _closeCircleSprite;
-        const int n = 64;
-        var tex = new Texture2D(n, n, TextureFormat.RGBA32, false);
-        float c = (n - 1) * 0.5f;
-        float r = c - 1.5f;
-        var bg = new Color(0.78f, 0.16f, 0.16f, 1f); // 红色圆底
-        for (int y = 0; y < n; y++)
-        {
-            for (int x = 0; x < n; x++)
-            {
-                float d = Vector2.Distance(new Vector2(x, y), new Vector2(c, c));
-                float a = Mathf.Clamp01(r - d + 0.5f); // 边缘1px抗锯齿
-                tex.SetPixel(x, y, new Color(bg.r, bg.g, bg.b, a));
-            }
-        }
-        tex.Apply();
-        _closeCircleSprite = Sprite.Create(tex, new Rect(0, 0, n, n), new Vector2(0.5f, 0.5f), n / 30f);
-        return _closeCircleSprite;
-    }
-
-    /// <summary>右上角关闭按钮：红色圆底+白色叉叉，锚面板右上角（ignoreLayout脱离竖排流式布局）</summary>
-    private void BuildCloseButton()
-    {
-        var btn = new GameObject("Btn_Close", typeof(RectTransform), typeof(Image), typeof(Button), typeof(LayoutElement));
-        btn.transform.SetParent(_rootPanel.transform, false);
-        UIKit.EnsureLoaded();
-        var img = btn.GetComponent<Image>();
-        img.sprite = UIKit.CircleBtn;
-        img.type = Image.Type.Simple;
-        img.color = Color.white;
-        var rt = btn.GetComponent<RectTransform>();
-        rt.anchorMin = rt.anchorMax = new Vector2(1f, 1f);
-        rt.pivot = new Vector2(1f, 1f);
-        rt.anchoredPosition = new Vector2(-8f, -8f);
-        rt.sizeDelta = new Vector2(34f, 34f);
-        btn.GetComponent<LayoutElement>().ignoreLayout = true;
-
-        // kit 关闭图标
-        var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
-        iconGo.transform.SetParent(btn.transform, false);
-        var irt = iconGo.GetComponent<RectTransform>();
-        irt.anchorMin = irt.anchorMax = new Vector2(0.5f, 0.5f);
-        irt.pivot = new Vector2(0.5f, 0.5f);
-        irt.anchoredPosition = Vector2.zero;
-        irt.sizeDelta = new Vector2(16f, 16f);
-        var iconImg = iconGo.GetComponent<Image>();
-        iconImg.sprite = UIKit.IconClose;
-        iconImg.raycastTarget = false;
-        btn.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            AudioManager.PlaySfx("SFX_UIClick");
-            ClosePanel();
-        });
-
-        MakeXBar(btn.transform, 45f);
-        MakeXBar(btn.transform, -45f);
-    }
-
-    /// <summary>叉叉短条（白色，±45°，不接收射线）</summary>
-    private void MakeXBar(Transform parent, float zAngle)
-    {
-        var bar = new GameObject("X", typeof(Image));
-        bar.transform.SetParent(parent, false);
-        var img = bar.GetComponent<Image>();
-        img.color = Color.white;
-        img.raycastTarget = false;
-        var rt = bar.GetComponent<RectTransform>();
-        rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(0.5f, 0.5f);
-        rt.sizeDelta = new Vector2(16f, 3f);
-        rt.localRotation = Quaternion.Euler(0f, 0f, zAngle);
-    }
-
     // ===== 拆分弹窗（滑块：－ ---o--- ＋，取消/确定） =====
 
     /// <summary>打开拆分弹窗：滑块范围1~count-1（位置与物品数量相关），标题带物品名</summary>
@@ -1076,120 +795,10 @@ public class InventoryUI : MonoBehaviour
     }
 
     /// <summary>构建拆分弹窗（懒加载一次；挂在背包面板中央，ignoreLayout脱离竖排流）</summary>
-    private void BuildSplitPopup()
-    {
-        _splitRoot = new GameObject("SplitPopup", typeof(RectTransform), typeof(Image), typeof(Outline), typeof(VerticalLayoutGroup), typeof(LayoutElement));
-        _splitRoot.transform.SetParent(_rootPanel.transform, false);
-        _splitRoot.GetComponent<Image>().color = PanelBg;
-        var ol = _splitRoot.GetComponent<Outline>();
-        ol.effectColor = LineColor;
-        ol.effectDistance = new Vector2(BorderWidth, BorderWidth);
-        var rt = _splitRoot.GetComponent<RectTransform>();
-        rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(0.5f, 0.5f);
-        rt.sizeDelta = new Vector2(280f, 170f);
-        _splitRoot.GetComponent<LayoutElement>().ignoreLayout = true;
-        var vlg = _splitRoot.GetComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(12, 12, 10, 10);
-        vlg.spacing = 10f;
-        vlg.childControlWidth = true;
-        vlg.childControlHeight = true;
-        vlg.childForceExpandHeight = false;
-        vlg.childForceExpandWidth = true;
 
-        _splitTitleText = CreateText(_splitRoot.transform, "拆分", 15, TextAnchor.MiddleLeft, LineColor);
-        _splitTitleText.fontStyle = FontStyle.Bold;
-        _splitTitleText.GetComponent<LayoutElement>().preferredHeight = 22f;
-
-        _splitQtyText = CreateText(_splitRoot.transform, "拆分数量: 1", 14, TextAnchor.MiddleCenter, LineColor);
-        _splitQtyText.GetComponent<LayoutElement>().preferredHeight = 22f;
-
-        // 滑块行：[－] [slider] [＋]
-        var row = new GameObject("SliderRow", typeof(RectTransform), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
-        row.transform.SetParent(_splitRoot.transform, false);
-        var rle = row.GetComponent<LayoutElement>();
-        rle.preferredHeight = 30f;
-        rle.flexibleWidth = 0f;
-        var rhlg = row.GetComponent<HorizontalLayoutGroup>();
-        rhlg.spacing = 8f;
-        rhlg.childControlWidth = true;
-        rhlg.childControlHeight = true;
-        rhlg.childForceExpandWidth = false;
-        rhlg.childForceExpandHeight = true;
-
-        CreateActionButton(row.transform, "－", () => StepSplit(-1)).GetComponent<LayoutElement>().preferredWidth = 34f;
-        _splitSlider = BuildSlider(row.transform);
-        var sle = _splitSlider.GetComponent<LayoutElement>();
-        sle.flexibleWidth = 1f;
-        sle.preferredHeight = 22f;
-        CreateActionButton(row.transform, "＋", () => StepSplit(1)).GetComponent<LayoutElement>().preferredWidth = 34f;
-        _splitSlider.onValueChanged.AddListener(_ => RefreshSplitQty());
-
-        // 取消/确定行
-        var btnRow = new GameObject("BtnRow", typeof(RectTransform), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
-        btnRow.transform.SetParent(_splitRoot.transform, false);
-        var ble = btnRow.GetComponent<LayoutElement>();
-        ble.preferredHeight = 30f;
-        ble.flexibleWidth = 0f;
-        var bhlg = btnRow.GetComponent<HorizontalLayoutGroup>();
-        bhlg.spacing = 10f;
-        bhlg.childControlWidth = true;
-        bhlg.childControlHeight = true;
-        bhlg.childForceExpandWidth = true;
-        bhlg.childForceExpandHeight = true;
-        CreateActionButton(btnRow.transform, "取消", HideSplitPopup);
-        CreateActionButton(btnRow.transform, "确定", OnSplitConfirm);
-
-        _splitRoot.SetActive(false);
-    }
 
     /// <summary>构建白盒风格滑块（背景条+黑色填充+白底黑框方形把手）</summary>
-    private Slider BuildSlider(Transform parent)
-    {
-        var go = new GameObject("QtySlider", typeof(RectTransform), typeof(Image), typeof(Slider), typeof(LayoutElement));
-        go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f, 1f);
-        var slider = go.GetComponent<Slider>();
 
-        var fillArea = new GameObject("Fill Area", typeof(RectTransform));
-        fillArea.transform.SetParent(go.transform, false);
-        var faRt = fillArea.GetComponent<RectTransform>();
-        faRt.anchorMin = new Vector2(0f, 0.25f);
-        faRt.anchorMax = new Vector2(1f, 0.75f);
-        faRt.offsetMin = Vector2.zero; // 默认sizeDelta=(100,100)会使Fill溢出轨道形成黑块
-        faRt.offsetMax = Vector2.zero;
-        var fill = new GameObject("Fill", typeof(Image));
-        fill.transform.SetParent(fillArea.transform, false);
-        var fImg = fill.GetComponent<Image>();
-        fImg.color = LineColor;
-        fImg.raycastTarget = false;
-        StretchRect(fill.GetComponent<RectTransform>());
-        slider.fillRect = fill.GetComponent<RectTransform>();
-
-        var handleArea = new GameObject("Handle Area", typeof(RectTransform));
-        handleArea.transform.SetParent(go.transform, false);
-        var haRt = handleArea.GetComponent<RectTransform>();
-        haRt.anchorMin = new Vector2(0f, 0f);
-        haRt.anchorMax = new Vector2(1f, 1f);
-        haRt.offsetMin = new Vector2(8f, 0f);
-        haRt.offsetMax = new Vector2(-8f, 0f);
-        var handle = new GameObject("Handle", typeof(Image));
-        handle.transform.SetParent(handleArea.transform, false);
-        var hImg = handle.GetComponent<Image>();
-        hImg.color = Color.white;
-        var hOl = handle.AddComponent<Outline>();
-        hOl.effectColor = LineColor;
-        hOl.effectDistance = new Vector2(BorderWidth, BorderWidth);
-        var hRt = handle.GetComponent<RectTransform>();
-        hRt.sizeDelta = new Vector2(16f, 0f);
-        hRt.anchorMin = new Vector2(0f, 0f);
-        hRt.anchorMax = new Vector2(0f, 1f);
-        slider.handleRect = hRt;
-        slider.targetGraphic = hImg;
-        slider.direction = Slider.Direction.LeftToRight;
-        slider.minValue = 1f;
-        slider.wholeNumbers = true;
-        return slider;
-    }
 
     /// <summary>－/＋按键步进拆分数量（夹取在滑块范围内）</summary>
     private void StepSplit(int delta)
@@ -1257,13 +866,13 @@ public class InventoryUI : MonoBehaviour
         }
         else
         {
-            var item = cell.Kind == InventoryCellUI.CellKind.EquipWeapon
-                ? _inventory.EquippedWeapon
-                : _inventory.EquippedArmor;
+            var item = cell.Kind == InventoryCellUI.CellKind.EquipBag ? _inventory.Backpack
+                : cell.Kind == InventoryCellUI.CellKind.EquipWeapon ? _inventory.EquippedWeapon : _inventory.EquippedArmor;
             if (item != null)
             {
                 _dragFromEquip = true;
-                _dragEquipPossible = _inventory.HasSpaceFor(item, 1); // 卸下重寻位是否有空间
+                _dragEquipPossible = cell.Kind == InventoryCellUI.CellKind.EquipBag
+                    ? _inventory.CanUnequipBackpack() : _inventory.HasSpaceFor(item, 1); // 卸下重寻位是否有空间
                 // 虚拟堆仅用于尺寸/方向显示（不入槽位）
                 _dragStack = new Inventory.ItemStack { item = item, count = 1, anchorRow = 0, anchorCol = 0, orient = ItemOrient.Horizontal };
             }
@@ -1298,7 +907,13 @@ public class InventoryUI : MonoBehaviour
 
         // 拖出面板右侧外部 = 丢弃整组物品（仅背包内拖拽；装备槽拖出只支持卸下）
         bool discard = TryDiscardOutsideRight();
-        if (!discard) CommitDrop(_dragSource, _hoverCell);
+        if (!discard)
+        {
+            if (_dragSource.Kind == InventoryCellUI.CellKind.Bag && _hoverCell != null && _hoverCell.Kind == InventoryCellUI.CellKind.EquipBag)
+                TryEquipBackpack(_dragStack);
+            else
+                CommitDrop(_dragSource, _hoverCell);
+        }
 
         // 清理拖拽表现（无论提交成功与否）
         Destroy(_ghost);
@@ -1377,6 +992,13 @@ public class InventoryUI : MonoBehaviour
         _previewAnchor = -1;
         _previewLegal = false;
 
+        if (hover.Kind == InventoryCellUI.CellKind.EquipBag)
+        {
+            bool allowed = !_dragFromEquip && !_dragFromHotbar && _dragStack != null && _dragStack.item.type == ItemType.Backpack;
+            hover.SetHighlight(SelectedBorder, allowed ? LegalColor : IllegalColor);
+            _previewLegal = allowed;
+            return;
+        }
         var toSlot = CellEquipSlot(hover);
 
         // —— 目标是装备槽（只能从背包拖入） ——
@@ -1481,7 +1103,7 @@ public class InventoryUI : MonoBehaviour
     {
         var list = new List<Inventory.ItemStack>();
         int rMax = row + occH - 1, cMax = col + occW - 1;
-        for (int i = 0; i < Inventory.SlotCount; i++)
+        for (int i = 0; i < (Inventory.SlotCount); i++)
         {
             var s = _inventory.GetSlot(i);
             if (s == null || ReferenceEquals(s, exclude)) continue;
@@ -1545,6 +1167,11 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
+        if (from.Kind == InventoryCellUI.CellKind.EquipBag)
+        {
+            if (to.Kind == InventoryCellUI.CellKind.Bag) UnequipBackpack();
+            return;
+        }
         var fromSlot = CellEquipSlot(from);
         var toSlot = CellEquipSlot(to);
 
@@ -1757,9 +1384,10 @@ public class InventoryUI : MonoBehaviour
     }
 
     /// <summary>占位区域的像素尺寸（格数展开含间距）</summary>
-    private static Vector2 FootprintSize(int occW, int occH)
+    private Vector2 FootprintSize(int occW, int occH)
     {
-        return new Vector2(occW * CellSize + (occW - 1) * CellGap, occH * CellSize + (occH - 1) * CellGap);
+        var grid = _gridRoot.GetComponent<GridLayoutGroup>();
+        return new Vector2(occW * grid.cellSize.x + (occW - 1) * grid.spacing.x, occH * grid.cellSize.y + (occH - 1) * grid.spacing.y);
     }
 
     /// <summary>
@@ -1768,102 +1396,7 @@ public class InventoryUI : MonoBehaviour
     /// 所有Graphic的raycastTarget关闭，不挡格子的点击/拖拽/悬停事件
     /// （公开静态：快捷栏HUD/背包镜像复用同一占位图标风格）
     /// </summary>
-    public static GameObject BuildIconGroup(Inventory.ItemStack stack, Vector2 size, ItemOrient orient, bool ghost, bool withName = true)
-    {
-        var item = stack.item;
-        var baseColor = TypeColor(item.type);
-        var root = new GameObject("IconGroup", typeof(RectTransform));
-        var rr = root.GetComponent<RectTransform>();
-        rr.sizeDelta = size;
-        var cg = root.AddComponent<CanvasGroup>();
 
-        // a. 类型色浅底剪影（铺满整个占位区域，让"这几格是一个整体"一眼可辨）
-        var sil = new GameObject("Silhouette", typeof(Image));
-        sil.transform.SetParent(root.transform, false);
-        var simg = sil.GetComponent<Image>();
-        simg.color = new Color(baseColor.r, baseColor.g, baseColor.b, 0.25f);
-        simg.raycastTarget = false;
-        StretchRect(simg.GetComponent<RectTransform>());
-
-        // b. 中央图标：icon字段非空优先Sprite（保持宽高比），否则类型单字深色版；竖放旋转90°
-        //    （Image与Text互斥创建：一个GameObject只能挂一个Graphic）
-        var center = new GameObject("Icon", typeof(RectTransform));
-        center.transform.SetParent(root.transform, false);
-        var crt = center.GetComponent<RectTransform>();
-        float iconSize = Mathf.Min(size.x, size.y) * 0.55f;
-        crt.sizeDelta = new Vector2(iconSize, iconSize);
-        crt.anchorMin = crt.anchorMax = crt.pivot = new Vector2(0.5f, 0.5f);
-        crt.anchoredPosition = Vector2.zero;
-        if (item.icon != null)
-        {
-            var img = center.AddComponent<Image>();
-            img.sprite = item.icon;
-            img.preserveAspect = true; // Sprite保持宽高比
-            img.raycastTarget = false;
-        }
-        else
-        {
-            var ct = center.AddComponent<Text>();
-            ct.font = UIKit.LegacyFont;
-            ct.fontSize = Mathf.Clamp(Mathf.RoundToInt(iconSize * 0.8f), 18, 44);
-            ct.alignment = TextAnchor.MiddleCenter;
-            ct.color = new Color(baseColor.r * 0.55f, baseColor.g * 0.55f, baseColor.b * 0.55f, 1f); // 类型色深色版
-            ct.text = TypeIconChar(item.type);
-            ct.raycastTarget = false;
-        }
-        if (orient == ItemOrient.Vertical)
-        {
-            crt.localRotation = Quaternion.Euler(0f, 0f, -90f); // 竖放：图标旋转90°保证方向可读
-        }
-
-        // d. 名称小字（底部，不随方向旋转）
-        if (withName)
-        {
-            var nameGo = new GameObject("Name", typeof(Text));
-            nameGo.transform.SetParent(root.transform, false);
-            var nt = nameGo.GetComponent<Text>();
-            nt.font = UIKit.LegacyFont;
-            nt.fontSize = 11;
-            nt.alignment = TextAnchor.MiddleCenter;
-            nt.color = LineColor;
-            nt.text = item.itemName;
-            nt.raycastTarget = false;
-            var nrt = nt.rectTransform;
-            nrt.anchorMin = new Vector2(0f, 0f);
-            nrt.anchorMax = new Vector2(1f, 0f);
-            nrt.pivot = new Vector2(0.5f, 0f);
-            nrt.sizeDelta = new Vector2(-6f, 15f);
-            nrt.anchoredPosition = new Vector2(0f, 1f);
-        }
-
-        // d2. 数量角标（右下角，仅count>1显示；不随方向旋转）
-        if (stack.count > 1)
-        {
-            var badge = new GameObject("Count", typeof(Text));
-            badge.transform.SetParent(root.transform, false);
-            var bt = badge.GetComponent<Text>();
-            bt.font = UIKit.LegacyFont;
-            bt.fontSize = 12;
-            bt.fontStyle = FontStyle.Bold;
-            bt.alignment = TextAnchor.MiddleRight;
-            bt.color = LineColor;
-            bt.text = "x" + stack.count;
-            bt.raycastTarget = false;
-            var brt = bt.rectTransform;
-            brt.anchorMin = brt.anchorMax = new Vector2(1f, 0f);
-            brt.pivot = new Vector2(1f, 0f);
-            brt.sizeDelta = new Vector2(34f, 15f);
-            brt.anchoredPosition = new Vector2(-2f, 1f);
-        }
-
-        // f. 全部关闭射线检测 + Ghost整体半透明
-        foreach (var g in root.GetComponentsInChildren<Graphic>(true))
-        {
-            g.raycastTarget = false;
-        }
-        if (ghost) cg.alpha = 0.55f;
-        return root;
-    }
 
     /// <summary>设置拖拽源的整体透明度（拿起变暗0.3/放下恢复1）：
     /// 背包物品=覆盖层CanvasGroup（剪影+文字一起变暗）；装备槽=图标块CanvasGroup+槽内文字</summary>
@@ -1887,6 +1420,12 @@ public class InventoryUI : MonoBehaviour
                 if (cg != null) cg.alpha = alpha;
             }
         }
+        else if (cell.Kind == InventoryCellUI.CellKind.EquipBag)
+        {
+            var color = _bagSil.color;
+            color.a = alpha;
+            _bagSil.color = color;
+        }
         else
         {
             var icon = cell.Kind == InventoryCellUI.CellKind.EquipWeapon ? _weaponEquipIcon : _armorEquipIcon;
@@ -1904,7 +1443,7 @@ public class InventoryUI : MonoBehaviour
     {
         foreach (var t in go.GetComponentsInChildren<Text>(true))
         {
-            t.color = new Color(LineColor.r, LineColor.g, LineColor.b, alpha);
+            t.color = new Color(t.color.r, t.color.g, t.color.b, alpha);
         }
     }
 
@@ -1913,7 +1452,7 @@ public class InventoryUI : MonoBehaviour
     {
         if (_hintRoutine != null) StopCoroutine(_hintRoutine);
         _hintText.text = message;
-        _hintText.color = HintColor;
+        _hintText.color = _hintColor;
         _hintRoutine = StartCoroutine(HintFadeRoutine());
     }
 
@@ -1924,11 +1463,11 @@ public class InventoryUI : MonoBehaviour
         const float fade = 0.4f;
         for (float t = 0f; t < 1f; t += Time.deltaTime / fade)
         {
-            _hintText.color = new Color(HintColor.r, HintColor.g, HintColor.b, 1f - t);
+            _hintText.color = new Color(_hintColor.r, _hintColor.g, _hintColor.b, _hintColor.a * (1f - t));
             yield return null;
         }
         _hintText.text = "";
-        _hintText.color = HintColor;
+        _hintText.color = _hintColor;
         _hintRoutine = null;
     }
 
@@ -1956,19 +1495,7 @@ public class InventoryUI : MonoBehaviour
     // ===== UI构建工具（白盒线框风格：黑字 + 统一黑色线条 + 无填充色块） =====
 
     /// <summary>创建实线边框容器：填充与面板同色（视觉无色块）+ 统一粗细黑色边框</summary>
-    private GameObject CreateBorderedBox(Transform parent, string name)
-    {
-        UIKit.EnsureLoaded();
-        var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Outline), typeof(LayoutElement));
-        go.transform.SetParent(parent, false);
-        var img = go.GetComponent<Image>();
-        img.sprite = UIKit.PanelInner;      // kit 内嵌框
-        img.type = Image.Type.Sliced;
-        img.color = Color.white;
-        var ol = go.GetComponent<Outline>();
-        ol.enabled = false;                  // kit 框自带边框
-        return go;
-    }
+
 
     /// <summary>将矩形锚点拉伸铺满父级</summary>
     private static void StretchRect(RectTransform rt)
@@ -1979,96 +1506,69 @@ public class InventoryUI : MonoBehaviour
         rt.offsetMax = Vector2.zero;
     }
 
-    /// <summary>布局定稿后统一绘制所有登记的虚线边框</summary>
-    private void BuildAllDashedBorders()
+    private bool BindPanel(Transform canvasRoot)
     {
-        foreach (var rt in _dashedRects)
+        var refs = GameUIRefs.Instance;
+        if (refs == null || refs.inventoryPanelPrefab == null)
+        { Debug.LogError("[InventoryUI] GameUIRefs.inventoryPanelPrefab 未配置"); return false; }
+        _rootPanel = Instantiate(refs.inventoryPanelPrefab, canvasRoot, false);
+        _rootPanel.name = "InventoryPanel";
+        _view = _rootPanel.GetComponent<InventoryPanelView>();
+        if (_view == null || !_view.ValidateReferences())
+        { Debug.LogError("[InventoryUI] 背包 Prefab 节点引用不完整"); Destroy(_rootPanel); return false; }
+        _gridRoot = _view.grid.GetComponent<RectTransform>();
+        _weaponSlotText = _view.weaponText; _armorSlotText = _view.armorText;
+        _weaponSil = _view.weaponSilhouette; _armorSil = _view.armorSilhouette;
+        _bagSil = _view.bagIcon; _bagSilSprite = _bagSil.sprite;
+        _weaponCell = _view.weaponCell; _armorCell = _view.armorCell;
+        _weaponDashRt = _view.weaponIconRoot; _armorDashRt = _view.armorIconRoot;
+        _statText = _view.stats; _hpFill = _view.hpFill;
+        _detailTitle = _view.detailTitle; _detailDesc = _view.detailDescription;
+        _slotCountText = _view.capacityText; _hintText = _view.hint;
+        _hintColor = _hintText.color; _emptyBagColor = _bagSil.color;
+        var hpRect = _hpFill.rectTransform;
+        _hpAnchorMin=hpRect.anchorMin; _hpAnchorMax=hpRect.anchorMax;
+        _hpOffsetMin=hpRect.offsetMin; _hpOffsetMax=hpRect.offsetMax;
+        _weaponCell.Init(this, InventoryCellUI.CellKind.EquipWeapon, -1);
+        _armorCell.Init(this, InventoryCellUI.CellKind.EquipArmor, -1);
+        _view.bagCell.Init(this, InventoryCellUI.CellKind.EquipBag, -1);
+        foreach (var cell in _view.previewCells)
+        { cell.Init(this, InventoryCellUI.CellKind.Bag, _cells.Count); _cells.Add(cell); }
+        for (int i=0; i<4; i++)
         {
-            if (rt != null) BuildDashedBorder(rt);
+            _hotbarCellUIs[i] = _view.hotbarCells[i]; _hotbarCounts[i] = _view.hotbarCounts[i];
+            _hotbarCellUIs[i].Init(this, InventoryCellUI.CellKind.Hotbar, i);
         }
-        _dashedRects.Clear();
+        _view.closeButton.onClick.AddListener(() => { AudioManager.PlaySfx("SFX_UIClick"); ClosePanel(); });
+        _splitRoot = _view.splitRoot; _splitSlider = _view.splitSlider;
+        _splitTitleText = _view.splitTitle; _splitQtyText = _view.splitQuantity;
+        _view.splitMinus.onClick.AddListener(() => StepSplit(-1));
+        _view.splitPlus.onClick.AddListener(() => StepSplit(1));
+        _view.splitCancel.onClick.AddListener(HideSplitPopup);
+        _view.splitConfirm.onClick.AddListener(OnSplitConfirm);
+        _splitSlider.onValueChanged.AddListener(_ => RefreshSplitQty());
+        _splitRoot.SetActive(false);
+        _view.menuTemplate.SetActive(false);
+        return true;
     }
 
-    /// <summary>在矩形四边绘制虚线边框（读取最终布局尺寸，均匀分段保证规整、线宽与实线一致）</summary>
-    private void BuildDashedBorder(RectTransform rt)
+    private RectTransform BuildMenuShell()
     {
-        float w = rt.rect.width;
-        float h = rt.rect.height;
-        if (w <= 0f || h <= 0f)
-        {
-            Debug.LogWarning("[InventoryUI] 虚线框尺寸为0，跳过绘制（布局未完成）");
-            return;
-        }
-
-        int hn = Mathf.Max(1, Mathf.RoundToInt(w / (DashSegLen + DashGap)));
-        float hGap = (w - hn * DashSegLen) / (hn + 1f);
-        for (int i = 0; i < hn; i++)
-        {
-            float x = hGap + i * (DashSegLen + hGap);
-            AddDashSegment(rt, new Vector2(x, 0f), new Vector2(DashSegLen, BorderWidth), new Vector2(0f, 1f)); // 上边
-            AddDashSegment(rt, new Vector2(x, 0f), new Vector2(DashSegLen, BorderWidth), new Vector2(0f, 0f)); // 下边
-        }
-
-        int vn = Mathf.Max(1, Mathf.RoundToInt(h / (DashSegLen + DashGap)));
-        float vGap = (h - vn * DashSegLen) / (vn + 1f);
-        for (int i = 0; i < vn; i++)
-        {
-            float y = vGap + i * (DashSegLen + vGap);
-            AddDashSegment(rt, new Vector2(0f, y), new Vector2(BorderWidth, DashSegLen), new Vector2(0f, 0f)); // 左边
-            AddDashSegment(rt, new Vector2(0f, y), new Vector2(BorderWidth, DashSegLen), new Vector2(1f, 0f)); // 右边
-        }
+        _menuRoot = Instantiate(_view.menuTemplate, _canvasRect, false);
+        _menuRoot.SetActive(true);
+        return (RectTransform)_menuRoot.transform;
     }
 
-    /// <summary>添加一段虚线（锚定父矩形对应角，pivot=anchor使线段从该角向面板内部排布）</summary>
-    private void AddDashSegment(RectTransform parent, Vector2 pos, Vector2 size, Vector2 anchor)
+    private void BuildSplitPopup() { _splitRoot = _view.splitRoot; }
+
+    /// <summary>共享物品显示模板：运行时只更新物品数据，不构建 UI 节点。</summary>
+    public static GameObject BuildIconGroup(Inventory.ItemStack stack, Vector2 size, ItemOrient orient, bool ghost, bool withName = true)
     {
-        var seg = new GameObject("Dash", typeof(Image));
-        seg.transform.SetParent(parent, false);
-        seg.GetComponent<Image>().color = LineColor;
-        var srt = seg.GetComponent<RectTransform>();
-        srt.anchorMin = anchor;
-        srt.anchorMax = anchor;
-        srt.pivot = anchor;
-        srt.sizeDelta = size;
-        srt.anchoredPosition = pos;
-    }
-
-    private Text CreateText(Transform parent, string label, int size, TextAnchor anchor, Color? color = null)
-    {
-        var go = new GameObject("Text", typeof(Text));
-        go.transform.SetParent(parent, false);
-        var t = go.GetComponent<Text>();
-        t.text = label;
-        t.font = UIKit.LegacyFont;
-        t.fontSize = size;
-        t.alignment = anchor;
-        t.color = color ?? LineColor;
-        t.horizontalOverflow = HorizontalWrapMode.Overflow;
-        t.supportRichText = true;
-        var le = go.AddComponent<LayoutElement>();
-        le.minHeight = size + 6f;
-        return t;
-    }
-
-    private Button CreateActionButton(Transform parent, string label, UnityAction onClick)
-    {
-        var go = new GameObject("Btn_" + label, typeof(Image), typeof(Button), typeof(LayoutElement));
-        go.transform.SetParent(parent, false);
-        go.GetComponent<Image>().color = PanelBg;
-        var outline = go.AddComponent<Outline>();
-        outline.effectColor = LineColor;
-        outline.effectDistance = new Vector2(BorderWidth, BorderWidth);
-        go.GetComponent<LayoutElement>().preferredHeight = 30f;
-
-        var t = CreateText(go.transform, label, 14, TextAnchor.MiddleCenter, LineColor);
-        StretchRect(t.rectTransform);
-        t.GetComponent<LayoutElement>().ignoreLayout = true;
-
-        go.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            AudioManager.PlaySfx("SFX_UIClick"); // UI点击音效
-            onClick.Invoke();
-        });
-        return go.GetComponent<Button>();
+        var template = Resources.Load<InventoryItemVisual>("UI/InventoryItemVisual");
+        if (template == null) throw new System.InvalidOperationException("缺少 UI/InventoryItemVisual 模板");
+        var visual = Instantiate(template);
+        visual.Apply(stack, size, orient, ghost, withName);
+        visual.gameObject.SetActive(true);
+        return visual.gameObject;
     }
 }

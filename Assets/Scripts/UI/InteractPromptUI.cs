@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -25,7 +25,7 @@ public class InteractPromptUI : MonoBehaviour
     private float _flashProgress;     // 打断时刻冻结的进度（红环显示用）
     private string _lastHint = "";    // 提示文本去重（避免每帧重复SetText脏化画布）
 
-    private static Sprite _ringSprite;
+
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
@@ -161,113 +161,22 @@ public class InteractPromptUI : MonoBehaviour
     }
 
     /// <summary>四角括号：24px方框四角各一条横臂+竖臂（2px像素线，与HUD描边规格同族）</summary>
-    private RectTransform BuildBracket(Transform canvas)
-    {
-        var root = new GameObject("InteractBracket", typeof(RectTransform)).GetComponent<RectTransform>();
-        root.SetParent(canvas, false);
-        root.anchorMin = root.anchorMax = root.pivot = new Vector2(0.5f, 0.5f); // 屏幕正中
-        root.sizeDelta = Vector2.zero;
-        root.gameObject.SetActive(false);
 
-        const float box = 24f; // 方框边长
-        const float arm = 7f;  // 角臂长
-        const float th = 2f;   // 线厚（规格2px）
-        float hx = box * 0.5f, hy = box * 0.5f;
-        // 左上/右上/左下/右下，各=横臂+竖臂
-        MakeBar(root, new Vector2(-hx + arm * 0.5f, hy - th * 0.5f), new Vector2(arm, th));
-        MakeBar(root, new Vector2(-hx + th * 0.5f, hy - arm * 0.5f), new Vector2(th, arm));
-        MakeBar(root, new Vector2(hx - arm * 0.5f, hy - th * 0.5f), new Vector2(arm, th));
-        MakeBar(root, new Vector2(hx - th * 0.5f, hy - arm * 0.5f), new Vector2(th, arm));
-        MakeBar(root, new Vector2(-hx + arm * 0.5f, -hy + th * 0.5f), new Vector2(arm, th));
-        MakeBar(root, new Vector2(-hx + th * 0.5f, -hy + arm * 0.5f), new Vector2(th, arm));
-        MakeBar(root, new Vector2(hx - arm * 0.5f, -hy + th * 0.5f), new Vector2(arm, th));
-        MakeBar(root, new Vector2(hx - th * 0.5f, -hy + arm * 0.5f), new Vector2(th, arm));
-        return root;
-    }
 
     /// <summary>单条括号臂（白色2px线，全raycastTarget=false不挡准星射击点击）</summary>
-    private void MakeBar(RectTransform parent, Vector2 center, Vector2 size)
-    {
-        var bar = new GameObject("Bar", typeof(RectTransform), typeof(Image)).GetComponent<RectTransform>();
-        bar.SetParent(parent, false);
-        bar.anchorMin = bar.anchorMax = bar.pivot = new Vector2(0.5f, 0.5f);
-        bar.anchoredPosition = center;
-        bar.sizeDelta = size;
-        var img = bar.GetComponent<Image>();
-        img.color = new Color(1f, 1f, 1f, 0.9f);
-        img.raycastTarget = false;
-    }
+
 
     /// <summary>
     /// 长按进度环：44px白色圆环Radial360顶点起顺时针径向填充（与食用进度圈同手法），
     /// 绕准星外圈（方框24px在其内），raycastTarget=false
     /// </summary>
-    private Image BuildRing(Transform canvas)
-    {
-        var go = new GameObject("HoldRing", typeof(RectTransform), typeof(Image));
-        var rt = (RectTransform)go.transform;
-        rt.SetParent(canvas, false);
-        rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(0.5f, 0.5f); // 屏幕正中
-        rt.anchoredPosition = Vector2.zero;
-        rt.sizeDelta = new Vector2(44f, 44f);
-        var img = go.GetComponent<Image>();
-        img.sprite = RingSprite();
-        img.type = Image.Type.Filled;
-        img.fillMethod = Image.FillMethod.Radial360;
-        img.fillOrigin = (int)Image.Origin360.Top;
-        img.fillClockwise = true;
-        img.color = new Color(1f, 1f, 1f, 0.9f);
-        img.raycastTarget = false;
-        go.SetActive(false); // 无蓄力隐藏
-        return img;
-    }
+
 
     /// <summary>白色圆环贴图（96px，环半径40厚8，边缘1px抗锯齿；与HotbarController食用圈同源手法）</summary>
-    private static Sprite RingSprite()
-    {
-        if (_ringSprite != null) return _ringSprite;
-        const int n = 96;
-        var tex = new Texture2D(n, n, TextureFormat.RGBA32, false);
-        float c = (n - 1) * 0.5f;
-        float outer = 44f, inner = 36f;
-        for (int y = 0; y < n; y++)
-        {
-            for (int x = 0; x < n; x++)
-            {
-                float d = Vector2.Distance(new Vector2(x, y), new Vector2(c, c));
-                float a = Mathf.Clamp01(Mathf.Min(d - (inner - 0.5f), (outer + 0.5f) - d));
-                tex.SetPixel(x, y, new Color(1f, 1f, 1f, a));
-            }
-        }
-        tex.Apply();
-        _ringSprite = Sprite.Create(tex, new Rect(0, 0, n, n), new Vector2(0.5f, 0.5f), n / 48f);
-        return _ringSprite;
-    }
+
 
     /// <summary>交互提示行：准星正下方34px，14px白字黑描边（与血条数值同风格）</summary>
-    private Text BuildHint(Transform canvas)
-    {
-        var go = new GameObject("InteractHint", typeof(RectTransform), typeof(Text));
-        var rt = (RectTransform)go.transform;
-        rt.SetParent(canvas, false);
-        rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(0.5f, 0.5f);
-        rt.anchoredPosition = new Vector2(0f, -34f);
-        rt.sizeDelta = new Vector2(400f, 22f);
-        var t = go.GetComponent<Text>();
-        t.font = UIKit.LegacyFont;
-        t.fontSize = 14;
-        t.fontStyle = FontStyle.Bold;
-        t.alignment = TextAnchor.MiddleCenter;
-        t.color = Color.white;
-        t.text = "";
-        t.raycastTarget = false;
-        t.horizontalOverflow = HorizontalWrapMode.Overflow; // 长物品名不换行
-        var ol = go.AddComponent<Outline>();
-        ol.effectColor = new Color32(0x1A, 0x1A, 0x22, 0xFF);
-        ol.effectDistance = new Vector2(1f, -1f);
-        go.SetActive(false);
-        return t;
-    }
+
 
     // ===== 目标汇集 =====
 

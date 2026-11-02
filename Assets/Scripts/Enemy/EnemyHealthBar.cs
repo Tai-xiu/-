@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// 怪物头顶血条（白盒：双Cube构成，透明材质控制淡入淡出）
@@ -34,6 +34,9 @@ public class EnemyHealthBar : MonoBehaviour
     [Tooltip("血量变化插值速度（越大跟随越快，越小越平滑）")]
     [SerializeField] private float fillLerpSpeed = 8f;
 
+    private EnemyHealthBarVisual _visual;
+    private Vector3 _fillFullScale, _fillFullPosition;
+    private Color _fullColor;
     private Health _health;
     private Transform _playerTf;
     private Camera _cam;
@@ -62,30 +65,13 @@ public class EnemyHealthBar : MonoBehaviour
     /// <summary>构建血条：场景根级物体（不受敌人缩放/旋转影响）</summary>
     private void BuildBar()
     {
-        _barRoot = new GameObject("HPBar_" + gameObject.name).transform;
-
-        // 背景（深灰，Trigger无碰撞）
-        var bgGo = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        bgGo.name = "Background";
-        Object.Destroy(bgGo.GetComponent<Collider>());
-        bgGo.transform.SetParent(_barRoot, false);
-        bgGo.transform.localPosition = Vector3.zero;
-        bgGo.transform.localScale = new Vector3(barWidth, barHeight, 0.02f);
-        var bgR = bgGo.GetComponent<Renderer>();
-        bgR.material = new Material(Shader.Find("Legacy Shaders/Transparent/Diffuse")) { color = BgColor };
-        _bgMat = bgR.material;
-
-        // 填充（绿色→红色，左对齐缩放）
-        var fillGo = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        fillGo.name = "Fill";
-        Object.Destroy(fillGo.GetComponent<Collider>());
-        fillGo.transform.SetParent(_barRoot, false);
-        fillGo.transform.localPosition = Vector3.zero;
-        fillGo.transform.localScale = new Vector3(barWidth - 0.03f, barHeight - 0.02f, 0.01f);
-        var fillR = fillGo.GetComponent<Renderer>();
-        fillR.material = new Material(Shader.Find("Legacy Shaders/Transparent/Diffuse")) { color = FillGreen };
-        _fillMat = fillR.material;
-        _fillTf = fillGo.transform;
+        _visual = Instantiate(Resources.Load<EnemyHealthBarVisual>("UI/Panels/EnemyHealthBar"));
+        _barRoot = _visual.transform; _barRoot.name="HPBar_"+gameObject.name;
+        // 保留原有逐怪物尺寸配置，同时允许模板编辑整体和子节点外观。
+        _barRoot.localScale=Vector3.Scale(_barRoot.localScale,new Vector3(barWidth/1.3f,barHeight/.2f,1));
+        _bgMat=_visual.background.material; _fillMat=_visual.fill.material;
+        _fillTf=_visual.fill.transform; _fillFullScale=_fillTf.localScale;
+        _fillFullPosition=_fillTf.localPosition; _fullColor=_fillMat.color;
     }
 
     private void Update()
@@ -131,17 +117,17 @@ public class EnemyHealthBar : MonoBehaviour
     private void ApplyFill(float ratio)
     {
         ratio = Mathf.Clamp01(ratio);
-        float w = (barWidth - 0.04f) * ratio;
-        _fillTf.localScale = new Vector3(w, barHeight - 0.02f, 0.01f);
+        float w = _fillFullScale.x * ratio;
+        _fillTf.localScale = new Vector3(w, _fillFullScale.y, _fillFullScale.z);
         // 左对齐：填充从左边缘开始
-        _fillTf.localPosition = new Vector3(-barWidth / 2f + w / 2f, 0f, 0f);
-        _fillMat.color = Color.Lerp(FillRed, FillGreen, ratio);
+        _fillTf.localPosition = _fillFullPosition + Vector3.left * ((_fillFullScale.x - w) * .5f);
+        _fillMat.color = Color.Lerp(_visual.lowHealthColor, _fullColor, ratio);
     }
 
     /// <summary>设置背景与填充的透明度</summary>
     private void ApplyAlpha(float a)
     {
-        if (_bgMat != null) { var c = _bgMat.color; c.a = a * 0.8f; _bgMat.color = c; }
+        if (_bgMat != null) { var c = _bgMat.color; c.a = a * _visual.backgroundOpacity; _bgMat.color = c; }
         if (_fillMat != null) { var c = _fillMat.color; c.a = a; _fillMat.color = c; }
     }
 
@@ -149,5 +135,7 @@ public class EnemyHealthBar : MonoBehaviour
     private void OnDestroy()
     {
         if (_barRoot != null) Destroy(_barRoot.gameObject);
+        if (_bgMat != null) Destroy(_bgMat);
+        if (_fillMat != null) Destroy(_fillMat);
     }
 }

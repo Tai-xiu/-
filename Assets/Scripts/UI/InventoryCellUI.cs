@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -17,7 +17,7 @@ public class InventoryCellUI : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     /// <summary>格子类型：背包格 / 武器槽 / 护甲槽 / 快捷栏槽（详情框）</summary>
-    public enum CellKind { Bag, EquipWeapon, EquipArmor, Hotbar }
+    public enum CellKind { Bag, EquipWeapon, EquipArmor, Hotbar, EquipBag }
 
     /// <summary>格子类型</summary>
     public CellKind Kind = CellKind.Bag;
@@ -33,6 +33,10 @@ public class InventoryCellUI : MonoBehaviour,
 
     /// <summary>边框组件（高亮切换用）</summary>
     private Outline _outline;
+    private Vector2 _baseBorder;
+    private Color _baseBorderColor;
+    public Color BaseColor { get; private set; }
+
 
     /// <summary>初始化（创建格子时调用一次）</summary>
     public void Init(InventoryUI owner, CellKind kind, int slotIndex)
@@ -41,6 +45,8 @@ public class InventoryCellUI : MonoBehaviour,
         Kind = kind;
         SlotIndex = slotIndex;
         _outline = GetComponent<Outline>();
+        BaseColor = GetComponent<Image>() != null ? GetComponent<Image>().color : Color.white;
+        if (_outline != null) { _baseBorder = _outline.effectDistance; _baseBorderColor = _outline.effectColor; }
     }
 
     /// <summary>按下：重置拖拽标记（新一轮点击/拖拽判定开始）</summary>
@@ -105,8 +111,9 @@ public class InventoryCellUI : MonoBehaviour,
         if (_outline == null) _outline = GetComponent<Outline>();
         if (_outline != null)
         {
-            _outline.effectDistance = new Vector2(thickness, thickness);
-            _outline.effectColor = color;
+            bool normal = color == InventoryUI.LineColor;
+            _outline.effectDistance = normal ? _baseBorder * (thickness / InventoryUI.BorderWidth) : new Vector2(thickness, thickness);
+            _outline.effectColor = normal ? _baseBorderColor : color;
         }
     }
 }

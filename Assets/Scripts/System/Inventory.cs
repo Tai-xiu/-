@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,9 +17,159 @@ using UnityEngine;
 /// </summary>
 public class Inventory : MonoBehaviour
 {
-    public const int Rows = 4;                 // 网格行数
+    public const int Rows = 8;                 // 网格行数（最大容量40格：基础10+最强背包30）
     public const int Cols = 5;                 // 网格列数
-    public const int SlotCount = Rows * Cols;  // 20格
+    public const int SlotCount = Rows * Cols;  // 数组容量上限 40 格
+
+    /// <summary>默认可用格数：5×2 = 10 格（未装背包时）</summary>
+    public const int BaseRows = 2;
+    public const int BaseCapacity = BaseRows * Cols;
+
+    private int _capacity = BaseCapacity;
+
+    /// <summary>当前可用格数（装背包后增加，上限 SlotCount）</summary>
+    public int Capacity { get { return _capacity; } }
+
+    /// <summary>当前可用行数（=Capacity/Cols；放置与寻位的行边界，超出容量的行不可用）</summary>
+    public int CapacityRows { get { return _capacity / Cols; } }
+
+    /// <summary>已装备的背包（null=无背包，容量回落到 BaseCapacity）</summary>
+    public ItemData Backpack { get; private set; }
+
+    /// <summary>
+    /// 装/卸背包：容量 = 基础10格 + 背包capacityBonus加成（夹在 BaseCapacity..SlotCount）。
+    /// 缩容时先把占位超出新容量的物品腾空、按新容量重寻位；放不下则整体回滚并返回false
+    /// （调用方提示"物品放不下"，原背包保持不变）
+    /// </summary>
+    public bool SetBackpack(ItemData bag)
+    {
+        int newCap = bag != null
+            ? Mathf.Clamp(BaseCapacity + Mathf.Max(0, bag.capacityBonus), BaseCapacity, SlotCount)
+            : BaseCapacity;
+        if (newCap >= _capacity)
+        {
+            // 扩容/等容：直接生效（无物品越界问题）
+            Backpack = bag;
+            _capacity = newCap;
+            Notify();
+            return true;
+        }
+
+        // —— 缩容：收集占位超出新容量行数的物品（记录原位供回滚），腾空后重寻位 ——
+        int newRows = newCap / Cols;
+        var moved = new List<(ItemStack s, int idx, int row, int col, ItemOrient o)>();
+        for (int i = 0; i < SlotCount; i++)
+        {
+            var s = _slots[i];
+            if (s == null) continue;
+            if (s.anchorRow + s.OccH > newRows)
+            {
+                moved.Add((s, i, s.anchorRow, s.anchorCol, s.orient));
+                ClearOccupy(s);
+                _slots[i] = null;
+            }
+        }
+
+        int oldCap = _capacity;
+        _capacity = newCap; // FindSlot按新容量行边界寻位
+        var placed = new List<(ItemStack s, int newIdx)>();
+        bool allFit = true;
+        for (int i = 0; i < moved.Count; i++)
+        {
+            var s = moved[i].s;
+            if (FindSlot(s.item, out int r, out int c, out ItemOrient o))
+            {
+                s.anchorRow = r; s.anchorCol = c; s.orient = o;
+                _slots[r * Cols + c] = s;
+                Occupy(s);
+                placed.Add((s, r * Cols + c));
+            }
+            else { allFit = false; break; }
+        }
+
+        if (!allFit)
+        {
+            // 回滚：恢复原容量与所有原位（原状态在缩容前有效，回滚必然成立）
+            for (int i = 0; i < placed.Count; i++)
+            {
+                ClearOccupy(placed[i].s);
+                _slots[placed[i].newIdx] = null;
+            }
+            for (int i = 0; i < moved.Count; i++)
+            {
+                var m = moved[i];
+                m.s.anchorRow = m.row; m.s.anchorCol = m.col; m.s.orient = m.o;
+                _slots[m.idx] = m.s;
+                Occupy(m.s);
+            }
+            _capacity = oldCap;
+            return false;
+        }
+
+        Backpack = bag;
+        Notify();
+        return true;
+    }
+
+    // 装备背包取下时需要同时完成缩容与物品回收，事务中不发布中间状态。
+    private bool _suppressChanged;
+
+    /// <summary>预览能否取下背包：包含缩回基础容量后存放背包本身的空间。</summary>
+    public bool CanUnequipBackpack() { return UnequipBackpackTransaction(false); }
+
+    /// <summary>取下背包并放回物品栏；空间不足时保持装备、容量和所有物品原位。</summary>
+    public bool TryUnequipBackpack() { return UnequipBackpackTransaction(true); }
+
+    private bool UnequipBackpackTransaction(bool commit)
+    {
+        if (Backpack == null) return false;
+        var bag = Backpack;
+        int capacity = _capacity;
+        var originals = (ItemStack[])_slots.Clone();
+        var snapshots = new ItemStack[SlotCount];
+        for (int i = 0; i < SlotCount; i++)
+        {
+            var stack = originals[i];
+            if (stack != null) snapshots[i] = new ItemStack { item = stack.item, count = stack.count,
+                anchorRow = stack.anchorRow, anchorCol = stack.anchorCol, orient = stack.orient };
+        }
+        var occupied = (bool[,])_occupied.Clone();
+        bool previousSuppression = _suppressChanged;
+        bool success = false;
+        _suppressChanged = true;
+        try
+        {
+            success = SetBackpack(null) && AddItem(bag, 1);
+        }
+        finally
+        {
+            if (!commit || !success)
+            {
+                // 保留原堆对象的身份，避免正在拖拽或引用物品堆的代码持有失效引用。
+                for (int i = 0; i < SlotCount; i++)
+                {
+                    _slots[i] = originals[i];
+                    if (originals[i] == null) continue;
+                    var saved = snapshots[i];
+                    originals[i].item = saved.item; originals[i].count = saved.count;
+                    originals[i].anchorRow = saved.anchorRow; originals[i].anchorCol = saved.anchorCol;
+                    originals[i].orient = saved.orient;
+                }
+                System.Array.Copy(occupied, _occupied, occupied.Length);
+                _capacity = capacity;
+                Backpack = bag;
+            }
+            _suppressChanged = previousSuppression;
+        }
+        if (commit && success) Notify();
+        return success;
+    }
+
+    /// <summary>设置可用格数（夹在 BaseCapacity..SlotCount 之间）</summary>
+    public void SetCapacity(int cells)
+    {
+        _capacity = Mathf.Clamp(cells, BaseCapacity, SlotCount);
+    }
 
     [Tooltip("自动寻位方向优先级：勾选=横放优先，不勾=竖放优先（非等比物品生效）")]
     [SerializeField] private bool preferHorizontal = true;
@@ -121,6 +271,10 @@ public class Inventory : MonoBehaviour
         // 跨场景数据恢复：GameManager存有上个场景捕获的数据时优先恢复（传送流程）
         if (GameManager.Instance != null && GameManager.Instance.ConsumeInventory(out var slots, out var weapon, out var armorItem))
         {
+            // 先恢复背包再恢复物品：快照物品可能位于扩展行（装备大背包时拾取），
+            // 先扩容才能原位还原；背包快照缺失=未装备，容量保持基础10格
+            var savedBag = GameManager.Instance.ConsumeBackpack();
+            if (savedBag != null) SetBackpack(savedBag);
             RestoreState(slots, weapon, armorItem);
             ApplyHotbar(GameManager.Instance.ConsumeHotbar()); // 快捷栏绑定随背包一起跨场景
         }
@@ -212,7 +366,7 @@ public class Inventory : MonoBehaviour
     {
         if (self == null || self.item == null) return false;
         int w = OccWOf(self.item, orient), h = OccHOf(self.item, orient);
-        if (row < 0 || col < 0 || row + h > Rows || col + w > Cols) return false; // 越界
+        if (row < 0 || col < 0 || row + h > CapacityRows || col + w > Cols) return false; // 越界（含容量行边界）
         for (int r = row; r < row + h; r++)
         {
             for (int c = col; c < col + w; c++)
@@ -227,7 +381,7 @@ public class Inventory : MonoBehaviour
     private bool CanPlaceOn(bool[,] occ, ItemData item, int row, int col, ItemOrient orient)
     {
         int w = OccWOf(item, orient), h = OccHOf(item, orient);
-        if (row < 0 || col < 0 || row + h > Rows || col + w > Cols) return false; // 越界
+        if (row < 0 || col < 0 || row + h > CapacityRows || col + w > Cols) return false; // 越界（含容量行边界）
         for (int r = row; r < row + h; r++)
         {
             for (int c = col; c < col + w; c++)
@@ -261,7 +415,7 @@ public class Inventory : MonoBehaviour
         else if (preferHorizontal) { first = ItemOrient.Horizontal; second = ItemOrient.Vertical; }
         else { first = ItemOrient.Vertical; second = ItemOrient.Horizontal; }
 
-        for (int r = 0; r < Rows; r++)
+        for (int r = 0; r < CapacityRows; r++) // 只在当前容量行内扫描（超出容量的行无UI格子）
         {
             for (int c = 0; c < Cols; c++)
             {
@@ -759,7 +913,9 @@ public class Inventory : MonoBehaviour
         Array.Clear(_occupied, 0, _occupied.Length);
         _equippedWeapon = null;
         _equippedArmor = null;
-        Debug.Log("[Inventory] 死亡结算：物品栏与装备栏已清空");
+        Backpack = null;              // 背包属装备：死亡一并清除，容量回落基础10格
+        _capacity = BaseCapacity;
+        Debug.Log("[Inventory] 死亡结算：物品栏与装备栏已清空（含背包）");
         Notify();
     }
 
@@ -855,6 +1011,6 @@ public class Inventory : MonoBehaviour
     /// <summary>通知UI刷新</summary>
     private void Notify()
     {
-        Changed?.Invoke();
+        if (!_suppressChanged) Changed?.Invoke();
     }
 }
